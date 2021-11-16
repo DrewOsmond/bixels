@@ -1,0 +1,15 @@
+#canvas {
+  display: flex;
+}
+
+.green {
+  height: 50px;
+  width: 50px;
+  background-color: green;
+}
+
+.blue {
+  height: 50px;
+  width: 50px;
+  background-color: blue;
+}
