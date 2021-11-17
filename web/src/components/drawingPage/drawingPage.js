@@ -1,67 +1,89 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
 import ColorPicker from "./colorPicker/colorPicker";
 import ToolSelector from "./toolSelector/toolSelector";
-
-class Cell {
-  constructor(x, y, w, h, color = null, opacity = 1) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.color = color;
-    this.opacity = opacity;
-  }
-
-  drawCell(ctx) {
-    console.log(ctx);
-    if (!this.color) return;
-    ctx.save();
-    ctx.fillStyle = this.color;
-    ctx.globalAlpha = this.opacity;
-    ctx.fillRect(this.x, this.y, this.w, this.h);
-    ctx.restore();
-  }
-}
+import Layers from "./layers/layers";
+import { Layer } from "./canvasClass";
 
 const DrawingPage = () => {
   const [color, setColor] = useState("black");
   const [tool, setTool] = useState("draw");
-  const rows = 32;
-  const columns = 32;
+  const [layer, setLayer] = useState(0);
+  const [history, setHistory] = useState([]);
+  const [selectedHistory, setSelectedHistory] = useState(0);
+  const [canvas, setCanvas] = useState([]);
+  const [activeLayers, setActiveLayers] = useState([]);
 
-  const canvas = [];
-  let refreshCanvas = localStorage.getItem("canvas");
+  useEffect(() => {
+    let makeCanvas = [];
+    let refreshCanvas = localStorage.getItem("canvas");
 
-  if (refreshCanvas) {
-    refreshCanvas = JSON.parse(refreshCanvas);
-    console.log(refreshCanvas);
-    for (let y = 0; y < refreshCanvas.length; y++) {
-      const inner = refreshCanvas[y];
-      const columnCells = [];
-      for (let x = 0; x < inner.length; x++) {
-        const cell = inner[x];
-        columnCells.push(
-          new Cell(16 * x, 16 * y, 16, 16, cell.color, cell.opacity)
-        );
+    if (refreshCanvas && !history.length) {
+      refreshCanvas = JSON.parse(refreshCanvas);
+      for (let layer of refreshCanvas) {
+        Layer.reloadCells(layer);
+        makeCanvas.push(layer);
       }
-      canvas.push(columnCells);
+
+      // console.log(refreshCanvas);
+      // for (let y = 0; y < refreshCanvas.length; y++) {
+      //   const inner = refreshCanvas[y];
+      //   const columnCells = [];
+      //   for (let x = 0; x < inner.length; x++) {
+      //     const cell = inner[x];
+      //     columnCells.push(
+      //       new Cell(16 * x, 16 * y, 16, 16, cell.color, cell.opacity)
+      //     );
+      //   }
+      //   canvas.push(columnCells);
+      // }
+      setCanvas(makeCanvas);
+      setHistory((prev) => [...prev, makeCanvas]);
+    } else if (!refreshCanvas) {
+      // for (let y = 0; y < rows; y++) {
+      //   const columnCells = [];
+      //   for (let x = 0; x < columns; x++) {
+      //     columnCells.push(new Cell(16 * x, 16 * y, 16, 16));
+      //   }
+      //   canvas.push(columnCells);
+      // }
+      Layer.addLayer(makeCanvas);
+      setCanvas((prev) => [...prev, ...makeCanvas]);
+    } else {
     }
-  } else {
-    for (let y = 0; y < rows; y++) {
-      const columnCells = [];
-      for (let x = 0; x < columns; x++) {
-        columnCells.push(new Cell(16 * x, 16 * y, 16, 16));
-      }
-      canvas.push(columnCells);
-    }
-  }
+
+    const activeLayers = new Array(makeCanvas.length).fill(true);
+    setActiveLayers(activeLayers);
+  }, []);
+  console.log("layer??", layer);
 
   return (
     <>
+      <button
+        onClick={() => {
+          Layer.addLayer(canvas);
+          activeLayers.push(true);
+          setCanvas((prev) => [...prev]);
+          setActiveLayers((prev) => [...prev]);
+        }}
+      >
+        add Layer
+      </button>
       <ColorPicker setColor={setColor} />
       <ToolSelector setTool={setTool} />
-      <DrawingCanvas color={color} tool={tool} canvasArray={canvas} />;
+      <DrawingCanvas
+        color={color}
+        tool={tool}
+        canvasArray={canvas}
+        layer={layer}
+        activeLayers={activeLayers}
+      />
+      <Layers
+        activeLayers={activeLayers}
+        setActiveLayers={setActiveLayers}
+        layer={layer}
+        setLayer={setLayer}
+      />
     </>
   );
 };
