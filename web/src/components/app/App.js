@@ -1,9 +1,9 @@
-import DrawingCanvas from "../drawingCanvas/drawingCanvas";
+import DrawingPage from "../drawingPage/drawingPage";
 
 function App() {
   return (
     <div className="App">
-      <DrawingCanvas></DrawingCanvas>
+      <DrawingPage />
     </div>
   );
 }
