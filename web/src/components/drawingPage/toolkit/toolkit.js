@@ -23,6 +23,15 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer }) => {
       </button>
 
       <button
+        className={`tool__kit__button ${
+          tool === "eye-dropper" ? "tool__kit__button__active" : ""
+        }`}
+        onClick={() => setTool("eye-dropper")}
+      >
+        eye dropper
+      </button>
+
+      <button
         className="tool__kit__button"
         onClick={() => {
           canvas.push(new Layer(canvas.length));

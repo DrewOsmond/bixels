@@ -6,7 +6,6 @@ const DrawingCanvas = ({
   tool,
   canvasArray,
   layer,
-
   opacity,
   setHistory,
   history,
@@ -125,6 +124,28 @@ const DrawingCanvas = ({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  const componentToHex = (c) => {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  };
+
+  const rgbToHex = (r, g, b) => {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  };
+
+  const eyeDropper = (e) => {
+    const canvas = document.getElementById("draw-canvas");
+    const ctx = canvas.getContext("2d");
+    const coordinates = getMousePos(canvas, e);
+    const y = Math.floor(coordinates.y / 16);
+    const x = Math.floor(coordinates.x / 16);
+    // const imgData = ctx.create;
+    const imgData = ctx.getImageData(y, x, 16, 16);
+    const [r, g, b] = imgData.data;
+    // console.log(imgData);
+    console.log(rgbToHex(r, g, b));
+  };
+
   // const hoverCanvas = (e) => {
   //   const canvas = document.getElementById("draw-canvas");
   //   const ctx = canvas.getContext("2d");
@@ -140,14 +161,15 @@ const DrawingCanvas = ({
           id="draw-canvas"
           width="512"
           height="512"
-          onClick={draw}
-          onMouseDown={drawing}
-          onMouseUp={stopDrawing}
+          onClick={tool !== "eye-dropper" ? draw : eyeDropper}
+          onMouseDown={tool !== "eye-dropper" ? drawing : null}
+          onMouseUp={tool !== "eye-dropper" ? stopDrawing : null}
           // onMouseMove={draw}
           // tabIndex={-1}
         />
       </div>
       <button onClick={saveImg}>save image</button>
+      {/* <input type="color" /> */}
     </>
   );
 };

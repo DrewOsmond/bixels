@@ -1,0 +1,8 @@
+.active__layer {
+  background-color: darkgray;
+}
+
+.layer__section {
+  position: absolute;
+  bottom: 15px;
+}

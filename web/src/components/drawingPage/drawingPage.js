@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import "./drawingPage.css";
 
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
-import Layers from "./layers/layers";
+import LayersSection from "./layersSection/layerSection";
 import OpacitySlider from "./opacitySlider/opacitySlider";
 import ToolKit from "./toolkit/toolkit";
 
@@ -59,8 +59,7 @@ const DrawingPage = () => {
         setHistory={setHistory}
         history={history}
       />
-      {/* </div> */}
-      <Layers
+      <LayersSection
         layer={layer}
         setLayer={setLayer}
         setCanvas={setCanvas}
