@@ -26,7 +26,7 @@ export class Layer {
 }
 
 export class Cell {
-  constructor(x, y, w, h, color = null, opacity = 0.5) {
+  constructor(x, y, w, h, color = null, opacity = 1) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -36,12 +36,28 @@ export class Cell {
   }
 
   drawCell(ctx) {
-    console.log(ctx);
     if (!this.color) return;
     ctx.save();
     ctx.fillStyle = this.color;
     ctx.globalAlpha = this.opacity;
     ctx.fillRect(this.x, this.y, this.w, this.h);
     ctx.restore();
+  }
+}
+
+class History {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  addState(state) {}
+}
+
+class State {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+    this.prev = null;
   }
 }

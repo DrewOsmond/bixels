@@ -1,16 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./canvas.css";
 
-const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
-  const [currentCell, setCurrentCell] = useState(null);
+const DrawingCanvas = ({
+  color,
+  tool,
+  canvasArray,
+  layer,
+  activeLayers,
+  opacity,
+}) => {
+  // const [currentCell, setCurrentCell] = useState(null);
   const selectedLayer = canvasArray[layer];
-
+  opacity = opacity / 10;
   useEffect(() => {
     clearCanvas();
 
     for (let i = 0; i < canvasArray.length; i++) {
       const canvasLayer = canvasArray[i];
-      console.log(activeLayers[i]);
+
       if (!activeLayers[i]) continue;
       else reDraw(canvasLayer);
       // for (let y = 0; y < canvasLayer.length; y++) {
@@ -48,7 +55,6 @@ const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
 
   const stopDrawing = (e) => {
     e.target.removeEventListener("mousemove", draw);
-    localStorage.setItem("canvas", JSON.stringify(canvasArray));
   };
 
   const reDraw = (canvasLayer) => {
@@ -62,7 +68,6 @@ const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
         ctx.save();
         ctx.fillStyle = cell.color;
         ctx.globalAlpha = cell.opacity;
-        console.log(cell.opacity);
         ctx.fillRect(cell.x, cell.y, cell.w, cell.h);
         ctx.restore();
       }
@@ -72,25 +77,38 @@ const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
   const draw = (e) => {
     const canvas = document.getElementById("draw-canvas");
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = color;
     const coordinates = getMousePos(canvas, e);
     const selectedCell =
       selectedLayer[Math.floor(coordinates.y / 16)][
         Math.floor(coordinates.x / 16)
       ];
-    ctx.globalAlpha = selectedCell.opacity;
+    console.log(opacity);
+    selectedCell.opacity = opacity;
+    selectedCell.color = color;
 
     const { x, y, h, w } = selectedCell;
-
     if (tool === "draw") {
-      ctx.fillRect(x, y, h, w);
-      selectedCell.color = color;
-      // localStorage.setItem("canvas", JSON.stringify(canvasArray));
+      ctx.clearRect(x, y, h, w);
+      for (let layers of canvasArray) {
+        const pixel =
+          layers[Math.floor(coordinates.y / 16)][
+            Math.floor(coordinates.x / 16)
+          ];
+
+        if (pixel.color) {
+          ctx.save();
+          ctx.fillStyle = pixel.color;
+          ctx.globalAlpha = pixel.opacity;
+          ctx.fillRect(x, y, h, w);
+          ctx.restore();
+        }
+      }
+      localStorage.setItem("canvas", JSON.stringify(canvasArray));
       // draw(x, y, selectedCell);
     } else if (tool === "erase") {
       ctx.clearRect(x, y, h, w);
       selectedCell.color = null;
-      // localStorage.setItem("canvas", JSON.stringify(canvasArray));
+      localStorage.setItem("canvas", JSON.stringify(canvasArray));
     }
   };
 
@@ -100,12 +118,12 @@ const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  const hoverCanvas = (e) => {
-    const canvas = document.getElementById("draw-canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = color;
-    const coordinates = getMousePos(canvas, e);
-  };
+  // const hoverCanvas = (e) => {
+  //   const canvas = document.getElementById("draw-canvas");
+  //   const ctx = canvas.getContext("2d");
+  //   ctx.fillStyle = color;
+  //   const coordinates = getMousePos(canvas, e);
+  // };
 
   return (
     <>
@@ -118,7 +136,7 @@ const DrawingCanvas = ({ color, tool, canvasArray, layer, activeLayers }) => {
         onMouseDown={drawing}
         onMouseUp={stopDrawing}
         // onMouseMove={draw}
-        tabIndex={-1}
+        // tabIndex={-1}
       />
       <button onClick={saveImg}>save image</button>
     </>

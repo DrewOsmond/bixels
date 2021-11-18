@@ -1,25 +1,30 @@
+import { Layer } from "./canvasClass";
+import { HexColorPicker } from "react-colorful";
 import { useState, useEffect } from "react";
+
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
-import ColorPicker from "./colorPicker/colorPicker";
 import ToolSelector from "./toolSelector/toolSelector";
 import Layers from "./layers/layers";
-import { Layer } from "./canvasClass";
+import OpacitySlider from "./opacitySlider/opacitySlider";
 
 const DrawingPage = () => {
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#aabbcc");
   const [tool, setTool] = useState("draw");
   const [layer, setLayer] = useState(0);
-  const [history, setHistory] = useState([]);
-  const [selectedHistory, setSelectedHistory] = useState(0);
   const [canvas, setCanvas] = useState([]);
   const [activeLayers, setActiveLayers] = useState([]);
+  const [opacity, setOpacity] = useState(10);
+  const [history, setHistory] = useState([]);
+  const [selectedHistory, setSelectedHistory] = useState(0);
 
   useEffect(() => {
     let makeCanvas = [];
     let refreshCanvas = localStorage.getItem("canvas");
+    refreshCanvas = refreshCanvas ? JSON.parse(refreshCanvas) : null;
 
-    if (refreshCanvas && !history.length) {
-      refreshCanvas = JSON.parse(refreshCanvas);
+    if (refreshCanvas && refreshCanvas.length > 0) {
+      console.log("are we getting here?");
+
       for (let layer of refreshCanvas) {
         Layer.reloadCells(layer);
         makeCanvas.push(layer);
@@ -39,7 +44,7 @@ const DrawingPage = () => {
       // }
       setCanvas(makeCanvas);
       setHistory((prev) => [...prev, makeCanvas]);
-    } else if (!refreshCanvas) {
+    } else if (!refreshCanvas || !refreshCanvas.length) {
       // for (let y = 0; y < rows; y++) {
       //   const columnCells = [];
       //   for (let x = 0; x < columns; x++) {
@@ -55,7 +60,6 @@ const DrawingPage = () => {
     const activeLayers = new Array(makeCanvas.length).fill(true);
     setActiveLayers(activeLayers);
   }, []);
-  console.log("layer??", layer);
 
   return (
     <>
@@ -69,7 +73,6 @@ const DrawingPage = () => {
       >
         add Layer
       </button>
-      <ColorPicker setColor={setColor} />
       <ToolSelector setTool={setTool} />
       <DrawingCanvas
         color={color}
@@ -77,13 +80,18 @@ const DrawingPage = () => {
         canvasArray={canvas}
         layer={layer}
         activeLayers={activeLayers}
+        opacity={opacity}
       />
       <Layers
         activeLayers={activeLayers}
         setActiveLayers={setActiveLayers}
         layer={layer}
         setLayer={setLayer}
+        setCanvas={setCanvas}
+        canvas={canvas}
       />
+      <HexColorPicker color={color} onChange={setColor} />
+      <OpacitySlider setOpacity={setOpacity} opacity={opacity} color={color} />
     </>
   );
 };
