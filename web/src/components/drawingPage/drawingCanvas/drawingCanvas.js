@@ -143,16 +143,18 @@ const DrawingCanvas = ({
   return (
     <>
       <button onClick={clearCanvas}>clear canvas</button>
-      <canvas
-        id="draw-canvas"
-        width="512"
-        height="512"
-        onClick={draw}
-        onMouseDown={drawing}
-        onMouseUp={stopDrawing}
-        // onMouseMove={draw}
-        // tabIndex={-1}
-      />
+      <div className="drawing__canvas">
+        <canvas
+          id="draw-canvas"
+          width="512"
+          height="512"
+          onClick={draw}
+          onMouseDown={drawing}
+          onMouseUp={stopDrawing}
+          // onMouseMove={draw}
+          // tabIndex={-1}
+        />
+      </div>
       <button onClick={saveImg}>save image</button>
     </>
   );

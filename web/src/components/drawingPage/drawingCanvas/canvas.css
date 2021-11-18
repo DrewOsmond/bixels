@@ -1,11 +1,15 @@
-#draw-canvas {
-  display: flex;
-  background-color: white;
-  box-shadow: 0px 0px 2px black;
-}
+/* #draw-canvas {
+} */
 
-.pixel {
-  width: 1px;
-  height: 1px;
-  background-color: green;
+.drawing__canvas {
+  position: absolute;
+  width: 512px;
+  height: 512px;
+  left: calc(50% - 565px / 2 - 0.5px);
+  top: 158px;
+
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px black;
+  /* border: 3px solid #000000; */
+  box-sizing: border-box;
 }

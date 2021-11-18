@@ -2,19 +2,22 @@ import { Layer } from "./canvasClass";
 import { HexColorPicker } from "react-colorful";
 import { useState, useEffect } from "react";
 
+import "./drawingPage.css";
+
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
-import ToolSelector from "./toolSelector/toolSelector";
 import Layers from "./layers/layers";
 import OpacitySlider from "./opacitySlider/opacitySlider";
+import ToolKit from "./toolkit/toolkit";
 
 const DrawingPage = () => {
-  const [color, setColor] = useState("#aabbcc");
+  const [color, setColor] = useState("#4b4e51");
   const [tool, setTool] = useState("draw");
   const [layer, setLayer] = useState(0);
   const [canvas, setCanvas] = useState([]);
   const [activeLayers, setActiveLayers] = useState([]);
   const [opacity, setOpacity] = useState(10);
   const [history, setHistory] = useState(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   // const [selectedHistory, setSelectedHistory] = useState(0);
 
   useEffect(() => {
@@ -41,18 +44,16 @@ const DrawingPage = () => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          Layer.addLayer(canvas);
-          activeLayers.push(true);
-          setCanvas((prev) => [...prev]);
-          setActiveLayers((prev) => [...prev]);
-          setLayer(canvas.length - 1);
-        }}
-      >
-        add Layer
-      </button>
-      <ToolSelector setTool={setTool} />
+      <ToolKit
+        setTool={setTool}
+        tool={tool}
+        canvas={canvas}
+        activeLayers={activeLayers}
+        setCanvas={setCanvas}
+        setActiveLayers={setActiveLayers}
+        setLayer={setLayer}
+      />
+
       <DrawingCanvas
         color={color}
         tool={tool}
@@ -63,6 +64,7 @@ const DrawingPage = () => {
         setHistory={setHistory}
         history={history}
       />
+      {/* </div> */}
       <Layers
         activeLayers={activeLayers}
         setActiveLayers={setActiveLayers}
@@ -71,8 +73,16 @@ const DrawingPage = () => {
         setCanvas={setCanvas}
         canvas={canvas}
       />
-      <HexColorPicker color={color} onChange={setColor} />
       <OpacitySlider setOpacity={setOpacity} opacity={opacity} color={color} />
+      <button
+        style={{ color }}
+        onClick={() => setShowColorPicker(!showColorPicker)}
+      >
+        show color picker
+      </button>
+      {showColorPicker ? (
+        <HexColorPicker color={color} onChange={setColor} />
+      ) : null}
     </>
   );
 };
