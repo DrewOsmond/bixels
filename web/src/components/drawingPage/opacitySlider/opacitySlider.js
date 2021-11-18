@@ -6,7 +6,6 @@ const OpacitySlider = ({ setOpacity, opacity, color }) => {
       {" "}
       <input
         className="slider"
-        style={{ color: color }}
         type="range"
         min={0}
         max={10}

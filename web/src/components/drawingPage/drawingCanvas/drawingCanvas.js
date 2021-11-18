@@ -15,6 +15,7 @@ const DrawingCanvas = ({
   let strokes = [];
   const selectedLayer = canvasArray[layer];
   opacity = opacity / 10;
+
   useEffect(() => {
     clearCanvas();
 

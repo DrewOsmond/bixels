@@ -15,7 +15,7 @@ const DrawingPage = () => {
   const [activeLayers, setActiveLayers] = useState([]);
   const [opacity, setOpacity] = useState(10);
   const [history, setHistory] = useState(null);
-  const [selectedHistory, setSelectedHistory] = useState(0);
+  // const [selectedHistory, setSelectedHistory] = useState(0);
 
   useEffect(() => {
     let makeCanvas = [];
@@ -28,27 +28,8 @@ const DrawingPage = () => {
         makeCanvas.push(layer);
       }
 
-      // console.log(refreshCanvas);
-      // for (let y = 0; y < refreshCanvas.length; y++) {
-      //   const inner = refreshCanvas[y];
-      //   const columnCells = [];
-      //   for (let x = 0; x < inner.length; x++) {
-      //     const cell = inner[x];
-      //     columnCells.push(
-      //       new Cell(16 * x, 16 * y, 16, 16, cell.color, cell.opacity)
-      //     );
-      //   }
-      //   canvas.push(columnCells);
-      // }
       setCanvas(makeCanvas);
     } else if (!refreshCanvas || !refreshCanvas.length) {
-      // for (let y = 0; y < rows; y++) {
-      //   const columnCells = [];
-      //   for (let x = 0; x < columns; x++) {
-      //     columnCells.push(new Cell(16 * x, 16 * y, 16, 16));
-      //   }
-      //   canvas.push(columnCells);
-      // }
       Layer.addLayer(makeCanvas);
       setCanvas((prev) => [...prev, ...makeCanvas]);
     } else {
@@ -58,7 +39,6 @@ const DrawingPage = () => {
     setActiveLayers(activeLayers);
   }, []);
 
-  console.log(history);
   return (
     <>
       <button
@@ -67,6 +47,7 @@ const DrawingPage = () => {
           activeLayers.push(true);
           setCanvas((prev) => [...prev]);
           setActiveLayers((prev) => [...prev]);
+          setLayer(canvas.length - 1);
         }}
       >
         add Layer
