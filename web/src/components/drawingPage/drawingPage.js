@@ -14,7 +14,6 @@ const DrawingPage = () => {
   const [tool, setTool] = useState("draw");
   const [layer, setLayer] = useState(0);
   const [canvas, setCanvas] = useState([]);
-  const [activeLayers, setActiveLayers] = useState([]);
   const [opacity, setOpacity] = useState(10);
   const [history, setHistory] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -26,20 +25,19 @@ const DrawingPage = () => {
     refreshCanvas = refreshCanvas ? JSON.parse(refreshCanvas) : null;
 
     if (refreshCanvas && refreshCanvas.length > 0) {
-      for (let layer of refreshCanvas) {
-        Layer.reloadCells(layer);
-        makeCanvas.push(layer);
+      for (let i = 0; i < refreshCanvas.length; i++) {
+        const currLayer = new Layer(i, refreshCanvas[i]);
+
+        makeCanvas.push(currLayer);
       }
 
       setCanvas(makeCanvas);
     } else if (!refreshCanvas || !refreshCanvas.length) {
-      Layer.addLayer(makeCanvas);
-      setCanvas((prev) => [...prev, ...makeCanvas]);
+      const newLayer = new Layer(1);
+      setCanvas([newLayer]);
     } else {
+      //I think this block was for making history changes?? idk we'll figure it out
     }
-
-    const activeLayers = new Array(makeCanvas.length).fill(true);
-    setActiveLayers(activeLayers);
   }, []);
 
   return (
@@ -48,9 +46,7 @@ const DrawingPage = () => {
         setTool={setTool}
         tool={tool}
         canvas={canvas}
-        activeLayers={activeLayers}
         setCanvas={setCanvas}
-        setActiveLayers={setActiveLayers}
         setLayer={setLayer}
       />
 
@@ -59,15 +55,12 @@ const DrawingPage = () => {
         tool={tool}
         canvasArray={canvas}
         layer={layer}
-        activeLayers={activeLayers}
         opacity={opacity}
         setHistory={setHistory}
         history={history}
       />
       {/* </div> */}
       <Layers
-        activeLayers={activeLayers}
-        setActiveLayers={setActiveLayers}
         layer={layer}
         setLayer={setLayer}
         setCanvas={setCanvas}

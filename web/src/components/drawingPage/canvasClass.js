@@ -1,15 +1,25 @@
 export class Layer {
+  constructor(layerId, layer) {
+    this.layer = layer ? Layer.reloadCells(layer.layer) : Layer.addLayer();
+    this.name = layer ? layer.name : `layer ${layerId + 1}`;
+    this.active = layer ? layer.active : true;
+  }
   static reloadCells(layer) {
+    const reloadedCells = [];
     for (let y = 0; y < layer.length; y++) {
       const inner = layer[y];
+      const row = [];
       for (let x = 0; x < inner.length; x++) {
         const cell = inner[x];
-        inner[x] = new Cell(16 * x, 16 * y, 16, 16, cell.color, cell.opacity);
+        row.push(new Cell(16 * x, 16 * y, 16, 16, cell.color, cell.opacity));
       }
+      reloadedCells.push(row);
     }
+
+    return reloadedCells;
   }
 
-  static addLayer(canvas) {
+  static addLayer() {
     const rows = 32;
     const columns = 32;
     const layer = [];
@@ -21,7 +31,7 @@ export class Layer {
       layer.push(columnCells);
     }
 
-    canvas.push(layer);
+    return layer;
   }
 }
 

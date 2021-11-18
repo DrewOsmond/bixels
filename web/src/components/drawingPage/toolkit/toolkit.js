@@ -2,15 +2,7 @@ import { Layer } from "../canvasClass";
 
 import "./toolkit.css";
 
-const ToolKit = ({
-  tool,
-  setTool,
-  canvas,
-  activeLayers,
-  setCanvas,
-  setActiveLayers,
-  setLayer,
-}) => {
+const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer }) => {
   return (
     <nav className="tool__kit">
       <button
@@ -33,10 +25,8 @@ const ToolKit = ({
       <button
         className="tool__kit__button"
         onClick={() => {
-          Layer.addLayer(canvas);
-          activeLayers.push(true);
+          canvas.push(new Layer(canvas.length));
           setCanvas((prev) => [...prev]);
-          setActiveLayers((prev) => [...prev]);
           setLayer(canvas.length - 1);
         }}
       >

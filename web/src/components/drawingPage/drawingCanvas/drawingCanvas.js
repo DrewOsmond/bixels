@@ -6,33 +6,25 @@ const DrawingCanvas = ({
   tool,
   canvasArray,
   layer,
-  activeLayers,
+
   opacity,
   setHistory,
   history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   let strokes = [];
-  const selectedLayer = canvasArray[layer];
+  const selectedLayer = canvasArray[layer]?.layer;
   opacity = opacity / 10;
 
   useEffect(() => {
     clearCanvas();
 
-    for (let i = 0; i < canvasArray.length; i++) {
-      const canvasLayer = canvasArray[i];
-
-      if (!activeLayers[i]) continue;
-      else reDraw(canvasLayer);
-      // for (let y = 0; y < canvasLayer.length; y++) {
-      //   const inner = canvasLayer[y];
-      //   for (let x = 0; x < inner.length; x++) {
-      //     const cell = inner[x];
-      //     reDraw(cell);
-      //   }
-      // }
+    for (let canvasLayer of canvasArray) {
+      if (canvasLayer.active) {
+        reDraw(canvasLayer.layer);
+      }
     }
-  }, [canvasArray, activeLayers]);
+  }, [canvasArray]);
 
   useEffect(() => {
     strokes.length = 0;
@@ -106,7 +98,7 @@ const DrawingCanvas = ({
       ctx.clearRect(x, y, h, w);
       for (let layers of canvasArray) {
         const pixel =
-          layers[Math.floor(coordinates.y / 16)][
+          layers.layer[Math.floor(coordinates.y / 16)][
             Math.floor(coordinates.x / 16)
           ];
 
