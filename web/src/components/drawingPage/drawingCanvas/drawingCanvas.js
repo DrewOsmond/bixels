@@ -8,8 +8,11 @@ const DrawingCanvas = ({
   layer,
   activeLayers,
   opacity,
+  setHistory,
+  history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
+  let strokes = [];
   const selectedLayer = canvasArray[layer];
   opacity = opacity / 10;
   useEffect(() => {
@@ -29,6 +32,10 @@ const DrawingCanvas = ({
       // }
     }
   }, [canvasArray, activeLayers]);
+
+  useEffect(() => {
+    strokes.length = 0;
+  }, [history]);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
@@ -55,6 +62,7 @@ const DrawingCanvas = ({
 
   const stopDrawing = (e) => {
     e.target.removeEventListener("mousemove", draw);
+    setHistory(strokes);
   };
 
   const reDraw = (canvasLayer) => {
@@ -78,11 +86,17 @@ const DrawingCanvas = ({
     const canvas = document.getElementById("draw-canvas");
     const ctx = canvas.getContext("2d");
     const coordinates = getMousePos(canvas, e);
-    const selectedCell =
-      selectedLayer[Math.floor(coordinates.y / 16)][
-        Math.floor(coordinates.x / 16)
-      ];
-    console.log(opacity);
+    const coorY = Math.floor(coordinates.y / 16);
+    const coorX = Math.floor(coordinates.x / 16);
+    const selectedCell = selectedLayer[coorY][coorX];
+    let pushed = false;
+
+    if (selectedCell.opacity !== opacity) {
+      strokes.push([coorY, coorX, selectedCell.color, selectedCell.opacity]);
+      pushed = true;
+    } else if (selectedCell.color !== color && !pushed) {
+      strokes.push([coorY, coorX, selectedCell.color, selectedCell.opacity]);
+    }
     selectedCell.opacity = opacity;
     selectedCell.color = color;
 

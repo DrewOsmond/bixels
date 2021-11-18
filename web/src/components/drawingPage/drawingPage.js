@@ -14,7 +14,7 @@ const DrawingPage = () => {
   const [canvas, setCanvas] = useState([]);
   const [activeLayers, setActiveLayers] = useState([]);
   const [opacity, setOpacity] = useState(10);
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(null);
   const [selectedHistory, setSelectedHistory] = useState(0);
 
   useEffect(() => {
@@ -23,8 +23,6 @@ const DrawingPage = () => {
     refreshCanvas = refreshCanvas ? JSON.parse(refreshCanvas) : null;
 
     if (refreshCanvas && refreshCanvas.length > 0) {
-      console.log("are we getting here?");
-
       for (let layer of refreshCanvas) {
         Layer.reloadCells(layer);
         makeCanvas.push(layer);
@@ -43,7 +41,6 @@ const DrawingPage = () => {
       //   canvas.push(columnCells);
       // }
       setCanvas(makeCanvas);
-      setHistory((prev) => [...prev, makeCanvas]);
     } else if (!refreshCanvas || !refreshCanvas.length) {
       // for (let y = 0; y < rows; y++) {
       //   const columnCells = [];
@@ -61,6 +58,7 @@ const DrawingPage = () => {
     setActiveLayers(activeLayers);
   }, []);
 
+  console.log(history);
   return (
     <>
       <button
@@ -81,6 +79,8 @@ const DrawingPage = () => {
         layer={layer}
         activeLayers={activeLayers}
         opacity={opacity}
+        setHistory={setHistory}
+        history={history}
       />
       <Layers
         activeLayers={activeLayers}

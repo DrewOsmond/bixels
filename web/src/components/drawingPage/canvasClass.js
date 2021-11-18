@@ -51,7 +51,19 @@ class History {
     this.tail = null;
   }
 
-  addState(state) {}
+  addState(state) {
+    if (!this.head) {
+      this.head = state;
+    } else if (!this.tail) {
+      this.head.next = state;
+      this.tail = state;
+      this.tail.prev = this.head;
+    } else {
+      this.tail.next = state;
+      state.prev = this.tail;
+      this.tail = state;
+    }
+  }
 }
 
 class State {
