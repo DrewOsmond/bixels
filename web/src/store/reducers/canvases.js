@@ -16,7 +16,7 @@ const getState = () => {
     const defaultCanvases = [
       {
         name: "untitled project",
-        canvas: [new Layer(1)],
+        canvas: [new Layer(0)],
         drawingLayer: 0,
         color: "#4b4e51",
       },

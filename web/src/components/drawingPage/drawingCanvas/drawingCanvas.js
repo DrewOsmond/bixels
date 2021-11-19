@@ -8,7 +8,6 @@ const DrawingCanvas = ({
   canvasArray,
   layer,
   opacity,
-  setShowColorPicker,
   setHistory,
   history,
 }) => {
@@ -65,8 +64,7 @@ const DrawingCanvas = ({
   }
 
   const drawing = (e) => {
-    setShowColorPicker(false);
-    if (!canvasArray.canvas[layer].active) return;
+    if (!canvasArray.canvas[layer]?.active) return;
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
   };
@@ -130,9 +128,9 @@ const DrawingCanvas = ({
     }
   };
 
+  console.log(layer);
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
-    setShowColorPicker(false);
     draw(e);
     setHistory(strokes);
   };
@@ -253,13 +251,13 @@ const DrawingCanvas = ({
       "eye-Dropper": eyeDropper,
       erase: drawPixel,
     },
-    onMouseUp: {
+    onMouseDown: {
       fill: null,
       draw: drawing,
       "eye-dropper": null,
       erase: drawing,
     },
-    onMouseDown: {
+    onMouseUp: {
       fill: null,
       draw: stopDrawing,
       "eye-dropper": null,
@@ -276,8 +274,8 @@ const DrawingCanvas = ({
           width="512"
           height="512"
           onClick={tools.click[tool]}
-          onMouseDown={tools.onMouseUp[tool]}
-          onMouseUp={tools.onMouseDown[tool]}
+          onMouseDown={tools.onMouseDown[tool]}
+          onMouseUp={tools.onMouseUp[tool]}
           // onMouseMove={hoverPreview}
           // tabIndex={-1}
         />

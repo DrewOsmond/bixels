@@ -51,6 +51,7 @@ const DrawingPage = () => {
           update={strokes}
           setShowColorPicker={setShowColorPicker}
         />
+
         <LayersSection
           loaded={loaded}
           layer={layer}
@@ -60,6 +61,7 @@ const DrawingPage = () => {
           setLoaded={setLoaded}
           activeLayer={layer}
         />
+
         <OpacitySlider
           setOpacity={setOpacity}
           opacity={opacity}

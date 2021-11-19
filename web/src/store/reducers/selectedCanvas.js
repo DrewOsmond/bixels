@@ -2,6 +2,7 @@
 // const initialState = refreshCanvas ? JSON.parse(refreshCanvas) : [];
 import { Layer } from "../../components/drawingPage/canvasClass";
 const SELECT = "canvas/select";
+const UPDATE = "update/select";
 // const add = (note: Note) => {
 //   return {
 //     type: ADD_NOTE,
@@ -31,7 +32,9 @@ const restoreDrawing = () => {
     const defaultCanvases = [
       {
         name: "untitled project",
-        canvas: [new Layer(1)],
+        canvas: [new Layer(0)],
+        drawingLayer: 0,
+        color: "#4b4e51",
       },
     ];
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));
@@ -69,10 +72,27 @@ export const selectCanvas = (canvas) => (dispatch) => {
   dispatch(select(canvas));
 };
 
+const update = (canvas) => {
+  return {
+    type: UPDATE,
+    payload: canvas,
+  };
+};
+
+export const updateCanvas = (canvas) => (dispatch) => {
+  localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+  const canvases = JSON.parse(localStorage.getItem("canvases"));
+  localStorage.setItem("canvases", JSON.stringify(canvases));
+  console.log("???");
+  dispatch(update(canvas));
+};
+
 const selectedCanvas = (state = initialState, action) => {
   switch (action.type) {
     case SELECT:
       return action.payload;
+    case UPDATE:
+      return { ...action.payload };
     default:
       return state;
   }
