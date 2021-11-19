@@ -64,12 +64,17 @@ const DrawingCanvas = ({
   }
 
   const drawing = (e) => {
-    if (!canvasArray.canvas[layer]?.active) return;
+    // setShowColorPicker(false);
+    if (!canvasArray.canvas[layer].active) return;
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
   };
 
   const stopDrawing = (e) => {
+    const storedCellY = Math.floor(window.currentCell.y / 16);
+    const storedCellX = Math.floor(window.currentCell.x / 16);
+    selectedLayer[storedCellY][storedCellX] = window.currentCell;
+    window.currentCell = null;
     e.target.removeEventListener("mousemove", draw);
     setHistory(strokes);
   };
@@ -131,6 +136,7 @@ const DrawingCanvas = ({
   console.log(layer);
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
+    //setShowColorPicker(false);
     draw(e);
     setHistory(strokes);
   };
@@ -276,7 +282,8 @@ const DrawingCanvas = ({
           onClick={tools.click[tool]}
           onMouseDown={tools.onMouseDown[tool]}
           onMouseUp={tools.onMouseUp[tool]}
-          // onMouseMove={hoverPreview}
+          onMouseMove={hoverPreview}
+          onMouseOut={tools.onMouseUp[tool]}
           // tabIndex={-1}
         />
       </div>
