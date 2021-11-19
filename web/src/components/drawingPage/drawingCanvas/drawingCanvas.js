@@ -26,8 +26,6 @@ const DrawingCanvas = ({
     }
   };
 
-  console.log(canvasArray);
-
   // const renderCell = (x, y) => {
   //   const canvas = document.getElementById("draw-canvas");
   //   const ctx = canvas.getContext("2d");
@@ -49,7 +47,7 @@ const DrawingCanvas = ({
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
     const img = document.createElement("a");
-    img.download = "img.png";
+    img.download = `${canvasArray.name}.png`;
     img.href = canvas.toDataURL();
     img.click();
   };
@@ -66,6 +64,9 @@ const DrawingCanvas = ({
   }
 
   const drawing = (e) => {
+    console.log(layer);
+    console.log(canvasArray.canvas);
+    if (!canvasArray.canvas[layer].active) return;
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
   };
@@ -130,6 +131,7 @@ const DrawingCanvas = ({
   };
 
   const drawPixel = (e) => {
+    if (!canvasArray.canvas[layer].active) return;
     draw(e);
     setHistory(strokes);
   };
@@ -144,10 +146,22 @@ const DrawingCanvas = ({
     let pushed = false;
 
     if (selectedCell.opacity !== opacity) {
-      strokes.push([coorY, coorX, selectedCell.color, selectedCell.opacity]);
+      strokes.push([
+        layer,
+        coorY,
+        coorX,
+        selectedCell.color,
+        selectedCell.opacity,
+      ]);
       pushed = true;
     } else if (selectedCell.color !== color && !pushed) {
-      strokes.push([coorY, coorX, selectedCell.color, selectedCell.opacity]);
+      strokes.push([
+        layer,
+        coorY,
+        coorX,
+        selectedCell.color,
+        selectedCell.opacity,
+      ]);
     }
     selectedCell.opacity = opacity;
     selectedCell.color = color;
@@ -210,6 +224,48 @@ const DrawingCanvas = ({
     console.log(rgbToHex(r, g, b));
   };
 
+  const floodFill = (e) => {
+    const canvas = document.getElementById("draw-canvas");
+    const coordinates = getMousePos(canvas, e);
+    const y = Math.floor(coordinates.y / 16);
+    const x = Math.floor(coordinates.x / 16);
+    const colorToChange = selectedLayer[y][x].color;
+    Canvas.floodFill(
+      selectedLayer,
+      y,
+      x,
+      colorToChange,
+      color,
+      opacity,
+      strokes,
+      layer
+    );
+    reDraw(selectedLayer);
+    Canvas.saveDrawing(canvasArray);
+    setHistory(strokes);
+  };
+
+  const tools = {
+    click: {
+      fill: floodFill,
+      draw: drawPixel,
+      "eye-Dropper": eyeDropper,
+      erase: drawPixel,
+    },
+    onMouseUp: {
+      fill: null,
+      draw: drawing,
+      "eye-dropper": null,
+      erase: drawing,
+    },
+    onMouseDown: {
+      fill: null,
+      draw: stopDrawing,
+      "eye-dropper": null,
+      erase: stopDrawing,
+    },
+  };
+
   return (
     <>
       <button onClick={clearCanvas}>clear canvas</button>
@@ -218,9 +274,9 @@ const DrawingCanvas = ({
           id="draw-canvas"
           width="512"
           height="512"
-          onClick={tool !== "eye-dropper" ? drawPixel : eyeDropper}
-          onMouseDown={tool !== "eye-dropper" ? drawing : null}
-          onMouseUp={tool !== "eye-dropper" ? stopDrawing : null}
+          onClick={tools.click[tool]}
+          onMouseDown={tools.onMouseUp[tool]}
+          onMouseUp={tools.onMouseDown[tool]}
           // onMouseMove={hoverPreview}
           // tabIndex={-1}
         />

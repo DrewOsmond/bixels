@@ -88,18 +88,79 @@ export class Canvas {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  static saveDrawing = (selectedCanvas) => {
+  static saveDrawing(selectedCanvas) {
     const canvases = JSON.parse(localStorage.getItem("canvases"));
 
     for (let canvas of canvases) {
       if (canvas.name === selectedCanvas.name) {
         canvases.canvas = selectedCanvas;
-        console.log("maybe???");
         localStorage.setItem("canvases", JSON.stringify(canvases));
         localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));
       }
     }
-  };
+  }
+
+  static floodFill(
+    layer,
+    y,
+    x,
+    colorToChange,
+    color,
+    opacity,
+    strokes,
+    layerId
+  ) {
+    if (x < 0 || y < 0 || x > 31 || y > 31) return;
+    if (!layer[y] || !layer[y][x]) return;
+    const cell = layer[y][x];
+    if (cell.color === colorToChange && cell.color !== color) {
+      cell.color = color;
+      cell.opacity = opacity;
+
+      Canvas.floodFill(
+        layer,
+        y + 1,
+        x,
+        colorToChange,
+        color,
+        opacity,
+        strokes,
+        layerId
+      );
+      Canvas.floodFill(
+        layer,
+        y,
+        x + 1,
+        colorToChange,
+        color,
+        opacity,
+        strokes,
+        layerId
+      );
+      Canvas.floodFill(
+        layer,
+        y - 1,
+        x,
+        colorToChange,
+        color,
+        opacity,
+        strokes,
+        layerId
+      );
+      Canvas.floodFill(
+        layer,
+        y,
+        x - 1,
+        colorToChange,
+        color,
+        opacity,
+        strokes,
+        layerId
+      );
+    } else {
+      return;
+    }
+  }
 }
 
 // class History {

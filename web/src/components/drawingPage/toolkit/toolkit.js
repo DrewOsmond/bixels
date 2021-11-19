@@ -21,6 +21,14 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
         >
           erase
         </div>
+        <div
+          className={`tool__kit__button ${
+            tool === "fill" ? "tool__kit__button__active" : ""
+          }`}
+          onClick={() => setTool("fill")}
+        >
+          fill
+        </div>
 
         <div
           className={`tool__kit__button ${
