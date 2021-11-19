@@ -10,7 +10,6 @@ const Layer = ({
   handleDrawOnLayer,
   layer,
   deleteLayer,
-  setLoaded,
 }) => {
   const [name, setName] = useState(ele.name);
   const [change, setChange] = useState(false);
@@ -20,8 +19,7 @@ const Layer = ({
     const ctx = canv.getContext("2d");
     Canvas.clearCanvas(canv, ctx);
     Canvas.paintLayer(ele.layer, ctx, 8);
-    setLoaded(true);
-  }, [ele.layer, ele.name, i, setLoaded]);
+  }, [ele.layer, ele.name, i]);
 
   const handleChangeName = (e) => {
     const layerNameToChange = Number(e.target.getAttribute("name"));

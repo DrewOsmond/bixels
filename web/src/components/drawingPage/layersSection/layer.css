@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
   width: 292px;
   height: 434.67px;
   right: 36px;
