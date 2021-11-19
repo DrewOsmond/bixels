@@ -1,10 +1,14 @@
+import { Routes, Route } from "react-router-dom";
+
 import DrawingPage from "../drawingPage/drawingPage";
+import CanvasLibrary from "../canvasLibrary/canvasLibrary";
 
 function App() {
   return (
-    <div className="App">
-      <DrawingPage />
-    </div>
+    <Routes>
+      <Route path="/draw" element={<DrawingPage />} />
+      <Route path="/library" element={<CanvasLibrary />} />
+    </Routes>
   );
 }
 

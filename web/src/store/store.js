@@ -7,11 +7,13 @@ import {
 } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { applyMiddleware } from "redux";
-import canvasReducer from "./reducers/canvas";
+import selectedCanvas from "./reducers/selectedCanvas";
+import canvasesReducer from "./reducers/canvases";
 
 const store = createStore(
   combineReducers({
-    canvas: canvasReducer,
+    canvases: canvasesReducer,
+    selectedCanvas: selectedCanvas,
   }),
   undefined,
   applyMiddleware(thunk)

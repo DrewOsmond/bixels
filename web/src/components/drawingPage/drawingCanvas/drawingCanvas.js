@@ -12,17 +12,21 @@ const DrawingCanvas = ({
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   let strokes = [];
-  const selectedLayer = canvasArray[layer]?.layer;
+  console.log("DIZ IS CANVAS", canvasArray);
+  const selectedLayer = canvasArray.canvas[layer]?.layer;
   opacity = opacity / 10;
 
   useEffect(() => {
     clearCanvas();
-
-    for (let canvasLayer of canvasArray) {
+    console.log("how many?  ");
+    // if (canvasArray.length) {
+    for (let canvasLayer of canvasArray.canvas) {
+      console.log(canvasLayer);
       if (canvasLayer.active) {
         reDraw(canvasLayer.layer);
       }
     }
+    // }
   }, [canvasArray]);
 
   useEffect(() => {
@@ -95,7 +99,7 @@ const DrawingCanvas = ({
     const { x, y, h, w } = selectedCell;
     if (tool === "draw") {
       ctx.clearRect(x, y, h, w);
-      for (let layers of canvasArray) {
+      for (let layers of canvasArray.canvas) {
         const pixel =
           layers.layer[Math.floor(coordinates.y / 16)][
             Math.floor(coordinates.x / 16)
@@ -109,12 +113,12 @@ const DrawingCanvas = ({
           ctx.restore();
         }
       }
-      localStorage.setItem("canvas", JSON.stringify(canvasArray));
+      localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
       // draw(x, y, selectedCell);
     } else if (tool === "erase") {
       ctx.clearRect(x, y, h, w);
       selectedCell.color = null;
-      localStorage.setItem("canvas", JSON.stringify(canvasArray));
+      localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
     }
   };
 
@@ -126,7 +130,7 @@ const DrawingCanvas = ({
 
   const componentToHex = (c) => {
     var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
+    return hex.length === 1 ? "0" + hex : hex;
   };
 
   const rgbToHex = (r, g, b) => {

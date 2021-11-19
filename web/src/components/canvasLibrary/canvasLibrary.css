@@ -1,0 +1,23 @@
+.library-canvas {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px black;
+  /* border: 3px solid #000000; */
+  box-sizing: border-box;
+}
+
+.add-new-canvas {
+  display: flex;
+  height: 128px;
+  width: 128px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px black;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}

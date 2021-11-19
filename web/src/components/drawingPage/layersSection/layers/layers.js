@@ -15,7 +15,7 @@ const Layer = ({
 
   const handleChangeName = (e) => {
     const layerNameToChange = Number(e.target.name);
-    canvas[layerNameToChange].name = name;
+    canvas.canvas[layerNameToChange].name = name;
     localStorage.setItem("canvas", JSON.stringify(canvas));
     setCanvas((prev) => [...prev]);
     setChange(false);
@@ -26,13 +26,16 @@ const Layer = ({
       {ele.active ? (
         <>
           <button
-            className={`layer__button ${
-              Number(i) === layer ? "active__layer" : ""
-            }`}
+            className={`layer__button`}
             name={i}
             onClick={handleSwitchLayers}
           >{`${ele.name} active`}</button>
-          <button name={i} key={`active-${i + 1}`} onClick={handleDrawOnLayer}>
+          <button
+            className={`${Number(i) === layer ? "active__layer" : ""}`}
+            name={i}
+            key={`active-${i + 1}`}
+            onClick={handleDrawOnLayer}
+          >
             {i === layer
               ? `drawing on ${ele.name}`
               : `draw on layer ${ele.name}`}
@@ -43,10 +46,7 @@ const Layer = ({
               <input
                 name={i}
                 value={name}
-                onChange={(e) => {
-                  console.log(canvas[Number(e.target.name)]);
-                  setName(e.target.value);
-                }}
+                onChange={(e) => setName(e.target.value)}
               />
               <button onClick={handleChangeName}>finish</button>
             </>
