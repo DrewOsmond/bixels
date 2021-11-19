@@ -42,13 +42,16 @@ const updateCanv = (canvases) => {
 export const updateCanvasName = (canvas, newName) => (dispatch) => {
   const nameToChange = canvas.name;
   const canvases = getCanvases();
-
+  const unamed = [];
   for (let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
     if (canvas.name === nameToChange) {
-      canvas.name = newName.length > 0 ? newName : `untitled project ${i + 1}`;
+      canvas.name =
+        newName.length > 0 ? newName : `untitled project ${unamed.length + 1}`;
       localStorage.setItem("canvases", JSON.stringify(canvases));
       return dispatch(updateCanv(canvases));
+    } else if (canvas.name.includes("untitled project")) {
+      unamed.push(unamed.length + 1);
     }
   }
 };
