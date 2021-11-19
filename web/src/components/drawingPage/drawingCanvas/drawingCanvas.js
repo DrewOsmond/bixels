@@ -65,8 +65,7 @@ const DrawingCanvas = ({
   }
 
   const drawing = (e) => {
-    console.log(layer);
-    console.log(canvasArray.canvas);
+    setShowColorPicker(false);
     if (!canvasArray.canvas[layer].active) return;
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
