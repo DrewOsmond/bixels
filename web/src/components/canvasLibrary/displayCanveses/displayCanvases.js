@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { selectCanvas } from "../../../store/reducers/selectedCanvas";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,10 @@ import { useDispatch } from "react-redux";
 const DisplayCanvas = ({ canvas }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [name, setName] = useState(canvas.name);
+  const [editName, setEditName] = useState(false);
 
+  console.log(name);
   useEffect(() => {
     paintCanvas();
   }, []);
@@ -41,13 +44,22 @@ const DisplayCanvas = ({ canvas }) => {
     }
   };
   return (
-    <canvas
-      className="library-canvas"
-      id={canvas.name}
-      width="128"
-      height="128"
-      onClick={handleClick}
-    ></canvas>
+    <>
+      <canvas
+        className="library-canvas"
+        id={canvas.name}
+        width="128"
+        height="128"
+        onClick={handleClick}
+      ></canvas>
+      {editName ? (
+        <div>
+          <input value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+      ) : (
+        <div onDoubleClick={() => setEditName(true)}>{canvas.name}</div>
+      )}
+    </>
   );
 };
 
