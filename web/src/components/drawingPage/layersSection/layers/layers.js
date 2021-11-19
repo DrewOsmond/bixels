@@ -11,7 +11,6 @@ const Layer = ({
   layer,
   deleteLayer,
   setLoaded,
-  activeLayer,
 }) => {
   const [name, setName] = useState(ele.name);
   const [change, setChange] = useState(false);

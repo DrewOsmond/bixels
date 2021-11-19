@@ -26,6 +26,8 @@ const LayersSection = ({
   const handleDrawOnLayer = (e) => {
     const layer = Number(e.target.getAttribute("name"));
     setLayer(layer);
+    canvas.drawingLayer = layer;
+    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
   };
 
   const deleteLayer = (e) => {
@@ -37,7 +39,7 @@ const LayersSection = ({
     }
     setLayer((prev) => (prev !== 0 ? prev - 1 : 0));
     setCanvas({ ...canvas });
-    localStorage.setItem("canvas", JSON.stringify(canvas));
+    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
     setLoaded(true);
   };
   return (
