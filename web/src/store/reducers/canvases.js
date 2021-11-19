@@ -1,8 +1,17 @@
 import { Layer } from "../../components/drawingPage/canvasClass";
 
-const getState = () => {
-  const canvases = localStorage.getItem("canvases");
+const getCanvases = () => {
+  let canvases = localStorage.getItem("canvases");
+  if (!canvases) return null;
+  else {
+    canvases = JSON.parse(canvases);
+  }
 
+  return canvases;
+};
+
+const getState = () => {
+  const canvases = getCanvases();
   if (!canvases) {
     const defaultCanvases = [
       {
@@ -13,9 +22,7 @@ const getState = () => {
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));
     return defaultCanvases;
   } else {
-    const objCanvases = JSON.parse(canvases);
-    console.log(objCanvases);
-    return objCanvases;
+    return canvases;
   }
 };
 
@@ -30,8 +37,23 @@ const updateCanv = (canvases) => {
   };
 };
 
+export const updateCanvasName = (canvas, newName) => (dispatch) => {
+  const nameToChange = canvas.name;
+  const canvases = getCanvases();
+  console.log(nameToChange);
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
+    if (canvas.name === nameToChange) {
+      console.log("true?");
+      console.log(newName);
+      canvas.name = newName.length > 0 ? newName : `untitled project ${i + 1}`;
+      localStorage.setItem("canvases", JSON.stringify(canvases));
+      return dispatch(updateCanv(canvases));
+    }
+  }
+};
+
 export const updateCanvases = (canvases) => (dispatch) => {
-  console.log("REDUX", canvases);
   return dispatch(updateCanv(canvases));
 };
 

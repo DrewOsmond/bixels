@@ -1,6 +1,6 @@
 import DisplayCanvas from "./displayCanveses/displayCanvases";
 import "./canvasLibrary.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCanvases } from "../../store/reducers/canvases";
 import { Layer } from "../drawingPage/canvasClass";
@@ -31,11 +31,6 @@ const CanvasLibrary = () => {
     }
   }, []);
 
-  // const storedCanvases = localStorage.getItem("canvases");
-  // if (storedCanvases) {
-  //   setCanvases(JSON.parse(storedCanvases));
-  // }
-
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
     const canvas = {
@@ -53,7 +48,7 @@ const CanvasLibrary = () => {
         add new canvas
       </button>
       {canvases?.map((canvas, i) => (
-        <DisplayCanvas key={`canvas-${i}`} canvas={canvas} />
+        <DisplayCanvas key={`canvas-${i}`} canvas={canvas} idx={i} />
       ))}
     </>
   );
