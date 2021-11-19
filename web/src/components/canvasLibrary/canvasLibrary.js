@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateCanvases } from "../../store/reducers/canvases";
 import { Layer } from "../drawingPage/canvasClass";
 import { useNavigate } from "react-router";
+import { selectCanvas } from "../../store/reducers/selectedCanvas";
 
 const CanvasLibrary = () => {
   const canvases = useSelector((state) => state.canvases);
@@ -43,6 +44,7 @@ const CanvasLibrary = () => {
     dispatch(updateCanvases(canvases));
     localStorage.setItem("canvases", JSON.stringify(canvases));
     localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+    dispatch(selectCanvas(canvas));
     navigate("/draw");
   };
 

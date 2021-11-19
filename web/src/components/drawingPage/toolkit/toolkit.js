@@ -34,9 +34,9 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
         <div
           className="tool__kit__button"
           onClick={() => {
-            canvas.canvas.unshift(new Layer(canvas.canvas.length));
-            setLayer(0);
-            canvas.drawingLayer = 0;
+            canvas.canvas.push(new Layer(canvas.canvas.length));
+            setLayer(canvas.canvas.length - 1);
+            canvas.drawingLayer = canvas.canvas.length - 1;
             setCanvas((prev) => {
               return { ...prev };
             });

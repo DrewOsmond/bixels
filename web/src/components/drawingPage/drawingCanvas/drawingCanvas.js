@@ -26,6 +26,8 @@ const DrawingCanvas = ({
     }
   };
 
+  console.log(canvasArray);
+
   // const renderCell = (x, y) => {
   //   const canvas = document.getElementById("draw-canvas");
   //   const ctx = canvas.getContext("2d");
