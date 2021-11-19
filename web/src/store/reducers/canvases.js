@@ -31,6 +31,7 @@ const initialState = getState();
 const UPDATE = "canvas/update";
 
 const updateCanv = (canvases) => {
+  console.log(canvases);
   return {
     type: UPDATE,
     payload: canvases,
@@ -40,12 +41,10 @@ const updateCanv = (canvases) => {
 export const updateCanvasName = (canvas, newName) => (dispatch) => {
   const nameToChange = canvas.name;
   const canvases = getCanvases();
-  console.log(nameToChange);
+
   for (let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
     if (canvas.name === nameToChange) {
-      console.log("true?");
-      console.log(newName);
       canvas.name = newName.length > 0 ? newName : `untitled project ${i + 1}`;
       localStorage.setItem("canvases", JSON.stringify(canvases));
       return dispatch(updateCanv(canvases));

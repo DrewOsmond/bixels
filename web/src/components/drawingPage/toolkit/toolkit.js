@@ -1,50 +1,54 @@
 import { Layer } from "../canvasClass";
-
+import { useDispatch } from "react-redux";
+import { updateCanvases } from "../../../store/reducers/canvases";
 import "./toolkit.css";
 
-const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer }) => {
+const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
+  const dispatch = useDispatch();
   return (
-    <nav className="tool__kit">
-      <button
-        className={`tool__kit__button ${
-          tool === "draw" ? "tool__kit__button__active" : ""
-        }`}
-        onClick={() => setTool("draw")}
-      >
-        draw
-      </button>
-      <button
-        className={`tool__kit__button ${
-          tool === "erase" ? "tool__kit__button__active" : ""
-        }`}
-        onClick={() => setTool("erase")}
-      >
-        erase
-      </button>
+    <div className="tool__kit__container">
+      <nav className="tool__kit">
+        <div
+          className={`tool__kit__button ${
+            tool === "draw" ? "tool__kit__button__active" : ""
+          }`}
+          onClick={() => setTool("draw")}
+        >
+          draw
+        </div>
+        <div
+          className={`tool__kit__button ${
+            tool === "erase" ? "tool__kit__button__active" : ""
+          }`}
+          onClick={() => setTool("erase")}
+        >
+          erase
+        </div>
 
-      <button
-        className={`tool__kit__button ${
-          tool === "eye-dropper" ? "tool__kit__button__active" : ""
-        }`}
-        onClick={() => setTool("eye-dropper")}
-      >
-        eye dropper
-      </button>
+        <div
+          className={`tool__kit__button ${
+            tool === "eye-dropper" ? "tool__kit__button__active" : ""
+          }`}
+          onClick={() => setTool("eye-dropper")}
+        >
+          eye dropper
+        </div>
 
-      <button
-        className="tool__kit__button"
-        onClick={() => {
-          console.log(canvas);
-          canvas.canvas.push(new Layer(canvas.canvas.length));
-          setCanvas((prev) => {
-            return { ...prev };
-          });
-          setLayer(canvas.canvas.length - 1);
-        }}
-      >
-        add Layer
-      </button>
-    </nav>
+        <div
+          className="tool__kit__button"
+          onClick={() => {
+            canvas.canvas.push(new Layer(canvas.canvas.length));
+            setLayer(canvas.canvas.length - 1);
+            dispatch(updateCanvases(canvas.canvas));
+            setCanvas((prev) => {
+              return { ...prev };
+            });
+          }}
+        >
+          add Layer
+        </div>
+      </nav>
+    </div>
   );
 };
 

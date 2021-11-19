@@ -55,6 +55,41 @@ export class Cell {
   }
 }
 
+export class Canvas {
+  static paintCanvas(canvas, ctx, divCount) {
+    for (let layer of canvas.canvas) {
+      if (layer.active) {
+        Canvas.paintLayer(layer.layer, ctx, divCount);
+      }
+    }
+  }
+
+  static paintLayer(canvasLayer, ctx, divCount) {
+    for (let y = 0; y < canvasLayer.length; y++) {
+      const inner = canvasLayer[y];
+      for (let x = 0; x < inner.length; x++) {
+        const cell = inner[x];
+        if (!cell.color) continue;
+        ctx.save();
+        ctx.fillStyle = cell.color;
+        ctx.globalAlpha = cell.opacity;
+        ctx.fillRect(
+          cell.x / divCount,
+          cell.y / divCount,
+          cell.w / divCount,
+          cell.h / divCount
+        );
+        ctx.restore();
+      }
+    }
+  }
+
+  static clearCanvas(canvas) {
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
 class History {
   constructor() {
     this.head = null;

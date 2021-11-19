@@ -21,10 +21,8 @@ const CanvasLibrary = () => {
 
       for (let canvas of canvases) {
         if (canvas.name === name) {
-          console.log("waluigi");
           canvas.canvas = selected.canvas;
           localStorage.setItem("canvases", JSON.stringify(canvases));
-          console.log(canvases);
           dispatch(updateCanvases(canvases));
         }
       }

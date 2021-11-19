@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import "./canvas.css";
-import {Cell} from "../canvasClass";
-
-
+import { Cell } from "../canvasClass";
 
 const DrawingCanvas = ({
   color,
@@ -26,29 +24,25 @@ const DrawingCanvas = ({
         reDraw(canvasLayer.layer);
       }
     }
-  }
+  };
 
-  const renderCell = (x, y) => {
-    const canvas = document.getElementById("draw-canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(x * 16, y * 16, 16, 16);
-    for (let canvasLayer of canvasArray.canvas) {
-      if (canvasLayer.active) {
-        let cell = canvasLayer.layer[y][x];
-        ctx.save();
-        ctx.fillStyle = cell.color;
-        ctx.globalAlpha = cell.opacity;
-        ctx.fillRect(cell.x, cell.y, cell.w, cell.h);
-        ctx.restore();
-      }
-    }
-  }
+  // const renderCell = (x, y) => {
+  //   const canvas = document.getElementById("draw-canvas");
+  //   const ctx = canvas.getContext("2d");
+  //   ctx.clearRect(x * 16, y * 16, 16, 16);
+  //   for (let canvasLayer of canvasArray.canvas) {
+  //     if (canvasLayer.active) {
+  //       let cell = canvasLayer.layer[y][x];
+  //       ctx.save();
+  //       ctx.fillStyle = cell.color;
+  //       ctx.globalAlpha = cell.opacity;
+  //       ctx.fillRect(cell.x, cell.y, cell.w, cell.h);
+  //       ctx.restore();
+  //     }
+  //   }
+  // };
 
   useEffect(render, [canvasArray]);
-
-  useEffect(() => {
-    strokes.length = 0;
-  }, [history]);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
@@ -72,7 +66,6 @@ const DrawingCanvas = ({
   const drawing = (e) => {
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
-    
   };
 
   const stopDrawing = (e) => {
@@ -86,24 +79,36 @@ const DrawingCanvas = ({
     const mouseCellY = Math.floor(coordinates.y / 16);
     const mouseCellX = Math.floor(coordinates.x / 16);
     const mouseCell = selectedLayer[mouseCellY][mouseCellX];
-    if (!window.currentCell){
-      window.currentCell = new Cell(mouseCell.x, mouseCell.y, 16, 16, mouseCell.color, mouseCell.opacity);
+    if (!window.currentCell) {
+      window.currentCell = new Cell(
+        mouseCell.x,
+        mouseCell.y,
+        16,
+        16,
+        mouseCell.color,
+        mouseCell.opacity
+      );
       return;
     }
 
     const storedCellY = Math.floor(window.currentCell.y / 16);
     const storedCellX = Math.floor(window.currentCell.x / 16);
-    console.log(window.currentCell);
-    console.log(selectedLayer[storedCellY][storedCellX]);
-    if (storedCellX !== mouseCellX || storedCellY !== mouseCellY){
-      
-        selectedLayer[storedCellY][storedCellX] = window.currentCell;
-        window.currentCell = new Cell(mouseCell.x, mouseCell.y, 16, 16, mouseCell.color, mouseCell.opacity);
-        mouseCell.color = color;
-        mouseCell.opacity = opacity;
-        render();
-      }
+
+    if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
+      selectedLayer[storedCellY][storedCellX] = window.currentCell;
+      window.currentCell = new Cell(
+        mouseCell.x,
+        mouseCell.y,
+        16,
+        16,
+        mouseCell.color,
+        mouseCell.opacity
+      );
+      mouseCell.color = color;
+      mouseCell.opacity = opacity;
+      render();
     }
+  };
 
   const reDraw = (canvasLayer) => {
     for (let y = 0; y < canvasLayer.length; y++) {
@@ -120,6 +125,11 @@ const DrawingCanvas = ({
         ctx.restore();
       }
     }
+  };
+
+  const drawPixel = (e) => {
+    draw(e);
+    setHistory(strokes);
   };
 
   const draw = (e) => {
@@ -187,13 +197,13 @@ const DrawingCanvas = ({
     const coordinates = getMousePos(canvas, e);
     const y = Math.floor(coordinates.y / 16);
     const x = Math.floor(coordinates.x / 16);
+
     // const imgData = ctx.create;
     const imgData = ctx.getImageData(y, x, 16, 16);
     const [r, g, b] = imgData.data;
-    // console.log(imgData);
+
     console.log(rgbToHex(r, g, b));
   };
-
 
   return (
     <>
@@ -203,10 +213,10 @@ const DrawingCanvas = ({
           id="draw-canvas"
           width="512"
           height="512"
-          onClick={tool !== "eye-dropper" ? draw : eyeDropper}
+          onClick={tool !== "eye-dropper" ? drawPixel : eyeDropper}
           onMouseDown={tool !== "eye-dropper" ? drawing : null}
           onMouseUp={tool !== "eye-dropper" ? stopDrawing : null}
-          onMouseMove={hoverPreview}
+          // onMouseMove={hoverPreview}
           // tabIndex={-1}
         />
       </div>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Canvas } from "../../canvasClass";
 
 const Layer = ({
   ele,
@@ -9,28 +10,50 @@ const Layer = ({
   handleDrawOnLayer,
   layer,
   deleteLayer,
+  setLoaded,
+  activeLayer,
 }) => {
   const [name, setName] = useState(ele.name);
   const [change, setChange] = useState(false);
 
+  useEffect(() => {
+    const canv = document.getElementById(`${ele.name}-${i}`);
+    const ctx = canv.getContext("2d");
+    Canvas.clearCanvas(canv);
+    Canvas.paintLayer(ele.layer, ctx, 8);
+    setLoaded(true);
+  }, []);
+
   const handleChangeName = (e) => {
-    const layerNameToChange = Number(e.target.name);
+    const layerNameToChange = Number(e.target.getAttribute("name"));
     canvas.canvas[layerNameToChange].name = name;
     localStorage.setItem("canvas", JSON.stringify(canvas));
-    setCanvas((prev) => [...prev]);
+    setCanvas((prev) => {
+      return { ...prev };
+    });
     setChange(false);
   };
 
   return (
-    <>
+    <div className="layer">
+      <canvas width="64" height="64" id={`${ele.name}-${i}`} />
+      {(() => {
+        const canv = document.getElementById(`${ele.name}-${i}`);
+        if (!canv) return;
+        const ctx = canv.getContext("2d");
+        Canvas.clearCanvas(canv);
+        Canvas.paintLayer(ele.layer, ctx, 8);
+      })()}
       {ele.active ? (
         <>
-          <button
-            className={`layer__button`}
+          <div
+            className={`layer__button layer__displayed`}
             name={i}
             onClick={handleSwitchLayers}
-          >{`${ele.name} active`}</button>
-          <button
+          >
+            {ele.name}
+          </div>
+          <div
             className={`${Number(i) === layer ? "active__layer" : ""}`}
             name={i}
             key={`active-${i + 1}`}
@@ -39,8 +62,8 @@ const Layer = ({
             {i === layer
               ? `drawing on ${ele.name}`
               : `draw on layer ${ele.name}`}
-          </button>
-          <button name={i} onClick={deleteLayer}>{`delete ${ele.name}`}</button>
+          </div>
+          <div name={i} onClick={deleteLayer}>{`del ${ele.name}`}</div>
           {change ? (
             <>
               <input
@@ -48,19 +71,21 @@ const Layer = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <button onClick={handleChangeName}>finish</button>
+              <div name={i} onClick={handleChangeName}>
+                finish
+              </div>
             </>
           ) : (
-            <button onClick={() => setChange(true)}>change name</button>
+            <div onClick={() => setChange(true)}>change name</div>
           )}
         </>
       ) : (
-        <button
+        <div
           name={i}
           onClick={handleSwitchLayers}
-        >{`${ele.name} not active`}</button>
+        >{`${ele.name} not active`}</div>
       )}
-    </>
+    </div>
   );
 };
 

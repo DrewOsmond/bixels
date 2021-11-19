@@ -17,36 +17,13 @@ const DrawingPage = () => {
   const [history, setHistory] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
-  console.log("LOADED", loadedCanvas);
+  const [strokes, setStrokes] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setCanvas(loadedCanvas);
   }, []);
-  // const [selectedHistory, setSelectedHistory] = useState(0);
-  // console.log(layer);
-  // useEffect(() => {
-  //   if (!canvasInUse) {
 
-  //   }
-  // let makeCanvas = [];
-  // let refreshCanvas = localStorage.getItem("canvas");
-  // refreshCanvas = refreshCanvas ? JSON.parse(refreshCanvas) : null;
-
-  // if (refreshCanvas && refreshCanvas.length > 0) {
-  //   for (let i = 0; i < refreshCanvas.length; i++) {
-  //     const currLayer = new Layer(i, refreshCanvas[i]);
-
-  //     makeCanvas.push(currLayer);
-  //   }
-
-  //   setCanvas(makeCanvas);
-  // } else if (!refreshCanvas || !refreshCanvas.length) {
-  //  const newLayer = new Layer(1);
-  //  setCanvas([newLayer]);
-  // } else {
-  //   //I think this block was for making history changes?? idk we'll figure it out
-  // }
-  // }, []);
   if (!canvas) {
     return null;
   } else
@@ -58,6 +35,7 @@ const DrawingPage = () => {
           canvas={canvas}
           setCanvas={setCanvas}
           setLayer={setLayer}
+          setLoaded={setLoaded}
         />
 
         <DrawingCanvas
@@ -68,12 +46,16 @@ const DrawingPage = () => {
           opacity={opacity}
           setHistory={setHistory}
           history={history}
+          setStrokes={setStrokes}
+          update={strokes}
         />
         <LayersSection
           layer={layer}
           setLayer={setLayer}
           setCanvas={setCanvas}
           canvas={canvas}
+          setLoaded={setLoaded}
+          activeLayer={layer}
         />
         <OpacitySlider
           setOpacity={setOpacity}
