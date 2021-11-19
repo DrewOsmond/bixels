@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./canvas.css";
-import { Cell } from "../canvasClass";
+import { Canvas, Cell } from "../canvasClass";
 
 const DrawingCanvas = ({
   color,
@@ -167,12 +167,15 @@ const DrawingCanvas = ({
           ctx.restore();
         }
       }
-      localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
+      canvasArray.color = color;
+      // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
       // draw(x, y, selectedCell);
+      Canvas.saveDrawing(canvasArray);
     } else if (tool === "erase") {
       ctx.clearRect(x, y, h, w);
       selectedCell.color = null;
-      localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
+      Canvas.saveDrawing(canvasArray);
+      // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
     }
   };
 

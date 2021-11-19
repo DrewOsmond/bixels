@@ -17,6 +17,8 @@ const getState = () => {
       {
         name: "untitled project",
         canvas: [new Layer(1)],
+        drawingLayer: 0,
+        color: "#4b4e51",
       },
     ];
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));
@@ -31,7 +33,6 @@ const initialState = getState();
 const UPDATE = "canvas/update";
 
 const updateCanv = (canvases) => {
-  console.log(canvases);
   return {
     type: UPDATE,
     payload: canvases,

@@ -14,8 +14,9 @@ const DisplayCanvas = ({ canvas, idx }) => {
   useEffect(() => {
     const canv = document.getElementById(canvas.name);
     const ctx = canv.getContext("2d");
+    Canvas.clearCanvas(canvas, ctx);
     Canvas.paintCanvas(canvas, ctx, 4);
-  }, []);
+  }, [canvas]);
 
   useEffect(() => {
     if (editName) {

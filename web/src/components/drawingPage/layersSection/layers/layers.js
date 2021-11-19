@@ -18,7 +18,7 @@ const Layer = ({
   useEffect(() => {
     const canv = document.getElementById(`${ele.name}-${i}`);
     const ctx = canv.getContext("2d");
-    Canvas.clearCanvas(canv);
+    Canvas.clearCanvas(canv, ctx);
     Canvas.paintLayer(ele.layer, ctx, 8);
     setLoaded(true);
   }, [ele.layer, ele.name, i, setLoaded]);
@@ -40,7 +40,7 @@ const Layer = ({
         const canv = document.getElementById(`${ele.name}-${i}`);
         if (!canv) return;
         const ctx = canv.getContext("2d");
-        Canvas.clearCanvas(canv);
+        Canvas.clearCanvas(canv, ctx);
         Canvas.paintLayer(ele.layer, ctx, 8);
       })()}
       {ele.active ? (

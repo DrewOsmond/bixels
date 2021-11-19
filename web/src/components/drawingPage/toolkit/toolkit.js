@@ -1,10 +1,7 @@
 import { Layer } from "../canvasClass";
-import { useDispatch } from "react-redux";
-import { updateCanvases } from "../../../store/reducers/canvases";
 import "./toolkit.css";
 
 const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
-  const dispatch = useDispatch();
   return (
     <div className="tool__kit__container">
       <nav className="tool__kit">
@@ -37,9 +34,9 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
         <div
           className="tool__kit__button"
           onClick={() => {
-            canvas.canvas.push(new Layer(canvas.canvas.length));
-            setLayer(canvas.canvas.length - 1);
-            dispatch(updateCanvases(canvas.canvas));
+            canvas.canvas.unshift(new Layer(canvas.canvas.length));
+            setLayer(0);
+            canvas.drawingLayer = 0;
             setCanvas((prev) => {
               return { ...prev };
             });

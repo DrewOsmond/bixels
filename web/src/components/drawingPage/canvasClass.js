@@ -84,37 +84,49 @@ export class Canvas {
     }
   }
 
-  static clearCanvas(canvas) {
-    const ctx = canvas.getContext("2d");
+  static clearCanvas(canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-}
 
-class History {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-  }
+  static saveDrawing = (selectedCanvas) => {
+    const canvases = JSON.parse(localStorage.getItem("canvases"));
 
-  addState(state) {
-    if (!this.head) {
-      this.head = state;
-    } else if (!this.tail) {
-      this.head.next = state;
-      this.tail = state;
-      this.tail.prev = this.head;
-    } else {
-      this.tail.next = state;
-      state.prev = this.tail;
-      this.tail = state;
+    for (let canvas of canvases) {
+      if (canvas.name === selectedCanvas.name) {
+        canvases.canvas = selectedCanvas;
+        console.log("maybe???");
+        localStorage.setItem("canvases", JSON.stringify(canvases));
+        localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));
+      }
     }
-  }
+  };
 }
 
-class State {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-    this.prev = null;
-  }
-}
+// class History {
+//   constructor() {
+//     this.head = null;
+//     this.tail = null;
+//   }
+
+//   addState(state) {
+//     if (!this.head) {
+//       this.head = state;
+//     } else if (!this.tail) {
+//       this.head.next = state;
+//       this.tail = state;
+//       this.tail.prev = this.head;
+//     } else {
+//       this.tail.next = state;
+//       state.prev = this.tail;
+//       this.tail = state;
+//     }
+//   }
+// }
+
+// class State {
+//   constructor(value) {
+//     this.value = value;
+//     this.next = null;
+//     this.prev = null;
+//   }
+// }

@@ -10,9 +10,9 @@ import ToolKit from "./toolkit/toolkit";
 
 const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
-  const [color, setColor] = useState("#4b4e51");
+  const [color, setColor] = useState(loadedCanvas.color);
   const [tool, setTool] = useState("draw");
-  const [layer, setLayer] = useState(0);
+  const [layer, setLayer] = useState(loadedCanvas.drawingLayer);
   const [canvas, setCanvas] = useState(null);
   const [opacity, setOpacity] = useState(10);
   const [history, setHistory] = useState(null);
@@ -22,6 +22,7 @@ const DrawingPage = () => {
 
   useEffect(() => {
     setCanvas(loadedCanvas);
+    setLayer(loadedCanvas.drawingLayer);
   }, [loadedCanvas]);
 
   if (!canvas) {

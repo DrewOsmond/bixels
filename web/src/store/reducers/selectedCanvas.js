@@ -39,6 +39,7 @@ const restoreDrawing = () => {
     return defaultCanvases;
   } else {
     const stringCanvToObj = JSON.parse(canvases);
+    localStorage.setItem("selected-canvas", JSON.stringify(stringCanvToObj[0]));
     return stringCanvToObj[0];
   }
   // } else if (!canvases) {

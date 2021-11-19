@@ -1,13 +1,15 @@
 import DisplayCanvas from "./displayCanveses/displayCanvases";
 import "./canvasLibrary.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCanvases } from "../../store/reducers/canvases";
 import { Layer } from "../drawingPage/canvasClass";
+import { useNavigate } from "react-router";
 
 const CanvasLibrary = () => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const localSelected = localStorage.getItem("selected-canvas");
@@ -27,17 +29,21 @@ const CanvasLibrary = () => {
         }
       }
     }
-  }, []);
+  }, [dispatch]);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
     const canvas = {
       name: `untitled project ${canvases.length}`,
       canvas: [basicLayer],
+      drawingLayer: 0,
+      color: "#4b4e51",
     };
-    canvases.push(canvas);
+    canvases.unshift(canvas);
     dispatch(updateCanvases(canvases));
     localStorage.setItem("canvases", JSON.stringify(canvases));
+    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+    navigate("/draw");
   };
 
   return (
