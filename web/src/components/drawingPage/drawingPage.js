@@ -9,6 +9,7 @@ import OpacitySlider from "./opacitySlider/opacitySlider";
 import ToolKit from "./toolkit/toolkit";
 
 const DrawingPage = () => {
+  const loadedCanvas = useSelector((state) => state.selectedCanvas);
   const [color, setColor] = useState("#4b4e51");
   const [tool, setTool] = useState("draw");
   const [layer, setLayer] = useState(0);
@@ -16,13 +17,12 @@ const DrawingPage = () => {
   const [opacity, setOpacity] = useState(10);
   const [history, setHistory] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const loadedCanvas = useSelector((state) => state.selectedCanvas);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setCanvas(loadedCanvas);
-  }, []);
+  }, [loadedCanvas]);
 
   if (!canvas) {
     return null;
@@ -50,6 +50,7 @@ const DrawingPage = () => {
           update={strokes}
         />
         <LayersSection
+          loaded={loaded}
           layer={layer}
           setLayer={setLayer}
           setCanvas={setCanvas}
