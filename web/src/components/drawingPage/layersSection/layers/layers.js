@@ -22,7 +22,7 @@ const Layer = ({
     Canvas.clearCanvas(canv);
     Canvas.paintLayer(ele.layer, ctx, 8);
     setLoaded(true);
-  }, []);
+  }, [ele.layer, ele.name, i, setLoaded]);
 
   const handleChangeName = (e) => {
     const layerNameToChange = Number(e.target.getAttribute("name"));
