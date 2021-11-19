@@ -8,6 +8,7 @@ const DrawingCanvas = ({
   canvasArray,
   layer,
   opacity,
+  setShowColorPicker,
   setHistory,
   history,
 }) => {
@@ -132,6 +133,7 @@ const DrawingCanvas = ({
 
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
+    setShowColorPicker(false);
     draw(e);
     setHistory(strokes);
   };

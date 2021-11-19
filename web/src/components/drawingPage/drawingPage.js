@@ -49,6 +49,7 @@ const DrawingPage = () => {
           history={history}
           setStrokes={setStrokes}
           update={strokes}
+          setShowColorPicker={setShowColorPicker}
         />
         <LayersSection
           loaded={loaded}
