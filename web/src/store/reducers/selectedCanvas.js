@@ -80,8 +80,8 @@ const update = (canvas) => {
 };
 
 export const updateCanvas = (canvas) => (dispatch) => {
-  localStorage.setItem("selected-canvas", JSON.stringify(canvas));
   const canvases = JSON.parse(localStorage.getItem("canvases"));
+  localStorage.setItem("selected-canvas", JSON.stringify(canvas));
   localStorage.setItem("canvases", JSON.stringify(canvases));
   console.log("???");
   dispatch(update(canvas));
