@@ -7,9 +7,11 @@ import DrawingCanvas from "./drawingCanvas/drawingCanvas";
 import LayersSection from "./layersSection/layerSection";
 import OpacitySlider from "./opacitySlider/opacitySlider";
 import ToolKit from "./toolkit/toolkit";
+import { useNavigate } from "react-router";
 
 const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
+  const navigate = useNavigate();
   const [color, setColor] = useState(loadedCanvas.color);
   const [tool, setTool] = useState("draw");
   const [layer, setLayer] = useState(loadedCanvas.drawingLayer);
@@ -30,6 +32,7 @@ const DrawingPage = () => {
   } else
     return (
       <>
+        <button onClick={() => navigate("/library")}>back button</button>
         <ToolKit
           setTool={setTool}
           tool={tool}

@@ -4,8 +4,15 @@ import { updateCanvasName } from "../../../store/reducers/canvases";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Canvas } from "../../drawingPage/canvasClass";
+import "./displayCanvases.css";
 
-const DisplayCanvas = ({ canvas, idx }) => {
+const DisplayCanvas = ({
+  canvas,
+  idx,
+  trash,
+  setSelectedTrash,
+  selectedTrash,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState(canvas.name);
@@ -55,14 +62,26 @@ const DisplayCanvas = ({ canvas, idx }) => {
     }
   };
 
+  const handleTrash = () => {
+    const idx = selectedTrash.indexOf(canvas.name);
+    if (idx >= 0) {
+      selectedTrash.splice(idx, 1);
+      setSelectedTrash([...selectedTrash]);
+    } else {
+      setSelectedTrash((prev) => [...prev, canvas.name]);
+    }
+  };
+
   return (
     <>
       <canvas
-        className="library-canvas"
+        className={`library-canvas ${
+          selectedTrash.includes(canvas.name) ? "delete-select" : ""
+        }`}
         id={canvas.name}
         width="128"
         height="128"
-        onClick={handleClick}
+        onClick={!trash ? handleClick : handleTrash}
       ></canvas>
       {editName ? (
         <div>
