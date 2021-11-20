@@ -13,6 +13,10 @@ import { selectCanvas } from "../../store/reducers/selectedCanvas";
 import { updateFilter } from "../../store/reducers/filteredSearch";
 import Modal from "../modal/modal";
 import ConfirmDelete from "./confirmDelete/confirmDelete";
+import home from "../../assets/home.svg";
+import add from "../../assets/add.svg";
+import searchIcon from "../../assets/search.svg";
+import trashcan from "../../assets/trash.svg";
 
 const CanvasLibrary = () => {
   const canvases = useSelector((state) => state.canvases);
@@ -23,6 +27,7 @@ const CanvasLibrary = () => {
   const [trash, setTrash] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showSearchInput, setShowSearchInput] = useState(false);
   // useEffect(() => {}, [search, filtered]);
 
   const addNewCanvas = () => {
@@ -60,32 +65,43 @@ const CanvasLibrary = () => {
     dispatch(updateFilter(e.target.value, canvases));
   };
 
+  const searchButtonHandler = () => {
+    setShowSearchInput((prev) => !prev);
+  }
+
   return (
     <>
-      <button onClick={() => navigate("/")}>home</button>
-      <input placeholder="search" value={searchTerm} onChange={handleSearch} />
-      <button className="add-new-canvas" onClick={addNewCanvas}>
-        add new canvas
-      </button>
+      <nav className="navBar-container">
+        <div className="leftSide-container">
+          <button onClick={() => navigate("/")}><img src={home}></img></button>
+        </div>
+        <div className="rightSide-container">
+          <button onClick={searchButtonHandler}><img src={searchIcon}></img></button>
+          {showSearchInput && <input id="searchBarInput" placeholder="search" value={searchTerm} onChange={handleSearch} />}
+          <button className="add-new-canvas" onClick={addNewCanvas}>
+            <img src={add}></img>
+          </button>
 
-      {!trash && <button onClick={() => setTrash(true)}>delete</button>}
-      {trash && (
-        <>
-          <button
-            disabled={!selectedTrash.length}
-            onClick={() => setShowDeleteModal(true)}
-          >{`delete ${selectedTrash.length} items`}</button>
-          <button onClick={cancelDelete}>cancel delete</button>
-        </>
-      )}
-      {showDeleteModal && (
-        <Modal onClose={() => setShowDeleteModal(false)}>
-          <ConfirmDelete
-            confirmDelete={confirmDelete}
-            deleteAmount={selectedTrash.length}
-          />
-        </Modal>
-      )}
+          {!trash && <button onClick={() => setTrash(true)}><img src={trashcan}></img></button>}
+          {trash && (
+            <>
+              <button
+                disabled={!selectedTrash.length}
+                onClick={() => setShowDeleteModal(true)}
+              >{`delete ${selectedTrash.length} items`}</button>
+              <button onClick={cancelDelete}>cancel delete</button>
+            </>
+          )}
+          {showDeleteModal && (
+            <Modal onClose={() => setShowDeleteModal(false)}>
+              <ConfirmDelete
+                confirmDelete={confirmDelete}
+                deleteAmount={selectedTrash.length}
+              />
+            </Modal>
+          )}
+        </div>
+      </nav>
       <br />
       {search.map((canvas, i) => (
         <DisplayCanvas
