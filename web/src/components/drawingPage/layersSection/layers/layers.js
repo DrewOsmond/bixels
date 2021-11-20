@@ -3,6 +3,8 @@ import { Canvas } from "../../canvasClass";
 import { useDispatch } from "react-redux";
 import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
 
+// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
 const Layer = ({
   ele,
   i,
@@ -63,7 +65,22 @@ const Layer = ({
   };
 
   return (
+    // <Droppable droppableId="layers" type="LAYER" className="layer">
     <div className="layer">
+      {/* {(provided, snapshot) => {
+        return (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className={cx(
+              styles.dropper,
+              snapshot.isDraggingOver && styles.dropOver
+            )}
+          >
+            {provided.placeholder}
+          </div>
+        );
+      }} */}
       <canvas
         name={i}
         width="64"
@@ -105,6 +122,7 @@ const Layer = ({
         {i === layer ? `drawing on` : `draw on layer`}
       </div>
       <div name={i} onClick={deleteLayer}>{`del ${ele.name}`}</div>
+      {/* </Droppable> */}
     </div>
   );
 };

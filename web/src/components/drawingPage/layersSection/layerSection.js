@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
+// import { useState, useCallback, useReducer } from "react";
 import { useState } from "react";
 import { updateCanvases } from "../../../store/reducers/canvases";
 import { Layer } from "../canvasClass";
+// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./layer.css";
 
 import Layers from "./layers/layers";
@@ -17,6 +19,15 @@ const LayersSection = ({
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  // const onDragEnd = useCallback((result) => {}, []);
+
+  // const dragReducer = (state, action) => {
+  //   return state;
+  // };
+
+  // const [state, reactDispatch] = useReducer(dragReducer, {
+  //   items: [],
+  // });
 
   const handleSwitchLayers = (e) => {
     const layer = Number(e.target.getAttribute("name"));
@@ -49,6 +60,7 @@ const LayersSection = ({
     <>
       <button onClick={() => setShow((prev) => !prev)}>display layers</button>
       {show && (
+        // <DragDropContext onDragEnd={onDragEnd} className="layer__section">
         <div className="layer__section">
           {canvas.canvas?.map((ele, i) => (
             <Layers
@@ -65,6 +77,7 @@ const LayersSection = ({
               activeLayer={activeLayer}
             />
           ))}
+          {/* </DragDropContext> */}
         </div>
       )}
     </>

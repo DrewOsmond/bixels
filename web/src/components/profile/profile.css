@@ -1,0 +1,24 @@
+.profile-picture {
+  position: absolute;
+  /* left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%; */
+
+  background: #7c7c7c;
+  border-radius: 57.2px;
+}
+
+.username-bio-section {
+  position: absolute;
+  width: 478px;
+  height: 150px;
+  left: calc(50% - 478px / 2 + 179px);
+  top: 210px;
+
+  /* canvas background */
+
+  background: #f5f5f5;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 11px;
+}
