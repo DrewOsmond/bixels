@@ -65,6 +65,7 @@ const Layer = ({
   return (
     <div className="layer">
       <canvas
+        name={i}
         width="64"
         height="64"
         id={`${ele.name}-${i}`}

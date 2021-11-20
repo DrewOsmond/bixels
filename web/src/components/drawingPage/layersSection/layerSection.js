@@ -15,6 +15,7 @@ const LayersSection = ({
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
+
   const handleSwitchLayers = (e) => {
     const layer = Number(e.target.getAttribute("name"));
     canvas.canvas[layer].active = !canvas.canvas[layer].active;
@@ -48,7 +49,7 @@ const LayersSection = ({
         <Layers
           ele={ele}
           i={i}
-          key={i}
+          key={ele.name}
           setCanvas={setCanvas}
           canvas={canvas}
           handleSwitchLayers={handleSwitchLayers}
