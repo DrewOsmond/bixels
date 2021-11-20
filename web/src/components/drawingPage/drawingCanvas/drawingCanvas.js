@@ -73,9 +73,11 @@ const DrawingCanvas = ({
   };
 
   const stopDrawing = (e) => {
-    const storedCellY = Math.floor(window.currentCell.y / 16);
-    const storedCellX = Math.floor(window.currentCell.x / 16);
-    selectedLayer[storedCellY][storedCellX] = window.currentCell;
+    if (window.currentCell){
+      const storedCellY = Math.floor(window.currentCell.y / 16);
+      const storedCellX = Math.floor(window.currentCell.x / 16);
+      selectedLayer[storedCellY][storedCellX] = window.currentCell;
+    }
     window.currentCell = null;
     e.target.removeEventListener("mousemove", draw);
     setHistory(strokes);
