@@ -10,16 +10,20 @@ import {
 import { Layer } from "../drawingPage/canvasClass";
 import { useNavigate } from "react-router";
 import { selectCanvas } from "../../store/reducers/selectedCanvas";
+import { updateFilter } from "../../store/reducers/filteredSearch";
 import Modal from "../modal/modal";
 import ConfirmDelete from "./confirmDelete/confirmDelete";
 
 const CanvasLibrary = () => {
   const canvases = useSelector((state) => state.canvases);
+  const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTrash, setSelectedTrash] = useState([]);
   const [trash, setTrash] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  // useEffect(() => {}, [search, filtered]);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
@@ -49,8 +53,14 @@ const CanvasLibrary = () => {
     setTrash(false);
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    dispatch(updateFilter(e.target.value, canvases));
+  };
+
   return (
     <>
+      <input placeholder="search" value={searchTerm} onChange={handleSearch} />
       <button className="add-new-canvas" onClick={addNewCanvas}>
         add new canvas
       </button>
@@ -74,9 +84,9 @@ const CanvasLibrary = () => {
         </Modal>
       )}
       <br />
-      {canvases?.map((canvas, i) => (
+      {search.map((canvas, i) => (
         <DisplayCanvas
-          key={`canvas-${i}`}
+          key={`canvas-${canvas.name}`}
           canvas={canvas}
           idx={i}
           trash={trash}

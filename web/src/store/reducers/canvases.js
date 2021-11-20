@@ -10,7 +10,7 @@ const getCanvases = () => {
   return canvases;
 };
 
-const getState = () => {
+export const getState = () => {
   const canvases = getCanvases();
   if (!canvases) {
     const defaultCanvases = [
@@ -33,8 +33,6 @@ const initialState = getState();
 const UPDATE = "canvases/update";
 
 const updateCanv = (canvases) => {
-  console.log(canvases);
-  console.log("huh?");
   localStorage.setItem("canvases", JSON.stringify(canvases));
   return {
     type: UPDATE,

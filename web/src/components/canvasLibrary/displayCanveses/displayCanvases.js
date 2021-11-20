@@ -7,12 +7,14 @@ import { Canvas } from "../../drawingPage/canvasClass";
 import { useSelector } from "react-redux";
 import "./displayCanvases.css";
 import { getUniqueName } from "../../../store/reducers/canvases";
+
 const DisplayCanvas = ({
   canvas,
   idx,
   trash,
   setSelectedTrash,
   selectedTrash,
+  filtered,
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const DisplayCanvas = ({
   const [name, setName] = useState(canvas.name);
   const [editName, setEditName] = useState(false);
   const [unique, setUnique] = useState(true);
+
   useEffect(() => {
     const canv = document.getElementById(canvas.name);
     const ctx = canv.getContext("2d");
