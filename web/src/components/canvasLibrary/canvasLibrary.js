@@ -38,6 +38,7 @@ const CanvasLibrary = () => {
     localStorage.setItem("canvases", JSON.stringify(canvases));
     localStorage.setItem("selected-canvas", JSON.stringify(canvas));
     dispatch(selectCanvas(canvas));
+    dispatch(updateFilter("", canvases));
     navigate("/draw");
   };
 
@@ -46,6 +47,7 @@ const CanvasLibrary = () => {
     setTrash(false);
     setSelectedTrash([]);
     dispatch(deleteCanvases(selectedTrash, canvases));
+    dispatch(updateFilter(searchTerm, canvases));
   };
 
   const cancelDelete = () => {
@@ -60,6 +62,7 @@ const CanvasLibrary = () => {
 
   return (
     <>
+      <button onClick={() => navigate("/")}>home</button>
       <input placeholder="search" value={searchTerm} onChange={handleSearch} />
       <button className="add-new-canvas" onClick={addNewCanvas}>
         add new canvas

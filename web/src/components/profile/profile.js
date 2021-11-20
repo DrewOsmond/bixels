@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 const Profile = () => {
   const navigate = useNavigate();
   const { user } = useParams();
+  console.log(user);
   const userz = {
     name: "balls",
     description: "tehehehehehehe",
@@ -13,7 +14,7 @@ const Profile = () => {
     <>
       <button onClick={() => navigate("/")}>back</button>
       <div>
-        <div>{user.name}</div>
+        <div>{user}</div>
         <div>{userz.description}</div>
       </div>
 

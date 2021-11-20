@@ -93,7 +93,7 @@ const Layer = ({
           // onClick={handleSwitchLayers}
           onDoubleClick={handleDoubleClick}
         >
-          {ele.name}
+          {name}
         </div>
       )}
       <div

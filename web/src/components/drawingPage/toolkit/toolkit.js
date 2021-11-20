@@ -39,7 +39,8 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
           eye dropper
         </div>
 
-        <div
+        <button
+          disabled={canvas.canvas.length >= 15}
           className="tool__kit__button"
           onClick={() => {
             canvas.canvas.push(new Layer(canvas.canvas.length));
@@ -52,7 +53,7 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
           }}
         >
           add Layer
-        </div>
+        </button>
       </nav>
     </div>
   );

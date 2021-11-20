@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { updateCanvases } from "../../../store/reducers/canvases";
 import { Layer } from "../canvasClass";
 import "./layer.css";
@@ -15,6 +16,7 @@ const LayersSection = ({
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
 
   const handleSwitchLayers = (e) => {
     const layer = Number(e.target.getAttribute("name"));
@@ -44,23 +46,28 @@ const LayersSection = ({
     setLoaded(true);
   };
   return (
-    <div className="layer__section">
-      {canvas.canvas?.map((ele, i) => (
-        <Layers
-          ele={ele}
-          i={i}
-          key={ele.name}
-          setCanvas={setCanvas}
-          canvas={canvas}
-          handleSwitchLayers={handleSwitchLayers}
-          handleDrawOnLayer={handleDrawOnLayer}
-          layer={layer}
-          deleteLayer={deleteLayer}
-          setLoaded={setLoaded}
-          activeLayer={activeLayer}
-        />
-      ))}
-    </div>
+    <>
+      <button onClick={() => setShow((prev) => !prev)}>display layers</button>
+      {show && (
+        <div className="layer__section">
+          {canvas.canvas?.map((ele, i) => (
+            <Layers
+              ele={ele}
+              i={i}
+              key={`${ele.name}-layer-${i}`}
+              setCanvas={setCanvas}
+              canvas={canvas}
+              handleSwitchLayers={handleSwitchLayers}
+              handleDrawOnLayer={handleDrawOnLayer}
+              layer={layer}
+              deleteLayer={deleteLayer}
+              setLoaded={setLoaded}
+              activeLayer={activeLayer}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 
