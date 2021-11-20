@@ -45,6 +45,7 @@ const ToolKit = ({ tool, setTool, canvas, setCanvas, setLayer, setLoaded }) => {
             canvas.canvas.push(new Layer(canvas.canvas.length));
             setLayer(canvas.canvas.length - 1);
             canvas.drawingLayer = canvas.canvas.length - 1;
+            localStorage.setItem("selected-canvas", JSON.stringify(canvas));
             setCanvas((prev) => {
               return { ...prev };
             });
