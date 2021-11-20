@@ -1,40 +1,49 @@
 .tool__kit__container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
 .tool__kit {
-  /* position: absolute;
   display: flex;
   align-items: center;
-  height: 82px;
-  left: 28px;
-  right: 28px;
-  top: 28px;
-
-  border: 3px solid #000000; */
-  /* position: absolute; */
-  /* width: 1208px; */
-  /* left: 36px;
-  /* top: -2px; */
+  background-color: #c5c4c5;
   width: 80%;
   height: 97px;
-  border: 3px solid #000000;
+  box-shadow: 0px 0px 9px black;
+  /* border: 3px solid #000000; */
   border-radius: 11px;
 }
 
 .tool__kit__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fcfcf9;
+  box-shadow: 0px 0px 5px black;
+  border-radius: 5px;
   width: 50px;
   height: 50px;
   margin: 8px 8px;
-  border: 3px solid #000000;
+  /* border: 3px solid #000000; */
   box-sizing: border-box;
 }
 
-.tool__kit__button__active {
-  background-color: darkgray;
+button.tool__kit__button {
+  /* background: none; */
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
-/* 
+
+.tool__kit__button__active {
+  background-color: rgb(230, 227, 227);
+}
+/* å
 .tool__kit__erase {
   position: absolute;
   width: 50px;

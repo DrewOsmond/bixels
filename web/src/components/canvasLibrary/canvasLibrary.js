@@ -23,7 +23,7 @@ const CanvasLibrary = () => {
   const [trash, setTrash] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // useEffect(() => {}, [search, filtered]);
+  const [isSearch, setIsSearch] = useState(false);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
@@ -60,43 +60,71 @@ const CanvasLibrary = () => {
     dispatch(updateFilter(e.target.value, canvases));
   };
 
+  const handleIsSearch = () => {
+    if (isSearch) {
+      dispatch(updateFilter("", canvases));
+      setSearchTerm("");
+      setIsSearch(false);
+      return;
+    } else {
+      setIsSearch(true);
+      return;
+    }
+  };
+
   return (
     <>
-      <button onClick={() => navigate("/")}>home</button>
-      <input placeholder="search" value={searchTerm} onChange={handleSearch} />
-      <button className="add-new-canvas" onClick={addNewCanvas}>
-        add new canvas
-      </button>
-
-      {!trash && <button onClick={() => setTrash(true)}>delete</button>}
-      {trash && (
-        <>
-          <button
-            disabled={!selectedTrash.length}
-            onClick={() => setShowDeleteModal(true)}
-          >{`delete ${selectedTrash.length} items`}</button>
-          <button onClick={cancelDelete}>cancel delete</button>
-        </>
-      )}
-      {showDeleteModal && (
-        <Modal onClose={() => setShowDeleteModal(false)}>
-          <ConfirmDelete
-            confirmDelete={confirmDelete}
-            deleteAmount={selectedTrash.length}
+      <nav className="library-navbar">
+        <button className="home-button" onClick={() => navigate("/")}>
+          home
+        </button>
+        <div className="library-right-containter">
+          <button className="search-button" onClick={handleIsSearch}>
+            search
+          </button>
+          {isSearch && (
+            <input
+              placeholder="search"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          )}
+          <button className="add-new-canvas" onClick={addNewCanvas}>
+            +
+          </button>
+        </div>
+        {!trash && <button onClick={() => setTrash(true)}>delete</button>}
+        {trash && (
+          <>
+            <button
+              disabled={!selectedTrash.length}
+              onClick={() => setShowDeleteModal(true)}
+            >{`delete ${selectedTrash.length} items`}</button>
+            <button onClick={cancelDelete}>cancel delete</button>
+          </>
+        )}
+      </nav>
+      <div className="collection-container">
+        {showDeleteModal && (
+          <Modal onClose={() => setShowDeleteModal(false)}>
+            <ConfirmDelete
+              confirmDelete={confirmDelete}
+              deleteAmount={selectedTrash.length}
+            />
+          </Modal>
+        )}
+        <br />
+        {search.map((canvas, i) => (
+          <DisplayCanvas
+            key={`canvas-${canvas.name}`}
+            canvas={canvas}
+            idx={i}
+            trash={trash}
+            setSelectedTrash={setSelectedTrash}
+            selectedTrash={selectedTrash}
           />
-        </Modal>
-      )}
-      <br />
-      {search.map((canvas, i) => (
-        <DisplayCanvas
-          key={`canvas-${canvas.name}`}
-          canvas={canvas}
-          idx={i}
-          trash={trash}
-          setSelectedTrash={setSelectedTrash}
-          selectedTrash={selectedTrash}
-        />
-      ))}
+        ))}
+      </div>
     </>
   );
 };

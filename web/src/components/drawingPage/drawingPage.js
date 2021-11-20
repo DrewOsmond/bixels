@@ -1,11 +1,9 @@
-import { HexColorPicker } from "react-colorful";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./drawingPage.css";
 
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
 import LayersSection from "./layersSection/layerSection";
-import OpacitySlider from "./opacitySlider/opacitySlider";
 import ToolKit from "./toolkit/toolkit";
 import { useNavigate } from "react-router";
 
@@ -13,10 +11,10 @@ const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
   const navigate = useNavigate();
   const [color, setColor] = useState(loadedCanvas.color);
-  const [tool, setTool] = useState("draw");
+  const [tool, setTool] = useState(loadedCanvas.tool);
   const [layer, setLayer] = useState(loadedCanvas.drawingLayer);
   const [canvas, setCanvas] = useState(null);
-  const [opacity, setOpacity] = useState(10);
+  const [opacity, setOpacity] = useState(loadedCanvas.opacity * 10);
   const [history, setHistory] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
@@ -31,12 +29,19 @@ const DrawingPage = () => {
     }
   }, [loadedCanvas, navigate]);
 
+  const saveImg = async () => {
+    const canvas = document.getElementById("draw-canvas");
+    const img = document.createElement("a");
+    img.download = `${loadedCanvas.name}.png`;
+    img.href = canvas.toDataURL();
+    img.click();
+  };
+
   if (!canvas || !loadedCanvas.canvas) {
     return null;
   } else
     return (
       <>
-        <button onClick={() => navigate("/library")}>back button</button>
         <ToolKit
           setTool={setTool}
           tool={tool}
@@ -44,44 +49,46 @@ const DrawingPage = () => {
           setCanvas={setCanvas}
           setLayer={setLayer}
           setLoaded={setLoaded}
-        />
-
-        <DrawingCanvas
           color={color}
-          tool={tool}
-          canvasArray={canvas}
-          layer={layer}
-          opacity={opacity}
-          setHistory={setHistory}
-          history={history}
-          setStrokes={setStrokes}
-          update={strokes}
+          setColor={setColor}
+          showColorPicker={showColorPicker}
           setShowColorPicker={setShowColorPicker}
+          setOpacity={setOpacity}
+          opacity={opacity}
+          saveImg={saveImg}
         />
 
-        <LayersSection
-          loaded={loaded}
-          layer={layer}
-          setLayer={setLayer}
-          setCanvas={setCanvas}
-          canvas={canvas}
-          setLoaded={setLoaded}
-          activeLayer={layer}
-        />
+        <div className="canvas-layer-container">
+          <DrawingCanvas
+            color={color}
+            tool={tool}
+            canvasArray={canvas}
+            layer={layer}
+            opacity={opacity}
+            setHistory={setHistory}
+            history={history}
+            setStrokes={setStrokes}
+            update={strokes}
+            setShowColorPicker={setShowColorPicker}
+          />
 
-        <OpacitySlider
+          <LayersSection
+            loaded={loaded}
+            layer={layer}
+            setLayer={setLayer}
+            setCanvas={setCanvas}
+            canvas={canvas}
+            setLoaded={setLoaded}
+            activeLayer={layer}
+          />
+        </div>
+
+        {/* <OpacitySlider
           setOpacity={setOpacity}
           opacity={opacity}
           color={color}
-        />
-        <div
-          onClick={() => setShowColorPicker(!showColorPicker)}
-          style={{ width: "48px", height: "48px", backgroundColor: color }}
-        />
-
-        {showColorPicker ? (
-          <HexColorPicker color={color} onChange={setColor} />
-        ) : null}
+        /> */}
+        {/* <button onClick={saveImg}>save image</button> */}
       </>
     );
 };

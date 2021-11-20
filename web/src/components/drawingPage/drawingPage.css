@@ -1,0 +1,8 @@
+.canvas-layer-container {
+  margin: 80px 0px 80px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+}
