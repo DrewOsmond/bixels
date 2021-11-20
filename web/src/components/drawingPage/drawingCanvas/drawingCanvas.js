@@ -73,7 +73,7 @@ const DrawingCanvas = ({
   };
 
   const stopDrawing = (e) => {
-    if (window.currentCell){
+    if (window.currentCell) {
       const storedCellY = Math.floor(window.currentCell.y / 16);
       const storedCellX = Math.floor(window.currentCell.x / 16);
       selectedLayer[storedCellY][storedCellX] = window.currentCell;
@@ -137,7 +137,6 @@ const DrawingCanvas = ({
     }
   };
 
-  console.log(layer);
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
     //setShowColorPicker(false);
@@ -286,9 +285,8 @@ const DrawingCanvas = ({
           onClick={tools.click[tool]}
           onMouseDown={tools.onMouseDown[tool]}
           onMouseUp={tools.onMouseUp[tool]}
-          onMouseMove={hoverPreview}
-          onMouseOut={tools.onMouseUp[tool]}
-          // tabIndex={-1}
+          onMouseMove={tool !== "fill" ? hoverPreview : null}
+          onMouseOut={tool !== "fill" ? tools.onMouseUp[tool] : null}
         />
       </div>
       <button onClick={saveImg}>save image</button>
