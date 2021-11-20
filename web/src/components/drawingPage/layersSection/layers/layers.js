@@ -102,7 +102,7 @@ const Layer = ({
         key={`active-${i + 1}`}
         onClick={handleDrawOnLayer}
       >
-        {i === layer ? `drawing on ${ele.name}` : `draw on layer ${ele.name}`}
+        {i === layer ? `drawing on` : `draw on layer`}
       </div>
       <div name={i} onClick={deleteLayer}>{`del ${ele.name}`}</div>
     </div>

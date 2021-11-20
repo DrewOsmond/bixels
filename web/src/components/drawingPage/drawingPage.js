@@ -74,12 +74,11 @@ const DrawingPage = () => {
           opacity={opacity}
           color={color}
         />
-        <button
-          style={{ color }}
+        <div
           onClick={() => setShowColorPicker(!showColorPicker)}
-        >
-          show color picker
-        </button>
+          style={{ width: "48px", height: "48px", backgroundColor: color }}
+        />
+
         {showColorPicker ? (
           <HexColorPicker color={color} onChange={setColor} />
         ) : null}
