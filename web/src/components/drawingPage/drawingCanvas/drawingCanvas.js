@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import "./canvas.css";
 import { Canvas, Cell } from "../canvasClass";
-import { useSelector } from "react-redux";
 
 const DrawingCanvas = ({
   color,
@@ -15,7 +14,7 @@ const DrawingCanvas = ({
   // const [currentCell, setCurrentCell] = useState(null);
   let strokes = [];
   const selectedLayer = canvasArray.canvas[layer]?.layer;
-  const canvz = useSelector((state) => state.selectedCanvais);
+
   opacity = opacity / 10;
 
   const render = () => {
