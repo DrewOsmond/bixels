@@ -23,11 +23,15 @@ const DrawingPage = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setCanvas(loadedCanvas);
-    setLayer(loadedCanvas.drawingLayer);
-  }, [loadedCanvas]);
+    if (!loadedCanvas.canvas) {
+      navigate("/library");
+    } else {
+      setCanvas(loadedCanvas);
+      setLayer(loadedCanvas.drawingLayer);
+    }
+  }, [loadedCanvas, navigate]);
 
-  if (!canvas) {
+  if (!canvas || !loadedCanvas.canvas) {
     return null;
   } else
     return (

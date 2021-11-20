@@ -1,3 +1,7 @@
 .delete-select {
   border: 2.5px solid rgb(248, 64, 64);
 }
+
+.not-unique {
+  border: 2px solid red;
+}

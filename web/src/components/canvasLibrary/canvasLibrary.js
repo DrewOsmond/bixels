@@ -1,8 +1,12 @@
 import DisplayCanvas from "./displayCanveses/displayCanvases";
 import "./canvasLibrary.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateCanvases } from "../../store/reducers/canvases";
+import {
+  deleteCanvases,
+  getUniqueName,
+  updateCanvases,
+} from "../../store/reducers/canvases";
 import { Layer } from "../drawingPage/canvasClass";
 import { useNavigate } from "react-router";
 import { selectCanvas } from "../../store/reducers/selectedCanvas";
@@ -17,30 +21,10 @@ const CanvasLibrary = () => {
   const [trash, setTrash] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  useEffect(() => {
-    const localSelected = localStorage.getItem("selected-canvas");
-    const selected = localSelected ? JSON.parse(localSelected) : null;
-    const localCanvases = localStorage.getItem("canvases");
-    const canvases = localCanvases ? JSON.parse(localCanvases) : null;
-    if (!selected || !canvases) {
-      return;
-    } else {
-      const name = selected.name;
-
-      for (let canvas of canvases) {
-        if (canvas.name === name) {
-          canvas.canvas = selected.canvas;
-          localStorage.setItem("canvases", JSON.stringify(canvases));
-          dispatch(updateCanvases(canvases));
-        }
-      }
-    }
-  }, [dispatch]);
-
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
     const canvas = {
-      name: `untitled project ${canvases.length}`,
+      name: getUniqueName(canvases),
       canvas: [basicLayer],
       drawingLayer: 0,
       color: "#4b4e51",
@@ -56,6 +40,8 @@ const CanvasLibrary = () => {
   const confirmDelete = () => {
     setShowDeleteModal(false);
     setTrash(false);
+    setSelectedTrash([]);
+    dispatch(deleteCanvases(selectedTrash, canvases));
   };
 
   const cancelDelete = () => {
@@ -73,6 +59,7 @@ const CanvasLibrary = () => {
       {trash && (
         <>
           <button
+            disabled={!selectedTrash.length}
             onClick={() => setShowDeleteModal(true)}
           >{`delete ${selectedTrash.length} items`}</button>
           <button onClick={cancelDelete}>cancel delete</button>
