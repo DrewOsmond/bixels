@@ -32,6 +32,8 @@ const CanvasLibrary = () => {
       canvas: [basicLayer],
       drawingLayer: 0,
       color: "#4b4e51",
+      opacity: 1,
+      tool: "draw",
     };
     canvases.unshift(canvas);
     dispatch(updateCanvases(canvases));

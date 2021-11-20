@@ -10,8 +10,6 @@ const DrawingCanvas = ({
   opacity,
   setHistory,
   history,
-  setMouseUp,
-  isMouseUp,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   let strokes = [];
@@ -76,42 +74,42 @@ const DrawingCanvas = ({
     setHistory(strokes);
   };
 
-  const hoverPreview = (e) => {
-    const canvas = document.getElementById("draw-canvas");
-    const coordinates = getMousePos(canvas, e);
-    const mouseCellY = Math.floor(coordinates.y / 16);
-    const mouseCellX = Math.floor(coordinates.x / 16);
-    const mouseCell = selectedLayer[mouseCellY][mouseCellX];
-    if (!window.currentCell) {
-      window.currentCell = new Cell(
-        mouseCell.x,
-        mouseCell.y,
-        16,
-        16,
-        mouseCell.color,
-        mouseCell.opacity
-      );
-      return;
-    }
+  // const hoverPreview = (e) => {
+  //   const canvas = document.getElementById("draw-canvas");
+  //   const coordinates = getMousePos(canvas, e);
+  //   const mouseCellY = Math.floor(coordinates.y / 16);
+  //   const mouseCellX = Math.floor(coordinates.x / 16);
+  //   const mouseCell = selectedLayer[mouseCellY][mouseCellX];
+  //   if (!window.currentCell) {
+  //     window.currentCell = new Cell(
+  //       mouseCell.x,
+  //       mouseCell.y,
+  //       16,
+  //       16,
+  //       mouseCell.color,
+  //       mouseCell.opacity
+  //     );
+  //     return;
+  //   }
 
-    const storedCellY = Math.floor(window.currentCell.y / 16);
-    const storedCellX = Math.floor(window.currentCell.x / 16);
+  //   const storedCellY = Math.floor(window.currentCell.y / 16);
+  //   const storedCellX = Math.floor(window.currentCell.x / 16);
 
-    if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
-      selectedLayer[storedCellY][storedCellX] = window.currentCell;
-      window.currentCell = new Cell(
-        mouseCell.x,
-        mouseCell.y,
-        16,
-        16,
-        mouseCell.color,
-        mouseCell.opacity
-      );
-      mouseCell.color = color;
-      mouseCell.opacity = opacity;
-      render();
-    }
-  };
+  //   if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
+  //     selectedLayer[storedCellY][storedCellX] = window.currentCell;
+  //     window.currentCell = new Cell(
+  //       mouseCell.x,
+  //       mouseCell.y,
+  //       16,
+  //       16,
+  //       mouseCell.color,
+  //       mouseCell.opacity
+  //     );
+  //     mouseCell.color = color;
+  //     mouseCell.opacity = opacity;
+  //     render();
+  //   }
+  // };
 
   const reDraw = (canvasLayer) => {
     for (let y = 0; y < canvasLayer.length; y++) {
