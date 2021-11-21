@@ -9,10 +9,14 @@ const DrawingCanvas = ({
   layer,
   opacity,
   setHistory,
+  setShowColorPicker,
+  showColorPicker,
+  strokes,
+  setStrokes,
   history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
-  let strokes = [];
+  // let strokes = [];
   const selectedLayer = canvasArray.canvas[layer]?.layer;
   opacity = opacity / 10;
 
@@ -55,24 +59,25 @@ const DrawingCanvas = ({
     };
   }
 
-  const drawing = (e) => {
-    // setShowColorPicker(false);
-    console.log(canvasArray);
-    if (!canvasArray.canvas[layer].active) return;
-    window.currentCell = null;
-    e.target.addEventListener("mousemove", draw);
-  };
+  // const drawing = (e) => {
+  //   // setShowColorPicker(false);
+  //   console.log(layer);
+  //   if (!canvasArray.canvas[layer].active) return;
+  //   window.currentCell = null;
+  //   e.target.addEventListener("mousemove", draw);
+  // };
 
-  const stopDrawing = (e) => {
-    if (window.currentCell) {
-      const storedCellY = Math.floor(window.currentCell.y / 16);
-      const storedCellX = Math.floor(window.currentCell.x / 16);
-      selectedLayer[storedCellY][storedCellX] = window.currentCell;
-    }
-    window.currentCell = null;
-    e.target.removeEventListener("mousemove", draw);
-    setHistory(strokes);
-  };
+  // const stopDrawing = (e) => {
+  //   if (window.currentCell) {
+  //     const storedCellY = Math.floor(window.currentCell.y / 16);
+  //     const storedCellX = Math.floor(window.currentCell.x / 16);
+  //     selectedLayer[storedCellY][storedCellX] = window.currentCell;
+  //   }
+  //   window.currentCell = null;
+  //   e.target.removeEventListener("mousemove", draw);
+  //   setHistory(strokes);
+  //   Canvas.saveDrawing(canvasArray);
+  // };
 
   // const hoverPreview = (e) => {
   //   const canvas = document.getElementById("draw-canvas");
@@ -110,6 +115,11 @@ const DrawingCanvas = ({
   //     render();
   //   }
   // };
+  const clearCanvas = () => {
+    const canvas = document.getElementById("draw-canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
 
   const reDraw = (canvasLayer) => {
     for (let y = 0; y < canvasLayer.length; y++) {
@@ -130,16 +140,41 @@ const DrawingCanvas = ({
 
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
-    //setShowColorPicker(false);
+    if (showColorPicker) {
+      setShowColorPicker(false);
+    }
     draw(e, "clicked");
-    setHistory(strokes);
+    Canvas.saveDrawing(canvasArray);
+  };
+
+  const floodFill = (e) => {
+    const canvas = document.getElementById("draw-canvas");
+    const coordinates = getMousePos(canvas, e);
+    const y = Math.floor(coordinates.y / 16);
+    const x = Math.floor(coordinates.x / 16);
+    const colorToChange = selectedLayer[y][x].color;
+    Canvas.floodFill(
+      selectedLayer,
+      y,
+      x,
+      colorToChange,
+      color,
+      opacity,
+      strokes,
+      layer
+    );
+    clearCanvas();
+    reDraw(selectedLayer);
+    Canvas.saveDrawing(canvasArray);
   };
 
   const draw = (e, fromClick) => {
-    if (e.buttons === 0 && !fromClick) {
-      stopDrawing(e);
-      return;
+    if (e.buttons === 0 && !fromClick) return;
+
+    if (showColorPicker) {
+      setShowColorPicker(false);
     }
+
     const canvas = document.getElementById("draw-canvas");
     const ctx = canvas.getContext("2d");
     const coordinates = getMousePos(canvas, e);
@@ -160,11 +195,9 @@ const DrawingCanvas = ({
 
     if (tool === "draw") {
       if (selectedCell.opacity <= 1) {
-        const layerOpacity =
-          selectedCell.opacity + opacity < 1
-            ? selectedCell.opacity + opacity
-            : 1;
-        selectedCell.opacity = layerOpacity;
+        const layerOpacity = selectedCell.opacity + opacity;
+
+        selectedCell.opacity = layerOpacity < 1 ? layerOpacity : 1;
       } else {
         selectedCell.opacity = opacity;
       }
@@ -173,6 +206,9 @@ const DrawingCanvas = ({
       const newLayerOpacity =
         selectedCell.opacity - opacity > 0 ? selectedCell.opacity - opacity : 0;
       selectedCell.opacity = newLayerOpacity;
+    } else if (tool === "fill") {
+      floodFill(e);
+      return;
     }
 
     if (selectedCell.opacity !== opacity) {
@@ -183,6 +219,10 @@ const DrawingCanvas = ({
         selectedCell.color,
         selectedCell.opacity,
       ]);
+      // setStrokes((prev) => [
+      //   ...prev,
+      //   [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
+      // ]);
       shouldPush = false;
     } else if (selectedCell.color !== color && shouldPush) {
       strokes.push([
@@ -192,8 +232,11 @@ const DrawingCanvas = ({
         selectedCell.color,
         selectedCell.opacity,
       ]);
+      // setStrokes((prev) => [
+      //   ...prev,
+      //   [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
+      // ]);
     }
-
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);
     for (let layers of canvasArray.canvas) {
@@ -213,89 +256,7 @@ const DrawingCanvas = ({
     }
     canvasArray.color = color;
     canvasArray.opacity = opacity;
-    // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
-    // draw(x, y, selectedCell);
-    Canvas.saveDrawing(canvasArray);
-    // } else if (tool === "erase") {
-    //   ctx.clearRect(x, y, h, w);
-    //   selectedCell.color = selectedCell.opacity > 0 ? color : null;
-    //   Canvas.saveDrawing(canvasArray);
-    //   // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
-    // }
   };
-
-  const clearCanvas = () => {
-    const canvas = document.getElementById("draw-canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  };
-
-  const componentToHex = (c) => {
-    var hex = c.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  };
-
-  const rgbToHex = (r, g, b) => {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-  };
-
-  const eyeDropper = (e) => {
-    const canvas = document.getElementById("draw-canvas");
-    const ctx = canvas.getContext("2d");
-    const coordinates = getMousePos(canvas, e);
-    const y = Math.floor(coordinates.y / 16);
-    const x = Math.floor(coordinates.x / 16);
-
-    // const imgData = ctx.create;
-    const imgData = ctx.getImageData(y, x, 16, 16);
-    const [r, g, b] = imgData.data;
-
-    console.log(rgbToHex(r, g, b));
-  };
-
-  const floodFill = (e) => {
-    const canvas = document.getElementById("draw-canvas");
-    const coordinates = getMousePos(canvas, e);
-    const y = Math.floor(coordinates.y / 16);
-    const x = Math.floor(coordinates.x / 16);
-    const colorToChange = selectedLayer[y][x].color;
-    Canvas.floodFill(
-      selectedLayer,
-      y,
-      x,
-      colorToChange,
-      color,
-      opacity,
-      strokes,
-      layer
-    );
-    reDraw(selectedLayer);
-    Canvas.saveDrawing(canvasArray);
-    setHistory(strokes);
-  };
-
-  const tools = {
-    click: {
-      fill: floodFill,
-      draw: drawPixel,
-      "eye-Dropper": eyeDropper,
-      erase: drawPixel,
-    },
-    onMouseDown: {
-      fill: null,
-      draw: drawing,
-      "eye-dropper": null,
-      erase: drawing,
-    },
-    onMouseUp: {
-      fill: null,
-      draw: stopDrawing,
-      "eye-dropper": null,
-      erase: stopDrawing,
-    },
-  };
-
-  // let mousedOff =
 
   return (
     <>
@@ -305,10 +266,12 @@ const DrawingCanvas = ({
           id="draw-canvas"
           width="512"
           height="512"
-          onClick={tools.click[tool]}
-          onMouseDown={tools.onMouseDown[tool]}
-          onMouseUp={tools.onMouseUp[tool]}
+          onClick={drawPixel}
+          // onMouseDown={(e) => draw(e, "clickedx")}
+          // onMouseUp={tools.onMouseUp[tool]}
+          // onMouseOver={drawPixel}
           // onMouseMove={tool !== "fill" ? hoverPreview : null}
+          onMouseMove={draw}
           // onMouseOut={tool !== "fill" ? tools.onMouseUp[tool] : null}
         />
       </div>

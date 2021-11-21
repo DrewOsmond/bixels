@@ -18,6 +18,9 @@ const ToolKit = ({
   opacity,
   setOpacity,
   saveImg,
+  history,
+  selectedHistory,
+  setSelectedHistory,
 }) => {
   const navigate = useNavigate();
 
@@ -111,6 +114,18 @@ const ToolKit = ({
             />
           </>
         )}
+        <button
+          onClick={() => setSelectedHistory(selectedHistory - 1)}
+          disabled={!history[selectedHistory - 1]}
+        >
+          back
+        </button>
+        <button
+          onClick={() => setSelectedHistory((prev) => prev + 1)}
+          disabled={!history[selectedHistory]}
+        >
+          forward
+        </button>
         <button onClick={saveImg}>save image</button>
       </nav>
     </div>

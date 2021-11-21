@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Canvas } from "./canvasClass";
 import "./drawingPage.css";
 
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
@@ -10,10 +11,15 @@ const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
   const [color, setColor] = useState(loadedCanvas.color);
   const [tool, setTool] = useState(loadedCanvas.tool);
-  const [layer, setLayer] = useState(loadedCanvas.drawingLayer);
+  const [layer, setLayer] = useState(
+    loadedCanvas.drawingLayer < loadedCanvas.canvas.length - 1
+      ? loadedCanvas.drawingLayer
+      : loadedCanvas.canvas.length - 1
+  );
   const [canvas, setCanvas] = useState(loadedCanvas);
   const [opacity, setOpacity] = useState(loadedCanvas.opacity * 10);
-  const [history, setHistory] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [selectedHistory, setSelectedHistory] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -26,58 +32,83 @@ const DrawingPage = () => {
     img.click();
   };
 
+  const updateHistory = (e) => {
+    if (strokes.length >= 1) {
+      if (history.length === 20) {
+        history.unshift();
+      }
+      setHistory(strokes);
+      setSelectedHistory((prev) => prev + 1);
+      setStrokes([]);
+      strokes.length = 0;
+      Canvas.saveDrawing(loadedCanvas);
+    }
+  };
+  // console.log("history?", history);
+  // console.log("HISTORY", history.length);
+  // console.log("selected", selectedHistory);
+  // const renderHistoryChange = (historyId) => {
+  //   const isMostUpdated = historyId === history.length - 1;
+  // };
+
   if (!canvas || !loadedCanvas.canvas) {
     return null;
   } else
     return (
       <>
-        <ToolKit
-          setTool={setTool}
-          tool={tool}
-          canvas={canvas}
-          setCanvas={setCanvas}
-          setLayer={setLayer}
-          setLoaded={setLoaded}
-          color={color}
-          setColor={setColor}
-          showColorPicker={showColorPicker}
-          setShowColorPicker={setShowColorPicker}
-          setOpacity={setOpacity}
-          opacity={opacity}
-          saveImg={saveImg}
-        />
-
-        <div className="canvas-layer-container">
-          <DrawingCanvas
-            color={color}
+        <div onMouseUp={updateHistory}>
+          <ToolKit
             tool={tool}
-            canvasArray={canvas}
-            layer={layer}
-            opacity={opacity}
-            setHistory={setHistory}
-            history={history}
-            setStrokes={setStrokes}
-            update={strokes}
-            setShowColorPicker={setShowColorPicker}
-          />
-
-          <LayersSection
-            loaded={loaded}
-            layer={layer}
-            setLayer={setLayer}
-            setCanvas={setCanvas}
+            setTool={setTool}
             canvas={canvas}
-            setLoaded={setLoaded}
-            activeLayer={layer}
+            setCanvas={setCanvas}
+            setLayer={setLayer}
+            color={color}
+            setColor={setColor}
+            showColorPicker={showColorPicker}
+            setShowColorPicker={setShowColorPicker}
+            opacity={opacity}
+            setOpacity={setOpacity}
+            saveImg={saveImg}
+            history={history}
+            selectedHistory={selectedHistory}
+            setSelectedHistory={setSelectedHistory}
           />
-        </div>
 
-        {/* <OpacitySlider
+          <div className="canvas-layer-container">
+            <DrawingCanvas
+              color={color}
+              tool={tool}
+              canvasArray={canvas}
+              layer={layer}
+              opacity={opacity}
+              setHistory={setHistory}
+              history={history}
+              strokes={strokes}
+              setStrokes={setStrokes}
+              update={strokes}
+              showColorPicker={showColorPicker}
+              setShowColorPicker={setShowColorPicker}
+            />
+
+            <LayersSection
+              loaded={loaded}
+              layer={layer}
+              setLayer={setLayer}
+              setCanvas={setCanvas}
+              canvas={canvas}
+              setLoaded={setLoaded}
+              activeLayer={layer}
+            />
+          </div>
+
+          {/* <OpacitySlider
           setOpacity={setOpacity}
           opacity={opacity}
           color={color}
         /> */}
-        {/* <button onClick={saveImg}>save image</button> */}
+          {/* <button onClick={saveImg}>save image</button> */}
+        </div>
       </>
     );
 };

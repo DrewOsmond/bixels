@@ -57,7 +57,6 @@ export class Cell {
 
 export class Canvas {
   static paintCanvas(canvas, ctx, divCount) {
-    console.log("CANVEZ", canvas);
     for (let layer of canvas.canvas) {
       if (layer.active) {
         Canvas.paintLayer(layer.layer, ctx, divCount);
@@ -95,7 +94,6 @@ export class Canvas {
     for (let i = 0; i < canvases.length; i++) {
       const canvas = canvases[i];
       if (canvas.name === selectedCanvas.name) {
-        console.log("???");
         canvases[i] = selectedCanvas;
         localStorage.setItem("canvases", JSON.stringify(canvases));
         localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));
@@ -117,9 +115,12 @@ export class Canvas {
     if (!layer[y] || !layer[y][x]) return;
     const cell = layer[y][x];
     if (cell.color === colorToChange && cell.color !== color) {
+      const layerOpacity = cell.opacity + opacity;
+      console.log(layerOpacity);
       cell.color = color;
-      cell.opacity = opacity;
-
+      console.log(cell.opacity);
+      cell.opacity = layerOpacity < 1 ? layerOpacity : 1;
+      console.log(cell.opacity);
       Canvas.floodFill(
         layer,
         y + 1,
@@ -166,31 +167,33 @@ export class Canvas {
   }
 }
 
-// class History {
-//   constructor() {
-//     this.head = null;
-//     this.tail = null;
-//   }
+export class History {
+  constructor(strokes) {
+    this.strokes = strokes;
+    this.next = null;
+    this.prev = null;
+  }
 
-//   addState(state) {
-//     if (!this.head) {
-//       this.head = state;
-//     } else if (!this.tail) {
-//       this.head.next = state;
-//       this.tail = state;
-//       this.tail.prev = this.head;
-//     } else {
-//       this.tail.next = state;
-//       state.prev = this.tail;
-//       this.tail = state;
-//     }
-//   }
-// }
+  addStrokes(state) {
+    const strokes = new Strokes(state);
+    if (!this.head) {
+      this.head = strokes;
+    } else if (!this.tail) {
+      this.head.next = strokes;
+      this.tail = strokes;
+      this.tail.prev = this.head;
+    } else {
+      this.tail.next = strokes;
+      strokes.prev = this.tail;
+      this.tail = strokes;
+    }
+  }
+}
 
-// class State {
-//   constructor(value) {
-//     this.value = value;
-//     this.next = null;
-//     this.prev = null;
-//   }
-// }
+class Strokes {
+  constructor(value) {
+    this.strokes = value;
+    this.next = null;
+    this.prev = null;
+  }
+}

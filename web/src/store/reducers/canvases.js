@@ -35,12 +35,9 @@ export const getState = () => {
 
       for (let i = 0; i < canvases.length; i++) {
         const canvas = canvases[i];
-        console.log(canvas, selectedCanvas);
 
         if (canvas.name === selectedCanvas.name) {
-          console.log(canvas.name);
           canvases[i] = canvas;
-          console.log("???");
         }
       }
     }
