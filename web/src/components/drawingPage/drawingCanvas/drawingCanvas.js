@@ -14,7 +14,6 @@ const DrawingCanvas = ({
   // const [currentCell, setCurrentCell] = useState(null);
   let strokes = [];
   const selectedLayer = canvasArray.canvas[layer]?.layer;
-
   opacity = opacity / 10;
 
   const render = () => {
@@ -58,6 +57,7 @@ const DrawingCanvas = ({
 
   const drawing = (e) => {
     // setShowColorPicker(false);
+    console.log(canvasArray);
     if (!canvasArray.canvas[layer].active) return;
     window.currentCell = null;
     e.target.addEventListener("mousemove", draw);
@@ -131,12 +131,12 @@ const DrawingCanvas = ({
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active) return;
     //setShowColorPicker(false);
-    draw(e);
+    draw(e, "clicked");
     setHistory(strokes);
   };
 
-  const draw = (e) => {
-    if (e.buttons === 0) {
+  const draw = (e, fromClick) => {
+    if (e.buttons === 0 && !fromClick) {
       stopDrawing(e);
       return;
     }

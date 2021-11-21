@@ -12,20 +12,38 @@ const getCanvases = () => {
 
 export const getState = () => {
   const canvases = getCanvases();
+
+  const defaultCanvases = [
+    {
+      name: "untitled project",
+      canvas: [new Layer(0)],
+      drawingLayer: 0,
+      color: "#4b4e51",
+      opacity: 1,
+      tool: "draw",
+    },
+  ];
+
   if (!canvases) {
-    const defaultCanvases = [
-      {
-        name: "untitled project",
-        canvas: [new Layer(0)],
-        drawingLayer: 0,
-        color: "#4b4e51",
-        opacity: 1,
-        tool: "draw",
-      },
-    ];
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));
     return defaultCanvases;
   } else {
+    let selectedCanvas = localStorage.getItem("selected-canvas");
+
+    if (selectedCanvas) {
+      selectedCanvas = JSON.parse(selectedCanvas);
+
+      for (let i = 0; i < canvases.length; i++) {
+        const canvas = canvases[i];
+        console.log(canvas, selectedCanvas);
+
+        if (canvas.name === selectedCanvas.name) {
+          console.log(canvas.name);
+          canvases[i] = canvas;
+          console.log("???");
+        }
+      }
+    }
     return canvases;
   }
 };

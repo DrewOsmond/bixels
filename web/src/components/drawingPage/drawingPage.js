@@ -1,33 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import "./drawingPage.css";
 
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
 import LayersSection from "./layersSection/layerSection";
 import ToolKit from "./toolkit/toolkit";
-import { useNavigate } from "react-router";
 
 const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
-  const navigate = useNavigate();
   const [color, setColor] = useState(loadedCanvas.color);
   const [tool, setTool] = useState(loadedCanvas.tool);
   const [layer, setLayer] = useState(loadedCanvas.drawingLayer);
-  const [canvas, setCanvas] = useState(null);
+  const [canvas, setCanvas] = useState(loadedCanvas);
   const [opacity, setOpacity] = useState(loadedCanvas.opacity * 10);
   const [history, setHistory] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!loadedCanvas.canvas) {
-      navigate("/library");
-    } else {
-      setCanvas(loadedCanvas);
-      setLayer(loadedCanvas.drawingLayer);
-    }
-  }, [loadedCanvas, navigate]);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");

@@ -57,6 +57,7 @@ export class Cell {
 
 export class Canvas {
   static paintCanvas(canvas, ctx, divCount) {
+    console.log("CANVEZ", canvas);
     for (let layer of canvas.canvas) {
       if (layer.active) {
         Canvas.paintLayer(layer.layer, ctx, divCount);
@@ -91,9 +92,11 @@ export class Canvas {
   static saveDrawing(selectedCanvas) {
     const canvases = JSON.parse(localStorage.getItem("canvases"));
 
-    for (let canvas of canvases) {
+    for (let i = 0; i < canvases.length; i++) {
+      const canvas = canvases[i];
       if (canvas.name === selectedCanvas.name) {
-        canvases.canvas = selectedCanvas;
+        console.log("???");
+        canvases[i] = selectedCanvas;
         localStorage.setItem("canvases", JSON.stringify(canvases));
         localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));
       }

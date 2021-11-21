@@ -21,6 +21,7 @@
 
 .layer__section {
   /* position: absolute; */
+  align-self: flex-start;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,10 +33,11 @@
   /* right: 36px;
   top: 112px; */
 
-  border: 3px solid #000000;
+  /* border: 3px solid #000000; */
   box-sizing: border-box;
-  border-radius: 11px;
-  overflow: scroll;
+  border-radius: 5px;
+  overflow-y: scroll;
+  box-shadow: 0px 0px 5px black;
 }
 
 .layer {
@@ -47,8 +49,9 @@
   height: 73px;
   right: 52px;
   top: 184px;
-  background-color: white;
-  border: 3px solid #000000;
+  /* background-color: white; */
+  /* border: 3px solid #000000; */
+  box-shadow: 0px 0px 3px black;
   box-sizing: border-box;
   border-radius: 11px;
 }
@@ -56,3 +59,25 @@
 .layer__displayed {
   background-color: lightgray;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255, 0, 0, 0.8);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
+} */
