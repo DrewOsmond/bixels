@@ -94,6 +94,7 @@ export class Canvas {
     for (let i = 0; i < canvases.length; i++) {
       const canvas = canvases[i];
       if (canvas.name === selectedCanvas.name) {
+        console.log("wha");
         canvases[i] = selectedCanvas;
         localStorage.setItem("canvases", JSON.stringify(canvases));
         localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));
@@ -116,11 +117,8 @@ export class Canvas {
     const cell = layer[y][x];
     if (cell.color === colorToChange && cell.color !== color) {
       const layerOpacity = cell.opacity + opacity;
-      console.log(layerOpacity);
       cell.color = color;
-      console.log(cell.opacity);
       cell.opacity = layerOpacity < 1 ? layerOpacity : 1;
-      console.log(cell.opacity);
       Canvas.floodFill(
         layer,
         y + 1,

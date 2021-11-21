@@ -193,6 +193,34 @@ const DrawingCanvas = ({
       return;
     }
 
+    if (selectedCell.opacity !== opacity) {
+      // strokes.push([
+      //   layer,
+      //   coorY,
+      //   coorX,
+      //   selectedCell.color,
+      //   selectedCell.opacity,
+      // ]);
+      console.log("???");
+      setStrokes((prev) => [
+        ...prev,
+        [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
+      ]);
+      shouldPush = false;
+    } else if (selectedCell.color !== color && shouldPush) {
+      // strokes.push([
+      //   layer,
+      //   coorY,
+      //   coorX,
+      //   selectedCell.color,
+      //   selectedCell.opacity,
+      // ]);
+      setStrokes((prev) => [
+        ...prev,
+        [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
+      ]);
+    }
+
     if (tool === "draw") {
       if (selectedCell.opacity <= 1) {
         const layerOpacity = selectedCell.opacity + opacity;
@@ -209,33 +237,6 @@ const DrawingCanvas = ({
     } else if (tool === "fill") {
       floodFill(e);
       return;
-    }
-
-    if (selectedCell.opacity !== opacity) {
-      strokes.push([
-        layer,
-        coorY,
-        coorX,
-        selectedCell.color,
-        selectedCell.opacity,
-      ]);
-      // setStrokes((prev) => [
-      //   ...prev,
-      //   [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
-      // ]);
-      shouldPush = false;
-    } else if (selectedCell.color !== color && shouldPush) {
-      strokes.push([
-        layer,
-        coorY,
-        coorX,
-        selectedCell.color,
-        selectedCell.opacity,
-      ]);
-      // setStrokes((prev) => [
-      //   ...prev,
-      //   [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
-      // ]);
     }
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);
