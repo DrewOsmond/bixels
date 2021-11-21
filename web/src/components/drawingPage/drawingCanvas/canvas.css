@@ -14,3 +14,45 @@
   background-color: white;
   z-index: 2;
 }
+
+.active__layer {
+  background-color: darkgray;
+}
+
+.layer__section {
+  /* position: absolute; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  width: 292px;
+  height: 434.67px;
+  /* max-width: 292px;
+  max-height: 434.67px; */
+  /* right: 36px;
+  top: 112px; */
+
+  border: 3px solid #000000;
+  box-sizing: border-box;
+  border-radius: 11px;
+  overflow: scroll;
+}
+
+.layer {
+  /* position: relative; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  width: 260px;
+  height: 73px;
+  right: 52px;
+  top: 184px;
+  background-color: white;
+  border: 3px solid #000000;
+  box-sizing: border-box;
+  border-radius: 11px;
+}
+
+.layer__displayed {
+  background-color: lightgray;
+}

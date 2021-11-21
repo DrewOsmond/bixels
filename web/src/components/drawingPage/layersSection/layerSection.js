@@ -4,7 +4,6 @@ import { useState } from "react";
 import { updateCanvases } from "../../../store/reducers/canvases";
 import { Layer } from "../canvasClass";
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import "./layer.css";
 
 import Layers from "./layers/layers";
 
