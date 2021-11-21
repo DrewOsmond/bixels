@@ -27,8 +27,12 @@ const CanvasLibrary = () => {
   const [trash, setTrash] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+<<<<<<< HEAD
   const [showSearchInput, setShowSearchInput] = useState(false);
   // useEffect(() => {}, [search, filtered]);
+=======
+  const [isSearch, setIsSearch] = useState(false);
+>>>>>>> e0c79d0828ff94433d4d4769ae28798b29d9279e
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
@@ -37,6 +41,8 @@ const CanvasLibrary = () => {
       canvas: [basicLayer],
       drawingLayer: 0,
       color: "#4b4e51",
+      opacity: 1,
+      tool: "draw",
     };
     canvases.unshift(canvas);
     dispatch(updateCanvases(canvases));
@@ -65,54 +71,71 @@ const CanvasLibrary = () => {
     dispatch(updateFilter(e.target.value, canvases));
   };
 
-  const searchButtonHandler = () => {
-    setShowSearchInput((prev) => !prev);
-  }
+  const handleIsSearch = () => {
+    if (isSearch) {
+      dispatch(updateFilter("", canvases));
+      setSearchTerm("");
+      setIsSearch(false);
+      return;
+    } else {
+      setIsSearch(true);
+      return;
+    }
+  };
 
   return (
     <>
-      <nav className="navBar-container">
-        <div className="leftSide-container">
-          <button onClick={() => navigate("/")}><img src={home}></img></button>
-        </div>
-        <div className="rightSide-container">
-          <button onClick={searchButtonHandler}><img src={searchIcon}></img></button>
-          {showSearchInput && <input id="searchBarInput" placeholder="search" value={searchTerm} onChange={handleSearch} />}
-          <button className="add-new-canvas" onClick={addNewCanvas}>
-            <img src={add}></img>
+      <nav className="library-navbar">
+        <button className="home-button" onClick={() => navigate("/")}>
+          home
+        </button>
+        <div className="library-right-containter">
+          <button className="search-button" onClick={handleIsSearch}>
+            search
           </button>
-
-          {!trash && <button onClick={() => setTrash(true)}><img src={trashcan}></img></button>}
-          {trash && (
-            <>
-              <button
-                disabled={!selectedTrash.length}
-                onClick={() => setShowDeleteModal(true)}
-              >{`delete ${selectedTrash.length} items`}</button>
-              <button onClick={cancelDelete}>cancel delete</button>
-            </>
+          {isSearch && (
+            <input
+              placeholder="search"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
           )}
-          {showDeleteModal && (
-            <Modal onClose={() => setShowDeleteModal(false)}>
-              <ConfirmDelete
-                confirmDelete={confirmDelete}
-                deleteAmount={selectedTrash.length}
-              />
-            </Modal>
-          )}
+          <button className="add-new-canvas" onClick={addNewCanvas}>
+            +
+          </button>
         </div>
+        {!trash && <button onClick={() => setTrash(true)}>delete</button>}
+        {trash && (
+          <>
+            <button
+              disabled={!selectedTrash.length}
+              onClick={() => setShowDeleteModal(true)}
+            >{`delete ${selectedTrash.length} items`}</button>
+            <button onClick={cancelDelete}>cancel delete</button>
+          </>
+        )}
       </nav>
-      <br />
-      {search.map((canvas, i) => (
-        <DisplayCanvas
-          key={`canvas-${canvas.name}`}
-          canvas={canvas}
-          idx={i}
-          trash={trash}
-          setSelectedTrash={setSelectedTrash}
-          selectedTrash={selectedTrash}
-        />
-      ))}
+      <div className="collection-container">
+        {showDeleteModal && (
+          <Modal onClose={() => setShowDeleteModal(false)}>
+            <ConfirmDelete
+              confirmDelete={confirmDelete}
+              deleteAmount={selectedTrash.length}
+            />
+          </Modal>
+        )}
+        <br />
+        {search.map((canvas, i) => (
+          <DisplayCanvas
+            key={`canvas-${canvas.name}`}
+            canvas={canvas}
+            idx={i}
+            trash={trash}
+            setSelectedTrash={setSelectedTrash}
+            selectedTrash={selectedTrash}
+          />
+        ))}
+      </div>
     </>
   );
 };

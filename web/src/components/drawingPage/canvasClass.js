@@ -36,7 +36,7 @@ export class Layer {
 }
 
 export class Cell {
-  constructor(x, y, w, h, color = null, opacity = 1) {
+  constructor(x, y, w, h, color = null, opacity = 0) {
     this.x = x;
     this.y = y;
     this.w = w;

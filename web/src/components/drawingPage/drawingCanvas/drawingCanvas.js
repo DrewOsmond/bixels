@@ -45,14 +45,6 @@ const DrawingCanvas = ({
 
   useEffect(render, [canvasArray]);
 
-  const saveImg = async () => {
-    const canvas = document.getElementById("draw-canvas");
-    const img = document.createElement("a");
-    img.download = `${canvasArray.name}.png`;
-    img.href = canvas.toDataURL();
-    img.click();
-  };
-
   function getMousePos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
     const x = evt.clientX - rect.left;
@@ -82,42 +74,42 @@ const DrawingCanvas = ({
     setHistory(strokes);
   };
 
-  const hoverPreview = (e) => {
-    const canvas = document.getElementById("draw-canvas");
-    const coordinates = getMousePos(canvas, e);
-    const mouseCellY = Math.floor(coordinates.y / 16);
-    const mouseCellX = Math.floor(coordinates.x / 16);
-    const mouseCell = selectedLayer[mouseCellY][mouseCellX];
-    if (!window.currentCell) {
-      window.currentCell = new Cell(
-        mouseCell.x,
-        mouseCell.y,
-        16,
-        16,
-        mouseCell.color,
-        mouseCell.opacity
-      );
-      return;
-    }
+  // const hoverPreview = (e) => {
+  //   const canvas = document.getElementById("draw-canvas");
+  //   const coordinates = getMousePos(canvas, e);
+  //   const mouseCellY = Math.floor(coordinates.y / 16);
+  //   const mouseCellX = Math.floor(coordinates.x / 16);
+  //   const mouseCell = selectedLayer[mouseCellY][mouseCellX];
+  //   if (!window.currentCell) {
+  //     window.currentCell = new Cell(
+  //       mouseCell.x,
+  //       mouseCell.y,
+  //       16,
+  //       16,
+  //       mouseCell.color,
+  //       mouseCell.opacity
+  //     );
+  //     return;
+  //   }
 
-    const storedCellY = Math.floor(window.currentCell.y / 16);
-    const storedCellX = Math.floor(window.currentCell.x / 16);
+  //   const storedCellY = Math.floor(window.currentCell.y / 16);
+  //   const storedCellX = Math.floor(window.currentCell.x / 16);
 
-    if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
-      selectedLayer[storedCellY][storedCellX] = window.currentCell;
-      window.currentCell = new Cell(
-        mouseCell.x,
-        mouseCell.y,
-        16,
-        16,
-        mouseCell.color,
-        mouseCell.opacity
-      );
-      mouseCell.color = color;
-      mouseCell.opacity = opacity;
-      render();
-    }
-  };
+  //   if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
+  //     selectedLayer[storedCellY][storedCellX] = window.currentCell;
+  //     window.currentCell = new Cell(
+  //       mouseCell.x,
+  //       mouseCell.y,
+  //       16,
+  //       16,
+  //       mouseCell.color,
+  //       mouseCell.opacity
+  //     );
+  //     mouseCell.color = color;
+  //     mouseCell.opacity = opacity;
+  //     render();
+  //   }
+  // };
 
   const reDraw = (canvasLayer) => {
     for (let y = 0; y < canvasLayer.length; y++) {
@@ -144,13 +136,44 @@ const DrawingCanvas = ({
   };
 
   const draw = (e) => {
+    if (e.buttons === 0) {
+      stopDrawing(e);
+      return;
+    }
     const canvas = document.getElementById("draw-canvas");
     const ctx = canvas.getContext("2d");
     const coordinates = getMousePos(canvas, e);
     const coorY = Math.floor(coordinates.y / 16);
     const coorX = Math.floor(coordinates.x / 16);
     const selectedCell = selectedLayer[coorY][coorX];
-    let pushed = false;
+    const { x, y, h, w } = selectedCell;
+    const lastStroke = strokes[strokes.length - 1];
+    let shouldPush = true;
+
+    if (
+      strokes.length &&
+      lastStroke[1] * 16 === y &&
+      lastStroke[2] * 16 === x
+    ) {
+      return;
+    }
+
+    if (tool === "draw") {
+      if (selectedCell.opacity <= 1) {
+        const layerOpacity =
+          selectedCell.opacity + opacity < 1
+            ? selectedCell.opacity + opacity
+            : 1;
+        selectedCell.opacity = layerOpacity;
+      } else {
+        selectedCell.opacity = opacity;
+      }
+      selectedCell.color = color;
+    } else if (tool === "erase") {
+      const newLayerOpacity =
+        selectedCell.opacity - opacity > 0 ? selectedCell.opacity - opacity : 0;
+      selectedCell.opacity = newLayerOpacity;
+    }
 
     if (selectedCell.opacity !== opacity) {
       strokes.push([
@@ -160,8 +183,8 @@ const DrawingCanvas = ({
         selectedCell.color,
         selectedCell.opacity,
       ]);
-      pushed = true;
-    } else if (selectedCell.color !== color && !pushed) {
+      shouldPush = false;
+    } else if (selectedCell.color !== color && shouldPush) {
       strokes.push([
         layer,
         coorY,
@@ -170,36 +193,35 @@ const DrawingCanvas = ({
         selectedCell.opacity,
       ]);
     }
-    selectedCell.opacity = opacity;
-    selectedCell.color = color;
 
-    const { x, y, h, w } = selectedCell;
-    if (tool === "draw") {
-      ctx.clearRect(x, y, h, w);
-      for (let layers of canvasArray.canvas) {
-        const pixel =
-          layers.layer[Math.floor(coordinates.y / 16)][
-            Math.floor(coordinates.x / 16)
-          ];
+    // if (tool === "draw") {
+    ctx.clearRect(x, y, h, w);
+    for (let layers of canvasArray.canvas) {
+      if (!layers.active) continue;
+      const pixel =
+        layers.layer[Math.floor(coordinates.y / 16)][
+          Math.floor(coordinates.x / 16)
+        ];
 
-        if (pixel.color) {
-          ctx.save();
-          ctx.fillStyle = pixel.color;
-          ctx.globalAlpha = pixel.opacity;
-          ctx.fillRect(x, y, h, w);
-          ctx.restore();
-        }
+      if (pixel.color) {
+        ctx.save();
+        ctx.fillStyle = pixel.color;
+        ctx.globalAlpha = pixel.opacity;
+        ctx.fillRect(x, y, h, w);
+        ctx.restore();
       }
-      canvasArray.color = color;
-      // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
-      // draw(x, y, selectedCell);
-      Canvas.saveDrawing(canvasArray);
-    } else if (tool === "erase") {
-      ctx.clearRect(x, y, h, w);
-      selectedCell.color = null;
-      Canvas.saveDrawing(canvasArray);
-      // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
     }
+    canvasArray.color = color;
+    canvasArray.opacity = opacity;
+    // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
+    // draw(x, y, selectedCell);
+    Canvas.saveDrawing(canvasArray);
+    // } else if (tool === "erase") {
+    //   ctx.clearRect(x, y, h, w);
+    //   selectedCell.color = selectedCell.opacity > 0 ? color : null;
+    //   Canvas.saveDrawing(canvasArray);
+    //   // localStorage.setItem("selected-canvas", JSON.stringify(canvasArray));
+    // }
   };
 
   const clearCanvas = () => {
@@ -273,9 +295,11 @@ const DrawingCanvas = ({
     },
   };
 
+  // let mousedOff =
+
   return (
     <>
-      <button onClick={clearCanvas}>clear canvas</button>
+      {/* <button onClick={clearCanvas}>clear canvas</button> */}
       <div className="drawing__canvas">
         <canvas
           id="draw-canvas"
@@ -284,11 +308,11 @@ const DrawingCanvas = ({
           onClick={tools.click[tool]}
           onMouseDown={tools.onMouseDown[tool]}
           onMouseUp={tools.onMouseUp[tool]}
-          onMouseMove={tool !== "fill" ? hoverPreview : null}
-          onMouseOut={tool !== "fill" ? tools.onMouseUp[tool] : null}
+          // onMouseMove={tool !== "fill" ? hoverPreview : null}
+          // onMouseOut={tool !== "fill" ? tools.onMouseUp[tool] : null}
         />
       </div>
-      <button onClick={saveImg}>save image</button>
+
       {/* <input type="color" /> */}
     </>
   );
