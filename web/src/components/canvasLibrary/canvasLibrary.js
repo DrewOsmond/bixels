@@ -18,6 +18,8 @@ import pixelIcon from "../../assets/bixels-logo.svg";
 import add from "../../assets/add.svg";
 import searchIcon from "../../assets/search.svg";
 import trashcan from "../../assets/trash.svg";
+import xmark from "../../assets/xmark.svg";
+import checkmark from "../../assets/checkmark.svg";
 
 const CanvasLibrary = () => {
   const canvases = useSelector((state) => state.canvases);
@@ -84,12 +86,7 @@ const CanvasLibrary = () => {
       <nav className="navBar-container">
         <div className="leftSide-container">
           {/* <button onClick={() => navigate("/")}> */}
-          <img
-            className="bixels-icon"
-            src={pixelIcon}
-            alt="home page"
-            onClick={() => navigate("/")}
-          />
+          <img className="bixels-icon" src={pixelIcon} alt="home page" />
           {/* </button> */}
         </div>
         <div className="rightSide-container">
@@ -100,7 +97,6 @@ const CanvasLibrary = () => {
             alt="search icon"
             onClick={searchButtonHandler}
           />
-
           {showSearchInput && (
             <input
               id="searchBarInput"
@@ -109,36 +105,56 @@ const CanvasLibrary = () => {
               onChange={handleSearch}
             />
           )}
-
           <img
             className="library__button"
             onClick={addNewCanvas}
             src={add}
             alt="new canvas"
           />
-
-          {!trash && (
-            <img
-              className="library__button"
-              src={trashcan}
-              onClick={() => setTrash(true)}
-              alt="trash can"
-            />
-          )}
+          {/* {!trash && ( */}
+          <img
+            // style={{ display: trash ? "none" : "block" }}
+            className={`library__button ${trash ? "trash-options" : ""}`}
+            src={trashcan}
+            onClick={() => setTrash(true)}
+            alt="trash can"
+          />
+          {/* )} */}
           {trash && (
             <>
-              <button
+              <div className="trash-counter">{selectedTrash.length}</div>
+              <div className="trash__selected">
+                <img
+                  className="delete-option-buttons"
+                  src={xmark}
+                  alt="cancel delete"
+                  onClick={cancelDelete}
+                />
+                {/* <button
                 disabled={!selectedTrash.length}
                 onClick={() => setShowDeleteModal(true)}
-              >{`delete ${selectedTrash.length} items`}</button>
-              <button onClick={cancelDelete}>cancel delete</button>
+              >{`delete ${selectedTrash.length} items`}</button> */}
+                <img
+                  className={`${
+                    selectedTrash.length > 0
+                      ? "delete-option-buttons"
+                      : "no-delete-available"
+                  }`}
+                  src={checkmark}
+                  alt="confirm delete"
+                  onClick={() =>
+                    selectedTrash.length > 0 ? setShowDeleteModal(true) : null
+                  }
+                />
+                {/* <button onClick={cancelDelete}>cancel delete</button> */}
+              </div>
             </>
           )}
           {showDeleteModal && (
             <Modal onClose={() => setShowDeleteModal(false)}>
               <ConfirmDelete
                 confirmDelete={confirmDelete}
-                deleteAmount={selectedTrash.length}
+                setShowDeleteModal={setShowDeleteModal}
               />
             </Modal>
           )}
@@ -157,9 +173,9 @@ const CanvasLibrary = () => {
             />
           ))
         ) : (
-          <div>
-            nothing here. create a new canvas by pressing{" "}
-            <img src={add} alt="new canvas" />
+          <div className="no-canvases">
+            <div>nothing here. create a new canvas by pressing </div>
+            <img className="no-canvases-plus-icon" src={add} alt="new canvas" />
           </div>
         )}
       </div>

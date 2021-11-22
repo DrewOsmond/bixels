@@ -41,7 +41,8 @@
 } */
 
 .rightSide-container {
-  margin: 16px 0px 0px 16px;
+  margin: 16px 30px 0px 16px;
+  z-index: 1;
 }
 
 .library__button {
@@ -85,14 +86,10 @@
 }
 
 .delete-select {
-  position: relative;
-
-  z-index: 5;
-  /* filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
-    brightness(104%) contrast(97%); */
   filter: hue-rotate(346deg) brightness(104%) contrast(97%);
   background-color: rgba(255, 232, 232, 0.9);
   border-radius: 5px;
+  border: 2px solid rgba(255, 139, 139, 0.7);
   /* box-shadow: 0px 0px 3px black; */
   /* border: 3px solid #000000; */
   box-sizing: border-box;
@@ -107,7 +104,82 @@
   margin: 16px 0px 0px 16px;
 }
 
-.bixels-icon:hover {
+.trash__selected {
+  position: absolute;
+  width: 66px;
+  height: 184px;
+  right: 33px;
+  top: 26px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+
+  background: #c4c4c4;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 11px;
+  z-index: -1;
+}
+
+.delete-option-buttons {
+  margin-bottom: 8px;
+  box-shadow: 0px 5px 5px rgba(109, 102, 102, 0.25);
+  border-radius: 11px;
+}
+
+.delete-option-buttons:hover {
   cursor: pointer;
   filter: brightness(80%);
+}
+
+.trash-options {
+  filter: brightness(80%);
+}
+
+.trash-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 38px;
+  top: 74px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #8c8c8c;
+  font-family: Cabin;
+  font-size: 12px;
+  color: #fcfbf9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* .delete-available {
+
+} */
+
+.no-delete-available {
+  filter: brightness(150%);
+  margin-bottom: 8px;
+}
+
+img.no-delete-available:hover {
+  cursor: inherit;
+}
+
+.no-canvases {
+  margin-top: 40px;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 44px;
+  /* identical to box height */
+
+  letter-spacing: -0.015em;
+}
+
+.no-canvases-plus-icon {
+  margin-left: 8px;
 }

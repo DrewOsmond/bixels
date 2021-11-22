@@ -13,7 +13,6 @@ const DisplayCanvas = ({
   trash,
   setSelectedTrash,
   selectedTrash,
-  filtered,
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
@@ -102,19 +101,21 @@ const DisplayCanvas = ({
 
   return (
     <div className="display__single__canvas">
-      <div
+      {/* <div
         className={`${
           selectedTrash.includes(canvas.name) && trash ? "delete-select" : ""
+        }`} */}
+      {/* > */}
+      <canvas
+        className={`library-canvas ${
+          selectedTrash.includes(canvas.name) && trash ? "delete-select" : ""
         }`}
-      >
-        <canvas
-          className={"library-canvas"}
-          id={canvas.name}
-          width="128"
-          height="128"
-          onClick={!trash ? handleClick : handleTrash}
-        ></canvas>
-      </div>
+        id={canvas.name}
+        width="128"
+        height="128"
+        onClick={!trash ? handleClick : handleTrash}
+      ></canvas>
+      {/* </div> */}
       {editName ? (
         <div>
           {!unique && <div>name must be unique</div>}
