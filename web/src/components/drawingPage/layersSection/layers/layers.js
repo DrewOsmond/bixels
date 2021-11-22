@@ -3,12 +3,13 @@ import { Canvas } from "../../canvasClass";
 import { useDispatch } from "react-redux";
 import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
 
+import notVisableLayerSVG from "../../../../assets/layer-not-visible.svg";
+import visableLayerSVG from "../../../../assets/layer-visible.svg";
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const Layer = ({
   ele,
   i,
-  setCanvas,
   canvas,
   handleSwitchLayers,
   handleDrawOnLayer,
@@ -99,7 +100,8 @@ const Layer = ({
           width="64"
           height="64"
           id={`${ele.name}-${i}`}
-          onClick={handleSwitchLayers}
+          onClick={handleDrawOnLayer}
+          // onClick={handleSwitchLayers}
         />
       </div>
       {(() => {
@@ -127,14 +129,16 @@ const Layer = ({
           {name}
         </div>
       )}
-      <div
-        className={`${Number(i) === layer ? "active__layer" : ""}`}
+
+      <img
         name={i}
-        key={`active-${i + 1}`}
-        onClick={handleDrawOnLayer}
-      >
-        {i === layer ? `drawing` : `draw`}
-      </div>
+        src={
+          canvas.canvas[Number(i)].active ? visableLayerSVG : notVisableLayerSVG
+        }
+        className="toggle-layer"
+        alt="visibility"
+        onClick={handleSwitchLayers}
+      />
       <div name={i} onClick={deleteLayer}>{`del`}</div>
       {/* </Droppable> */}
     </div>
