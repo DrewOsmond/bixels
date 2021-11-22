@@ -1,6 +1,6 @@
-### welcome to
+# Welcome to
 
-![bixels-banner](https://user-images.githubusercontent.com/47048517/142785813-8ddcf72e-faa2-4bca-a76c-55061e3177f5.png width="320" height="160")
+![bixels-banner](https://user-images.githubusercontent.com/47048517/142785813-8ddcf72e-faa2-4bca-a76c-55061e3177f5.png)
 
 ## Introduction
 
@@ -16,32 +16,30 @@ A simple and user friendly pixel art application that allows users to save and d
 
 ## Features
 
-# New account creation, log in, log out
+### New account creation, log in, log out
 
 - Users will have their current canvas stored in local cache
 - Logged in users can save their canvases to their library
 
-# Canvas Library
+### Canvas Library
 
-- All saved canvases are displayed here
-- Users can create a new canvas 
+- All saved canvases, by logged in users, are displayed here
 - Logged in users can resume working on a canvas by clicking on it
 - Logged in users can delete multiple selected canvases
 - Logged in users can search for canvas name 
 - Double clicking on name will change the title of the canvas
 
 
-# Canvas
+### Canvas
 
-- User can save image to their PC
+- User can save image to their computer
 - User can utilize undo and redo on their canvas
-- Canvas has brush, eraser, and fill tool
-- Opacity slider works on brush and eraser
-- User can add multiple layers under layer panel
-- Visibility of layers is toggleable
-- User can change the name of the layers, as well as re-order it
-- User can use colorpicker
+- Canvas has a brush, a eraser, and a fill tool
+- User can use colorpicker square to adjust and change colors
 - User can use opacity slider to adjust the brush and the eraser opacity
+- User can add multiple layers on the layer panel
+- User can change the name of the layers, as well as re-order it
+- Visibility of layers is toggleable
 
 
 ## Development
