@@ -34,7 +34,8 @@
   align-items: center;
   justify-content: center;
   background-color: #fcfcf9;
-  box-shadow: 0px 0px 5px black;
+  box-shadow: 0px 5px 5px rgba(109, 102, 102, 0.25);
+  /* box-shadow: 0px 0px 5px black; */
   border-radius: 5px;
   width: 50px;
   height: 50px;
@@ -68,6 +69,10 @@ button.tool__kit__button {
 
 .color__picker__display__box:hover {
   cursor: pointer;
+}
+
+.layers__displayed {
+  filter: brightness(80%);
 }
 
 /* .tool__kit__buton__active:hover {

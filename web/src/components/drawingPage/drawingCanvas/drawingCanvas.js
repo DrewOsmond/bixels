@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./canvas.css";
+// import "./canvas.css";
 import { Canvas } from "../canvasClass";
 
 const DrawingCanvas = ({

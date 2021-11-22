@@ -25,7 +25,8 @@ const ToolKit = ({
   opacity,
   setOpacity,
   saveImg,
-  setShow,
+  setShowLayers,
+  showLayers,
 }) => {
   const navigate = useNavigate();
 
@@ -144,9 +145,11 @@ const ToolKit = ({
 
             <img
               src={layersSVG}
-              alt="add layer"
-              className="tool__kit__button"
-              onClick={() => setShow((prev) => !prev)}
+              alt="display layers"
+              className={`tool__kit__button ${
+                showLayers ? "layers__displayed" : ""
+              }`}
+              onClick={() => setShowLayers((prev) => !prev)}
             />
 
             <div

@@ -12,8 +12,9 @@ import { useNavigate } from "react-router";
 import { selectCanvas } from "../../store/reducers/selectedCanvas";
 import { updateFilter } from "../../store/reducers/filteredSearch";
 import Modal from "../modal/modal";
+
 import ConfirmDelete from "./confirmDelete/confirmDelete";
-import home from "../../assets/home.svg";
+import pixelIcon from "../../assets/bixels-logo.svg";
 import add from "../../assets/add.svg";
 import searchIcon from "../../assets/search.svg";
 import trashcan from "../../assets/trash.svg";
@@ -82,14 +83,24 @@ const CanvasLibrary = () => {
     <>
       <nav className="navBar-container">
         <div className="leftSide-container">
-          <button onClick={() => navigate("/")}>
-            <img src={home}></img>
-          </button>
+          {/* <button onClick={() => navigate("/")}> */}
+          <img
+            className="bixels-icon"
+            src={pixelIcon}
+            alt="home page"
+            onClick={() => navigate("/")}
+          />
+          {/* </button> */}
         </div>
         <div className="rightSide-container">
-          <button onClick={searchButtonHandler}>
-            <img src={searchIcon}></img>
-          </button>
+          <div className="library-text">library</div>
+          <img
+            className="library__button"
+            src={searchIcon}
+            alt="search icon"
+            onClick={searchButtonHandler}
+          />
+
           {showSearchInput && (
             <input
               id="searchBarInput"
@@ -98,14 +109,21 @@ const CanvasLibrary = () => {
               onChange={handleSearch}
             />
           )}
-          <button className="add-new-canvas" onClick={addNewCanvas}>
-            <img src={add}></img>
-          </button>
+
+          <img
+            className="library__button"
+            onClick={addNewCanvas}
+            src={add}
+            alt="new canvas"
+          />
 
           {!trash && (
-            <button onClick={() => setTrash(true)}>
-              <img src={trashcan}></img>
-            </button>
+            <img
+              className="library__button"
+              src={trashcan}
+              onClick={() => setTrash(true)}
+              alt="trash can"
+            />
           )}
           {trash && (
             <>
@@ -126,17 +144,25 @@ const CanvasLibrary = () => {
           )}
         </div>
       </nav>
-      <br />
-      {search.map((canvas, i) => (
-        <DisplayCanvas
-          key={`canvas-${canvas.name}`}
-          canvas={canvas}
-          idx={i}
-          trash={trash}
-          setSelectedTrash={setSelectedTrash}
-          selectedTrash={selectedTrash}
-        />
-      ))}
+      <div className="display__all__canvases">
+        {search.length > 0 ? (
+          search.map((canvas, i) => (
+            <DisplayCanvas
+              key={`canvas-${canvas.name}`}
+              canvas={canvas}
+              idx={i}
+              trash={trash}
+              setSelectedTrash={setSelectedTrash}
+              selectedTrash={selectedTrash}
+            />
+          ))
+        ) : (
+          <div>
+            nothing here. create a new canvas by pressing{" "}
+            <img src={add} alt="new canvas" />
+          </div>
+        )}
+      </div>
     </>
   );
 };

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Canvas } from "../../drawingPage/canvasClass";
 import { useSelector } from "react-redux";
-import "./displayCanvases.css";
 import { getUniqueName } from "../../../store/reducers/canvases";
 
 const DisplayCanvas = ({
@@ -102,16 +101,20 @@ const DisplayCanvas = ({
   };
 
   return (
-    <>
-      <canvas
-        className={`library-canvas ${
+    <div className="display__single__canvas">
+      <div
+        className={`${
           selectedTrash.includes(canvas.name) && trash ? "delete-select" : ""
         }`}
-        id={canvas.name}
-        width="128"
-        height="128"
-        onClick={!trash ? handleClick : handleTrash}
-      ></canvas>
+      >
+        <canvas
+          className={"library-canvas"}
+          id={canvas.name}
+          width="128"
+          height="128"
+          onClick={!trash ? handleClick : handleTrash}
+        ></canvas>
+      </div>
       {editName ? (
         <div>
           {!unique && <div>name must be unique</div>}
@@ -124,11 +127,15 @@ const DisplayCanvas = ({
           />
         </div>
       ) : (
-        <div onDoubleClick={handleDoubleClick} style={{ height: "30px" }}>
+        <div
+          className="canvas-text"
+          onDoubleClick={handleDoubleClick}
+          style={{ height: "30px" }}
+        >
           {name}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
