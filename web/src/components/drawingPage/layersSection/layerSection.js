@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 // import { useState, useCallback, useReducer } from "react";
-import { useState } from "react";
 import { updateCanvases } from "../../../store/reducers/canvases";
 import { Layer } from "../canvasClass";
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -14,10 +13,10 @@ const LayersSection = ({
   canvas,
   setLoaded,
   activeLayer,
+  show,
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
   // const onDragEnd = useCallback((result) => {}, []);
 
   // const dragReducer = (state, action) => {
@@ -57,7 +56,7 @@ const LayersSection = ({
   };
   return (
     <>
-      <button onClick={() => setShow((prev) => !prev)}>display layers</button>
+      {/* <button onClick={() => setShow((prev) => !prev)}>display layers</button> */}
       {show && (
         // <DragDropContext onDragEnd={onDragEnd} className="layer__section">
         <div className="layer__section">

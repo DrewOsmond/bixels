@@ -29,7 +29,6 @@ const CanvasLibrary = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
   useEffect(() => {
-    console.log("?");
     const updatedCanv = JSON.parse(localStorage.getItem("canvases"));
     dispatch(updateCanvases(updatedCanv));
   }, []);
@@ -44,9 +43,7 @@ const CanvasLibrary = () => {
       tool: "draw",
       opacity: 1,
     };
-    console.log("old canv", canvases);
     canvases.unshift(canvas);
-    console.log("new canv", canvases);
     dispatch(updateCanvases(canvases));
     // localStorage.setItem("canvases", JSON.stringify(canvases));
     // localStorage.setItem("selected-canvas", JSON.stringify(canvas));

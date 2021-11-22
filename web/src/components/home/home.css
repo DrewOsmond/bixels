@@ -1,0 +1,66 @@
+.home-div {
+  background-image: url(../../assets/background.svg);
+  height: 100vh;
+  position: relative;
+  width: 100vw;
+}
+
+.title {
+  position: absolute;
+  width: 817px;
+  height: 211px;
+  left: 100px;
+  top: 112px;
+
+  font-family: Chakra Petch;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 288px;
+  line-height: 211px;
+  /* identical to box height, or 73% */
+
+  letter-spacing: -0.015em;
+
+  color: #6f64bb;
+  padding: 0;
+  margin: 0;
+}
+
+.title-description {
+  font-family: "Cabin", sans-serif;
+  color: #6f64bb;
+  font-size: 96px;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 746px;
+  height: 220px;
+  left: 267px;
+  top: 340px;
+}
+
+.title-button-div {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 600px;
+}
+
+.title-button {
+  background-color: #fcfbf9;
+  height: 48px;
+  width: 179px;
+  color: #8c8c8c;
+  font-family: "Cabin", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+
+  border-radius: 11px;
+  border-color: transparent;
+
+  margin: 10px 44vw;
+  box-shadow: 10px 5px 5px rgba(109, 102, 102, 0.5);
+}

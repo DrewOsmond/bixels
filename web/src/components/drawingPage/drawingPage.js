@@ -23,6 +23,7 @@ const DrawingPage = () => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [show, setShow] = useState(false);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
@@ -37,19 +38,13 @@ const DrawingPage = () => {
       if (history.length === 20) {
         history.unshift();
       }
-      setHistory(strokes);
+      setHistory((prev) => [...prev, ...strokes]);
       setSelectedHistory((prev) => prev + 1);
       setStrokes([]);
       strokes.length = 0;
       Canvas.saveDrawing(loadedCanvas);
     }
   };
-  // console.log("history?", history);
-  // console.log("HISTORY", history.length);
-  // console.log("selected", selectedHistory);
-  // const renderHistoryChange = (historyId) => {
-  //   const isMostUpdated = historyId === history.length - 1;
-  // };
 
   if (!canvas || !loadedCanvas.canvas) {
     return null;
@@ -73,6 +68,7 @@ const DrawingPage = () => {
             history={history}
             selectedHistory={selectedHistory}
             setSelectedHistory={setSelectedHistory}
+            setShow={setShow}
           />
 
           <div className="canvas-layer-container">
@@ -99,6 +95,7 @@ const DrawingPage = () => {
               canvas={canvas}
               setLoaded={setLoaded}
               activeLayer={layer}
+              show={show}
             />
           </div>
 

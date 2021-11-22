@@ -63,10 +63,15 @@ const Layer = ({
       window.removeEventListener("click", saveName);
     }
   };
-
   return (
     // <Droppable droppableId="layers" type="LAYER" className="layer">
-    <div className="layer">
+    <div
+      className={`layer ${
+        Number(i) === layer && canvas.canvas[layer].active
+          ? "drawing__layer"
+          : ""
+      }`}
+    >
       {/* {(provided, snapshot) => {
         return (
           <div

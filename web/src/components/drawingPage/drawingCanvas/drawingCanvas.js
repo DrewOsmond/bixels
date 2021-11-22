@@ -164,7 +164,7 @@ const DrawingCanvas = ({
       layer
     );
     clearCanvas();
-    reDraw(selectedLayer);
+    render();
     Canvas.saveDrawing(canvasArray);
   };
 
@@ -201,7 +201,6 @@ const DrawingCanvas = ({
       //   selectedCell.color,
       //   selectedCell.opacity,
       // ]);
-      console.log("???");
       setStrokes((prev) => [
         ...prev,
         [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
@@ -236,7 +235,6 @@ const DrawingCanvas = ({
       selectedCell.opacity = newLayerOpacity;
     } else if (tool === "fill") {
       floodFill(e);
-      return;
     }
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);

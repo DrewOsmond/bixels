@@ -21,6 +21,7 @@ const ToolKit = ({
   history,
   selectedHistory,
   setSelectedHistory,
+  setShow,
 }) => {
   const navigate = useNavigate();
 
@@ -126,6 +127,7 @@ const ToolKit = ({
         >
           forward
         </button>
+        <button onClick={() => setShow((prev) => !prev)}>display layers</button>
         <button onClick={saveImg}>save image</button>
       </nav>
     </div>
