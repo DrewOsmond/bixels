@@ -6,10 +6,6 @@ const Home = () => {
   const navigate = useNavigate();
   const canvases = useSelector((state) => state.canvases);
 
-  const fakeUser = {
-    username: "wee",
-  };
-
   return (
     <div class="home-div">
       <div>
@@ -23,12 +19,12 @@ const Home = () => {
         >
           let's get started!
         </button>
-        <button
+        {/* <button
           class="title-button"
           onClick={() => navigate(`/profile/${fakeUser.username}`)}
         >
           profile
-        </button>
+        </button> */}
       </div>
     </div>
   );

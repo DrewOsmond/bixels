@@ -8,6 +8,7 @@
 .tool__kit {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #c5c4c5;
   width: 95%;
   height: 97px;
@@ -16,6 +17,15 @@
   /* border-radius: 11px; */
   border-bottom-left-radius: 11px;
   border-bottom-right-radius: 11px;
+}
+
+.tool__kit__right__side {
+  display: flex;
+  margin-right: 16px;
+}
+
+.tool__kit__left__side {
+  margin-left: 16px;
 }
 
 .tool__kit__button {

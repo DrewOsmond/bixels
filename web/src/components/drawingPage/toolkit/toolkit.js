@@ -48,17 +48,19 @@ const ToolKit = ({
     <>
       <div className="tool__kit__container">
         <nav className="tool__kit">
-          <button
-            className="tool__kit__button"
-            onClick={() => navigate("/library")}
-          >
-            back
-          </button>
-          <OpacitySlider
-            setOpacity={setOpacity}
-            opacity={opacity}
-            color={color}
-          />
+          <div className="tool__kit__left__side">
+            <button
+              className="tool__kit__button"
+              onClick={() => navigate("/library")}
+            >
+              back
+            </button>
+            <OpacitySlider
+              setOpacity={setOpacity}
+              opacity={opacity}
+              color={color}
+            />
+          </div>
           {/* <button
           onClick={() => setSelectedHistory(selectedHistory - 1)}
           disabled={!history[selectedHistory - 1]}
@@ -71,36 +73,36 @@ const ToolKit = ({
           >
           forward
         </button> */}
+          <div className="tool__kit__right__side">
+            <button
+              id="draw"
+              className={`tool__kit__button ${
+                tool === "draw" ? "tool__kit__button__active" : ""
+              }`}
+              onClick={handleToolChange}
+            >
+              draw
+            </button>
+            <button
+              id="erase"
+              className={`tool__kit__button ${
+                tool === "erase" ? "tool__kit__button__active" : ""
+              }`}
+              onClick={handleToolChange}
+            >
+              erase
+            </button>
+            <button
+              id="fill"
+              className={`tool__kit__button ${
+                tool === "fill" ? "tool__kit__button__active" : ""
+              }`}
+              onClick={handleToolChange}
+            >
+              fill
+            </button>
 
-          <button
-            id="draw"
-            className={`tool__kit__button ${
-              tool === "draw" ? "tool__kit__button__active" : ""
-            }`}
-            onClick={handleToolChange}
-          >
-            draw
-          </button>
-          <button
-            id="erase"
-            className={`tool__kit__button ${
-              tool === "erase" ? "tool__kit__button__active" : ""
-            }`}
-            onClick={handleToolChange}
-          >
-            erase
-          </button>
-          <button
-            id="fill"
-            className={`tool__kit__button ${
-              tool === "fill" ? "tool__kit__button__active" : ""
-            }`}
-            onClick={handleToolChange}
-          >
-            fill
-          </button>
-
-          {/* <button
+            {/* <button
           id="eye-dropper"
           className={`tool__kit__button ${
             tool === "eye-dropper" ? "tool__kit__button__active" : ""
@@ -110,42 +112,43 @@ const ToolKit = ({
           eye dropper
         </button> */}
 
-          <button
-            disabled={canvas.canvas.length >= 15}
-            className="tool__kit__button"
-            onClick={handleAddLayer}
-          >
-            add Layer
-          </button>
+            <button
+              disabled={canvas.canvas.length >= 15}
+              className="tool__kit__button"
+              onClick={handleAddLayer}
+            >
+              add Layer
+            </button>
 
-          <button
-            className="tool__kit__button"
-            onClick={() => setShow((prev) => !prev)}
-          >
-            display layers
-          </button>
-          <button className="tool__kit__button" onClick={saveImg}>
-            save image
-          </button>
+            <button
+              className="tool__kit__button"
+              onClick={() => setShow((prev) => !prev)}
+            >
+              display layers
+            </button>
+            <button className="tool__kit__button" onClick={saveImg}>
+              save image
+            </button>
 
-          <div
-            onClick={() => setShowColorPicker(!showColorPicker)}
-            style={{
-              width: "50px",
-              height: "50px",
-              backgroundColor: opacity / 10 === 0 ? "#FFFFFF" : color,
-              boxShadow: "0px 0px 5px black",
-              borderRadius: "5px",
-              margin: "8px 8px",
-              opacity: opacity / 10,
-              border: "1px solid #fcfbf9",
-            }}
-          />
-          {showColorPicker && (
-            <>
-              <HexColorPicker color={color} onChange={setColor} />
-            </>
-          )}
+            <div
+              onClick={() => setShowColorPicker(!showColorPicker)}
+              style={{
+                width: "50px",
+                height: "50px",
+                backgroundColor: opacity / 10 === 0 ? "#FFFFFF" : color,
+                boxShadow: "0px 0px 5px black",
+                borderRadius: "5px",
+                margin: "8px 8px",
+                opacity: opacity / 10,
+                border: "1px solid #fcfbf9",
+              }}
+            />
+            {showColorPicker && (
+              <>
+                <HexColorPicker color={color} onChange={setColor} />
+              </>
+            )}
+          </div>
         </nav>
       </div>
     </>

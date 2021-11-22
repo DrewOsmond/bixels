@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./canvas.css";
-import { Canvas, Cell } from "../canvasClass";
+import { Canvas } from "../canvasClass";
 
 const DrawingCanvas = ({
   color,
