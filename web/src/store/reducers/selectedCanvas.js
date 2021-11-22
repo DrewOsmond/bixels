@@ -37,6 +37,7 @@ const restoreDrawing = () => {
         color: "#4b4e51",
         opacity: 1,
         tool: "draw",
+        layersActive: false,
       },
     ];
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));

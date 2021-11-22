@@ -14,14 +14,14 @@ const Home = () => {
     <div class="home-div">
       <div>
         <p class="title">bixels</p>
-        <p class="title-description">simply create and save your pixel art.</p>
+        <p class="title-description">simply create.</p>
       </div>
       <div class="title-button-div">
         <button
           class="title-button"
           onClick={() => navigate(canvases.length > 1 ? "/library" : "/draw")}
         >
-          go draw :D
+          let's get started!
         </button>
         <button
           class="title-button"

@@ -21,6 +21,7 @@ export const getState = () => {
       color: "#4b4e51",
       opacity: 1,
       tool: "draw",
+      layersActive: false,
     },
   ];
 
