@@ -26,6 +26,7 @@
 
 .tool__kit__left__side {
   margin-left: 16px;
+  display: flex;
 }
 
 .tool__kit__button {
@@ -43,8 +44,13 @@
 }
 
 .tool__kit__button:hover {
-  background-color: rgb(230, 227, 227);
+  cursor: pointer;
+  filter: brightness(80%);
 }
+
+/* .tool__kit__button:hover {
+  background-color: rgb(230, 227, 227);
+} */
 
 button.tool__kit__button {
   /* background: none; */
@@ -57,8 +63,16 @@ button.tool__kit__button {
 }
 
 .tool__kit__button__active {
-  background-color: rgb(230, 227, 227);
+  filter: brightness(80%);
 }
+
+.color__picker__display__box:hover {
+  cursor: pointer;
+}
+
+/* .tool__kit__buton__active:hover {
+  filter: brightness(100%);
+} */
 /* 
 input[type="range"] {
   width: 130px;

@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 import OpacitySlider from "../opacitySlider/opacitySlider";
 import "./toolkit.css";
 
+import brushSVG from "../../../assets/brush.svg";
+import eraseSVG from "../../../assets/eraser.svg";
+import homeSVG from "../../../assets/home.svg";
+import fillSVG from "../../../assets/fill.svg";
+import layersSVG from "../../../assets/layers.svg";
+import saveSVG from "../../../assets/save.svg";
+
 const ToolKit = ({
   tool,
   setTool,
@@ -18,9 +25,6 @@ const ToolKit = ({
   opacity,
   setOpacity,
   saveImg,
-  history,
-  selectedHistory,
-  setSelectedHistory,
   setShow,
 }) => {
   const navigate = useNavigate();
@@ -49,18 +53,25 @@ const ToolKit = ({
       <div className="tool__kit__container">
         <nav className="tool__kit">
           <div className="tool__kit__left__side">
-            <button
+            <img
+              src={homeSVG}
+              alt="back button"
               className="tool__kit__button"
               onClick={() => navigate("/library")}
-            >
-              back
-            </button>
-            <OpacitySlider
-              setOpacity={setOpacity}
-              opacity={opacity}
-              color={color}
             />
+            <img
+              src={saveSVG}
+              alt="save button"
+              className="tool__kit__button"
+              onClick={saveImg}
+            />
+            {/* <img src={}/> */}
           </div>
+          <OpacitySlider
+            setOpacity={setOpacity}
+            opacity={opacity}
+            color={color}
+          />
           {/* <button
           onClick={() => setSelectedHistory(selectedHistory - 1)}
           disabled={!history[selectedHistory - 1]}
@@ -74,33 +85,44 @@ const ToolKit = ({
           forward
         </button> */}
           <div className="tool__kit__right__side">
-            <button
+            {/* <button
               id="draw"
               className={`tool__kit__button ${
                 tool === "draw" ? "tool__kit__button__active" : ""
               }`}
               onClick={handleToolChange}
-            >
-              draw
-            </button>
-            <button
+            > */}
+            <img
+              src={brushSVG}
+              alt="brush"
+              id="draw"
+              className={`tool__kit__button ${
+                tool === "draw"
+                  ? "tool__kit__button__active"
+                  : "tool__kit__button"
+              }`}
+              onClick={handleToolChange}
+            />
+            {/* </button> */}
+            <img
+              src={eraseSVG}
+              alt="eraser"
               id="erase"
               className={`tool__kit__button ${
                 tool === "erase" ? "tool__kit__button__active" : ""
               }`}
               onClick={handleToolChange}
-            >
-              erase
-            </button>
-            <button
+            />
+
+            <img
+              src={fillSVG}
+              alt="fill"
               id="fill"
               className={`tool__kit__button ${
                 tool === "fill" ? "tool__kit__button__active" : ""
               }`}
               onClick={handleToolChange}
-            >
-              fill
-            </button>
+            />
 
             {/* <button
           id="eye-dropper"
@@ -120,17 +142,15 @@ const ToolKit = ({
               add Layer
             </button>
 
-            <button
+            <img
+              src={layersSVG}
+              alt="add layer"
               className="tool__kit__button"
               onClick={() => setShow((prev) => !prev)}
-            >
-              display layers
-            </button>
-            <button className="tool__kit__button" onClick={saveImg}>
-              save image
-            </button>
+            />
 
             <div
+              className="color__picker__display__box"
               onClick={() => setShowColorPicker(!showColorPicker)}
               style={{
                 width: "50px",
