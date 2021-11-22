@@ -86,13 +86,22 @@ const Layer = ({
           </div>
         );
       }} */}
-      <canvas
-        name={i}
-        width="64"
-        height="64"
-        id={`${ele.name}-${i}`}
-        onClick={handleSwitchLayers}
-      />
+      <div
+        className={
+          canvas.canvas[layer].active ? "" : "not-active-canvas-container"
+        }
+      >
+        <canvas
+          className={`layer-canvas ${
+            canvas.canvas[i].active ? "" : "not-active-canvas"
+          }`}
+          name={i}
+          width="64"
+          height="64"
+          id={`${ele.name}-${i}`}
+          onClick={handleSwitchLayers}
+        />
+      </div>
       {(() => {
         const canv = document.getElementById(`${ele.name}-${i}`);
         if (!canv) return;
@@ -124,9 +133,9 @@ const Layer = ({
         key={`active-${i + 1}`}
         onClick={handleDrawOnLayer}
       >
-        {i === layer ? `drawing on` : `draw on layer`}
+        {i === layer ? `drawing` : `draw`}
       </div>
-      <div name={i} onClick={deleteLayer}>{`del ${ele.name}`}</div>
+      <div name={i} onClick={deleteLayer}>{`del`}</div>
       {/* </Droppable> */}
     </div>
   );

@@ -23,7 +23,7 @@ const DrawingPage = () => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(loadedCanvas.layersActive);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
@@ -85,6 +85,7 @@ const DrawingPage = () => {
               update={strokes}
               showColorPicker={showColorPicker}
               setShowColorPicker={setShowColorPicker}
+              showLayers={show}
             />
 
             <LayersSection

@@ -1,3 +1,6 @@
-input[type="range"] {
-  color: green;
+.slider {
+  position: absolute;
+  top: 110px;
+  right: 35px;
+  display: flex;
 }

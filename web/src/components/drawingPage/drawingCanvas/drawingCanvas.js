@@ -13,6 +13,7 @@ const DrawingCanvas = ({
   showColorPicker,
   strokes,
   setStrokes,
+  showLayers,
   history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
@@ -139,7 +140,7 @@ const DrawingCanvas = ({
   };
 
   const drawPixel = (e) => {
-    if (!canvasArray.canvas[layer].active) return;
+    if (!canvasArray.canvas[layer].active || opacity === 0) return;
     if (showColorPicker) {
       setShowColorPicker(false);
     }
@@ -148,6 +149,7 @@ const DrawingCanvas = ({
   };
 
   const floodFill = (e) => {
+    if (opacity === 0) return;
     const canvas = document.getElementById("draw-canvas");
     const coordinates = getMousePos(canvas, e);
     const y = Math.floor(coordinates.y / 16);
@@ -170,6 +172,7 @@ const DrawingCanvas = ({
 
   const draw = (e, fromClick) => {
     if (e.buttons === 0 && !fromClick) return;
+    if (opacity === 0) return;
 
     if (showColorPicker) {
       setShowColorPicker(false);
@@ -233,6 +236,7 @@ const DrawingCanvas = ({
       const newLayerOpacity =
         selectedCell.opacity - opacity > 0 ? selectedCell.opacity - opacity : 0;
       selectedCell.opacity = newLayerOpacity;
+      selectedCell.color = null;
     } else if (tool === "fill") {
       floodFill(e);
     }
@@ -255,6 +259,7 @@ const DrawingCanvas = ({
     }
     canvasArray.color = color;
     canvasArray.opacity = opacity;
+    canvasArray.layersActive = showLayers;
   };
 
   return (
