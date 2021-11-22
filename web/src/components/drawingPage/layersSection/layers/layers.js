@@ -3,9 +3,10 @@ import { Canvas } from "../../canvasClass";
 import { useDispatch } from "react-redux";
 import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
 
+// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import notVisableLayerSVG from "../../../../assets/layer-not-visible.svg";
 import visableLayerSVG from "../../../../assets/layer-visible.svg";
-// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import trashSVG from "../../../../assets/trash.svg";
 
 const Layer = ({
   ele,
@@ -139,7 +140,13 @@ const Layer = ({
         alt="visibility"
         onClick={handleSwitchLayers}
       />
-      <div name={i} onClick={deleteLayer}>{`del`}</div>
+      <img
+        className="layer__button"
+        name={i}
+        src={trashSVG}
+        alt="trash layer"
+        onClick={deleteLayer}
+      />
       {/* </Droppable> */}
     </div>
   );
