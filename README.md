@@ -1,6 +1,6 @@
 ## welcome to bixel!
 
-![bixels-banner](https://user-images.githubusercontent.com/47048517/142785813-8ddcf72e-faa2-4bca-a76c-55061e3177f5.png)
+![bixels-banner](https://user-images.githubusercontent.com/47048517/142785813-8ddcf72e-faa2-4bca-a76c-55061e3177f5.png =320x160)
 
 
 <h3 align="left">Languages and Tools:</h3>
