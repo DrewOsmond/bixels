@@ -181,22 +181,80 @@ const DrawingCanvas = ({
       cell.opacity = newLayerOpacity;
       cell.color = null;
   }
-
-  const plotLine = (x0, x1, y0, y1, drawOpacity) => {
-    const dx = x1 - x0
-    const dy = y1 - y0
-    let D = 2 * dy - dx
-    let drawY = y0
+  const plotLineLow = (x0, y0, x1, y1) => {
+    let dx = x1 - x0;
+    let dy = y1 - y0;
+    let yi = 1;
+    if (dy < 0){
+        yi = -1;
+        dy = -dy;
+    }
+    let D = 2 * dy - dx;
+    let drawY = y0;
 
         for (let drawX = x0; drawX <= x1; drawX++){
-          selectedLayer[drawY][drawX].color = color;
-          selectedLayer[drawY][drawX].opacity = drawOpacity;
+          let selectedCell = selectedLayer[drawY][drawX];
+          let drawOpacity = 0;
+          if (selectedCell.opacity <= 1) {
+            drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
+          } else {
+            drawOpacity = opacity;
+      }
+          selectedCell.color = color;
+          selectedCell.opacity = drawOpacity;
           if (D > 0){
-              drawY++;
-              D = D - 2 * dx
+              drawY += yi;
+              D = D + (2 * (dy - dx));
+          } else {
+              D = D + 2*dy;
           }
-          D = D + 2*dy
         }
+  }
+
+  const plotLineHigh = (x0, y0, x1, y1, drawOpacity) => {
+    let dx = x1 - x0;
+    let dy = y1 - y0;
+    let xi = 1;
+    if (dx < 0){
+        xi = -1;
+        dx = -dx;
+    }
+    let D = 2 * dx - dy;
+    let drawX = x0;
+
+        for (let drawY = y0; drawY <= y1; drawY++){
+          let selectedCell = selectedLayer[drawY][drawX];
+          let drawOpacity = 0;
+          if (selectedCell.opacity <= 1) {
+            drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
+          } else {
+            drawOpacity = opacity;
+      }
+          selectedCell.color = color;
+          selectedCell.opacity = drawOpacity;
+          if (D > 0){
+              drawX += xi;
+              D = D + (2 * (dx - dy));
+          } else {
+              D = D + 2*dx;
+          }
+        }
+  }
+
+  const plotLine = (x0, y0, x1, y1, drawOpacity) => {
+    if (Math.abs(y1 - y0) < Math.abs(x1 - x0)){
+      if (x0 > x1){
+        plotLineLow(x1, y1, x0, y0, drawOpacity);
+      } else {
+        plotLineLow(x0, y0, x1, y1, drawOpacity)
+      }
+    } else {
+      if (y0 > y1){
+        plotLineHigh(x1, y1, x0, y0, drawOpacity);
+      } else {
+        plotLineHigh(x0, y0, x1, y1, drawOpacity);
+      }
+    }
   }
 
   const draw = (e, fromClick) => {
@@ -218,16 +276,17 @@ const DrawingCanvas = ({
     const selectedCell = selectedLayer[coorY][coorX];
     
     if (tool === "draw") {
-      let drawOpacity = 0;
+      
+      console.log(lastDrawn);
+      if (lastDrawn.length){
+        plotLine(lastDrawn[0], lastDrawn[1], coorX, coorY);
+      } else {
+        let drawOpacity = 0;
       if (selectedCell.opacity <= 1) {
         drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
       } else {
         drawOpacity = opacity;
       }
-      console.log(lastDrawn);
-      if (lastDrawn.length){
-        plotLine(lastDrawn[0], coorX, lastDrawn[1], coorY, drawOpacity);
-      } else {
         selectedLayer[coorY][coorX].color = color;
         selectedLayer[coorY][coorX].opacity = drawOpacity;
       }
