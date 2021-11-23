@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateCanvases } from "../../../store/reducers/canvases";
 import { Layer } from "../canvasClass";
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
+import { Canvas } from "../canvasClass";
 import Layers from "./layers/layers";
+
+import addSVG from "../../../assets/add.svg";
 
 const LayersSection = ({
   layer,
@@ -26,6 +28,19 @@ const LayersSection = ({
   // const [state, reactDispatch] = useReducer(dragReducer, {
   //   items: [],
   // });
+
+  const handleAddLayer = () => {
+    if (canvas.canvas.length >= 15) return;
+    canvas.canvas.push(new Layer(canvas.canvas.length));
+    setLayer(canvas.canvas.length - 1);
+    canvas.drawingLayer = canvas.canvas.length - 1;
+    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+    setCanvas((prev) => {
+      return { ...prev };
+    });
+
+    Canvas.saveDrawing(canvas);
+  };
 
   const handleSwitchLayers = (e) => {
     const layer = Number(e.target.getAttribute("name"));
@@ -62,6 +77,17 @@ const LayersSection = ({
       {show && (
         // <DragDropContext onDragEnd={onDragEnd} className="layer__section">
         <div className="layer__section">
+          <div className="add-layer-section">
+            <img
+              disabled={canvas.canvas.length >= 15}
+              className={
+                canvas.canvas.length >= 15 ? "max-layers" : "add-layers"
+              }
+              src={addSVG}
+              onClick={handleAddLayer}
+              alt="add-item"
+            />
+          </div>
           {canvas.canvas?.map((ele, i) => (
             <Layers
               ele={ele}

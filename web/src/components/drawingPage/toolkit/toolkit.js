@@ -135,14 +135,6 @@ const ToolKit = ({
           eye dropper
         </button> */}
 
-            <button
-              disabled={canvas.canvas.length >= 15}
-              className="tool__kit__button"
-              onClick={handleAddLayer}
-            >
-              add Layer
-            </button>
-
             <img
               src={layersSVG}
               alt="display layers"
@@ -170,9 +162,9 @@ const ToolKit = ({
         </nav>
       </div>
       {showColorPicker && (
-        <>
+        <div className="color-picker">
           <HexColorPicker color={color} onChange={setColor} />
-        </>
+        </div>
       )}
     </>
   );

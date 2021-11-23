@@ -72,6 +72,13 @@ button.tool__kit__button {
   cursor: pointer;
 }
 
+.color-picker {
+  position: absolute;
+  right: 53px;
+  top: 80px;
+  z-index: 20;
+}
+
 .layers__displayed {
   filter: brightness(70%);
 }

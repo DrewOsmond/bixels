@@ -135,3 +135,37 @@ img.layer__button {
 div.layer__text:hover {
   cursor: inherit;
 }
+
+/* .add-layers {
+  align-self: flex-end;
+} */
+
+.add-layer-section {
+  margin: 4px 8px 4px 0px;
+  position: sticky;
+  align-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 55px;
+
+  z-index: 10;
+}
+
+.add-layers,
+.max-layers {
+  filter: drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.25));
+}
+
+.add-layers:hover {
+  cursor: pointer;
+  filter: brightness(90%);
+}
+
+.max-layers {
+  cursor: not-allowed;
+}
+
+.max-layers {
+  filter: brightness(90%);
+}

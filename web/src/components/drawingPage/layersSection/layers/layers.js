@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Canvas } from "../../canvasClass";
-import { useDispatch } from "react-redux";
-import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
+// import { useDispatch } from "react-redux";
+// import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
 
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import notVisableLayerSVG from "../../../../assets/smaller-layer-not-visible.svg";
@@ -11,9 +11,11 @@ import trashSVG from "../../../../assets/smallertrash.svg";
 const Layer = ({
   ele,
   i,
+  setCanvas,
   canvas,
   handleSwitchLayers,
   handleDrawOnLayer,
+  setLayer,
   layer,
   deleteLayer,
 }) => {
