@@ -81,6 +81,9 @@ const LayersSection = ({
       {show && (
         // <DragDropContext onDragEnd={onDragEnd} className="layer__section">
         <div className="layer__section">
+          {canvas.canvas.length >= 15 && (
+            <div className="maximum-layers">max layers reaached</div>
+          )}
           <div className="add-layer-section">
             <img
               disabled={canvas.canvas.length >= 15}

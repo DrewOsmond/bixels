@@ -131,7 +131,7 @@ const DisplayCanvas = ({
         <div
           className="canvas-text"
           onDoubleClick={handleDoubleClick}
-          style={{ height: "30px" }}
+          // style={{ height: "30px" }}
         >
           {name}
         </div>

@@ -41,7 +41,7 @@
 }
 
 .library__button {
-  box-shadow: 0px 5px 5px rgba(109, 102, 102, 0.25);
+  box-shadow: 0px 2px 4px rgba(109, 102, 102, 0.25);
   border-radius: 11px;
 }
 
@@ -82,10 +82,6 @@
 
 .display__single__canvas {
   margin: 0px 24px 0px 24px;
-}
-
-.canvas-text {
-  margin: 8px 0px 0px 8px;
 }
 
 .delete-select {
@@ -211,6 +207,12 @@ img.no-delete-available:hover {
 .canvas-text {
   width: 125px;
   overflow: hidden;
+  /* font-family: Cabin; */
+  margin: 8px 0px 0px 8px;
+  font-family: Cabin;
+  color: #8c8c8c;
+  /* font-family: cursive; */
+  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 #name-change {

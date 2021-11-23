@@ -251,6 +251,7 @@ const DrawingCanvas = ({
     }
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);
+
     // for (let layers of canvasArray.canvas) {
     for (let i = 0; i < canvasArray.canvas.length; i++) {
       const layers = canvasArray.canvas[i];
@@ -265,6 +266,10 @@ const DrawingCanvas = ({
         ctx.fillStyle = pixel.color;
         ctx.globalAlpha = pixel.opacity;
         ctx.fillRect(x, y, h, w);
+        // ctx.moveTo(x, y);
+
+        ctx.stroke();
+        // ctx.lineTo(x, y);
         ctx.restore();
       }
     }
