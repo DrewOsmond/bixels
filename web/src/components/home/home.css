@@ -1,8 +1,10 @@
 .home-div {
   background-image: url(../../assets/background.svg);
   height: 100vh;
-  position: relative;
+  position: absolute;
   width: 100vw;
+  overflow: none;
+  /* position: absolute; */
 }
 
 .title {
@@ -18,7 +20,7 @@
   font-size: 288px;
   line-height: 211px;
   /* identical to box height, or 73% */
-  text-shadow: 0px 4px rgba(109, 102, 102, 0.25);
+  text-shadow: 0px 4px 4px rgba(109, 102, 102, 0.25);
   letter-spacing: -0.015em;
   /* box-shadow: 0 4px 2px -2px gray; */
   color: #6f64bb;
@@ -34,11 +36,26 @@
   padding: 0;
   margin: 0;
   position: absolute;
-  text-shadow: 0px 4px rgba(109, 102, 102, 0.25);
+  text-shadow: 0px 4px 4px rgba(109, 102, 102, 0.25);
   width: 746px;
   height: 220px;
   left: 267px;
   top: 340px;
+}
+
+.title-description-next-line {
+  font-family: "Cabin", sans-serif;
+  color: #6f64bb;
+  font-size: 96px;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  text-shadow: 0px 4px 4px rgba(109, 102, 102, 0.25);
+  width: 746px;
+  height: 220px;
+  left: 370px;
+  top: 450px;
 }
 
 .title-button-div {
@@ -68,4 +85,83 @@
 .title-button:hover {
   background-color: #e6e6e6;
   cursor: pointer;
+}
+
+@media only screen and (min-width: 1001px) {
+  .smaller-screen-home {
+    position: relative;
+  }
+  .familiar-tools-home {
+    position: absolute;
+    top: 900px;
+    /* left: 150px; */
+    left: 22%;
+  }
+
+  .color-and-opacity-home {
+    position: absolute;
+    top: 800px;
+    /* top: 0; */
+    /* left: 600px; */
+    right: 22%;
+  }
+
+  .library-home {
+    position: absolute;
+    top: 1200px;
+    /* left: 75px; */
+    left: 12.75%;
+  }
+
+  .with-layers-home {
+    position: absolute;
+    top: 1325px;
+    /* left: 650px; */
+    right: 27%;
+  }
+
+  .download-home {
+    position: absolute;
+    top: 1700px;
+    left: 250px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .smaller-screen-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .smaller-screen-home {
+    position: absolute;
+    width: 70%;
+    top: 900px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .familiar-tools-home {
+    display: block;
+  }
+
+  .color-and-opacity-home {
+    display: block;
+  }
+
+  .library-home {
+    display: block;
+  }
+
+  .with-layers-home {
+    display: block;
+  }
+
+  .download-home {
+    display: block;
+  }
 }
