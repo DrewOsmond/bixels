@@ -23,12 +23,17 @@ const DrawingCanvas = ({
 
   const render = () => {
     clearCanvas();
+    for (let i = canvasArray.canvas.length - 1; i >= 0; i--) {
+      const canvasLayer = canvasArray.canvas[i];
 
-    for (let canvasLayer of canvasArray.canvas) {
       if (canvasLayer.active) {
         reDraw(canvasLayer.layer);
       }
     }
+    // for (let canvasLayer of canvasArray.canvas) {
+    //   if (canvasLayer.active) {
+    //   }
+    // }
   };
 
   // const renderCell = (x, y) => {
@@ -242,7 +247,9 @@ const DrawingCanvas = ({
     }
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);
-    for (let layers of canvasArray.canvas) {
+    // for (let layers of canvasArray.canvas) {
+    for (let i = canvasArray.canvas.length - 1; i >= 0; i--) {
+      const layers = canvasArray.canvas[i];
       if (!layers.active) continue;
       const pixel =
         layers.layer[Math.floor(coordinates.y / 16)][
