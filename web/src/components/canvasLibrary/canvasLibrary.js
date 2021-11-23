@@ -2,6 +2,7 @@ import DisplayCanvas from "./displayCanveses/displayCanvases";
 import "./canvasLibrary.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import {
   deleteCanvases,
   getUniqueName,
@@ -46,6 +47,7 @@ const CanvasLibrary = () => {
       color: "#4b4e51",
       tool: "draw",
       opacity: 1,
+      id: uuidv4(),
     };
     canvases.unshift(canvas);
     dispatch(updateCanvases(canvases));
@@ -57,11 +59,11 @@ const CanvasLibrary = () => {
   };
 
   const confirmDelete = () => {
+    dispatch(deleteCanvases(selectedTrash, canvases));
+    dispatch(updateFilter(searchTerm, canvases));
     setShowDeleteModal(false);
     setTrash(false);
     setSelectedTrash([]);
-    dispatch(deleteCanvases(selectedTrash, canvases));
-    dispatch(updateFilter(searchTerm, canvases));
   };
 
   const cancelDelete = () => {
@@ -156,24 +158,38 @@ const CanvasLibrary = () => {
           )}
         </div>
       </nav>
+
       <div className="display__all__canvases">
-        {search.length > 0 ? (
-          search.map((canvas, i) => (
-            <DisplayCanvas
-              key={`canvas-${canvas.name}`}
-              canvas={canvas}
-              idx={i}
-              trash={trash}
-              setSelectedTrash={setSelectedTrash}
-              selectedTrash={selectedTrash}
-            />
-          ))
-        ) : (
-          <div className="no-canvases">
-            <div>nothing here. create a new canvas by pressing </div>
-            <img className="no-canvases-plus-icon" src={add} alt="new canvas" />
-          </div>
-        )}
+        <div className="canvas-container">
+          {search.length > 0 && canvases.length > 0 ? (
+            search.map((canvas, i) => (
+              <DisplayCanvas
+                key={canvas.id}
+                canvas={canvas}
+                idx={i}
+                trash={trash}
+                setSelectedTrash={setSelectedTrash}
+                selectedTrash={selectedTrash}
+                id={canvas.id}
+              />
+            ))
+          ) : (
+            <div className="no-canvases">
+              <div>
+                {!search
+                  ? `nothing here. create a new canvas by pressing`
+                  : "oops! no results found..."}{" "}
+              </div>
+              {!search && (
+                <img
+                  className="no-canvases-plus-icon"
+                  src={add}
+                  alt="new canvas"
+                />
+              )}
+            </div>
+          )}
+        </div>
       </div>
       {showSearchInput && (
         <input

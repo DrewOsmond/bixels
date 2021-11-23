@@ -35,11 +35,6 @@
   justify-self: flex-end;
 }
 
-/* .library-right-containter {
-  display: flex;
-  justify-self: flex-end;
-} */
-
 .rightSide-container {
   margin: 16px 30px 0px 16px;
   z-index: 1;
@@ -68,6 +63,14 @@
   /* icon symbol */
 
   color: #8c8c8c;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 900px;
 }
 
 .display__all__canvases {
@@ -215,4 +218,8 @@ img.no-delete-available:hover {
   border-radius: 5px;
   padding-left: 8px;
   width: 125px;
+}
+
+.navBar-container {
+  font-family: Cabin;
 }

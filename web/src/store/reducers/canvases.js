@@ -1,4 +1,5 @@
 import { Layer } from "../../components/drawingPage/canvasClass";
+import { v4 as uuidv4 } from "uuid";
 import selectedCanvas from "./selectedCanvas";
 
 const getCanvases = () => {
@@ -23,6 +24,7 @@ export const getState = () => {
       opacity: 1,
       tool: "draw",
       layersActive: false,
+      id: uuidv4(),
     },
   ];
 
@@ -60,18 +62,7 @@ const updateCanv = (canvases) => {
 };
 
 export const getUniqueName = (canvases) => {
-  let prefix = "untitled artwork";
-  let i = 1;
-
-  const names = [];
-  for (let canvas of canvases) {
-    names.push(canvas.name);
-  }
-
-  while (names.includes(`${prefix} ${i}`)) {
-    i++;
-  }
-  return prefix + " " + i;
+  return "untitled artwork";
 };
 
 export const updateCanvasName = (canvas, newName) => (dispatch) => {
@@ -93,17 +84,35 @@ export const updateCanvasName = (canvas, newName) => (dispatch) => {
 export const deleteCanvases = (indexes, canvases) => (dispatch) => {
   let selectedCanv = localStorage.getItem("selected-canvas");
   selectedCanv = selectedCanv ? JSON.parse(selectedCanv) : null;
-  console.log(canvases);
-  for (let idx of indexes) {
-    if (
-      canvases[idx].name &&
-      selectedCanv &&
-      selectedCanv.name === canvases[idx].name
-    ) {
-      localStorage.removeItem("selected-canvas");
+  const newCanvases = [];
+  console.log(selectedCanv);
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
+    if (indexes.indexOf(canvas.id) === -1) {
+      newCanvases.push(canvas);
+      console.log("???? why");
+    } else {
+      if (selectedCanv) {
+        if (canvas.id === selectedCanv.id) {
+          localStorage.removeItem("selected-canvas");
+        }
+      }
     }
-    canvases.splice(idx, 1);
   }
+  // for (let idx of indexes) {
+  //   if (indexes.indexOf(idx) === -1) {
+  //     console.log(idx);
+  //     newCanvases.push(canvases[idx]);
+  //   }
+  //   if (
+  //     canvases[idx]. &&
+  //     selectedCanv &&
+  //     selectedCanv.name === canvases[idx].name
+  //   ) {
+  //     localStorage.removeItem("selected-canvas");
+  //   }
+  // }
+  // canvases.splice(idx, 1);
   // for (let name of names) {
   //   for (let i = 0; i < canvases.length; i++) {
   //     const canvasName = canvases[i].name;
@@ -115,7 +124,7 @@ export const deleteCanvases = (indexes, canvases) => (dispatch) => {
   //     }
   //   }
   // }
-  dispatch(updateCanv(canvases));
+  dispatch(updateCanv(newCanvases));
 };
 
 export const updateCanvases = (canvases) => (dispatch) => {

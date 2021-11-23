@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Canvas } from "../../drawingPage/canvasClass";
 import { useSelector } from "react-redux";
-import { getUniqueName } from "../../../store/reducers/canvases";
+// import { getUniqueName } from "../../../store/reducers/canvases";
 
 const DisplayCanvas = ({
   canvas,
@@ -13,6 +13,7 @@ const DisplayCanvas = ({
   trash,
   setSelectedTrash,
   selectedTrash,
+  id,
 }) => {
   const canvases = useSelector((state) => state.canvases);
   const dispatch = useDispatch();
@@ -22,11 +23,11 @@ const DisplayCanvas = ({
   // const [unique, setUnique] = useState(true);
 
   useEffect(() => {
-    const canv = document.getElementById(canvas.name);
+    const canv = document.getElementById(canvas.id);
     const ctx = canv.getContext("2d");
     Canvas.clearCanvas(canvas, ctx);
     Canvas.paintCanvas(canvas, ctx, 4);
-  }, [canvas]);
+  }, [canvas, canvases]);
 
   useEffect(() => {
     if (editName) {
@@ -81,12 +82,12 @@ const DisplayCanvas = ({
   };
 
   const handleTrash = () => {
-    const i = selectedTrash.indexOf(idx);
+    const i = selectedTrash.indexOf(id);
     if (i >= 0) {
-      selectedTrash.splice(idx, 1);
+      selectedTrash.splice(i, 1);
       setSelectedTrash([...selectedTrash]);
     } else {
-      setSelectedTrash((prev) => [...prev, idx]);
+      setSelectedTrash((prev) => [...prev, id]);
     }
   };
 
@@ -103,9 +104,9 @@ const DisplayCanvas = ({
       {/* > */}
       <canvas
         className={`library-canvas ${
-          selectedTrash.includes(idx) && trash ? "delete-select" : ""
+          selectedTrash.includes(id) && trash ? "delete-select" : ""
         }`}
-        id={canvas.name}
+        id={canvas.id}
         width="128"
         height="128"
         onClick={!trash ? handleClick : handleTrash}

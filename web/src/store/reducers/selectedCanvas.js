@@ -1,27 +1,10 @@
 // const refreshCanvas = localStorage.getItem("canvas");
 // const initialState = refreshCanvas ? JSON.parse(refreshCanvas) : [];
 import { Layer } from "../../components/drawingPage/canvasClass";
+import { v4 as uuidv4 } from "uuid";
 const SELECT = "canvas/select";
 const UPDATE = "update/select";
-// const add = (note: Note) => {
-//   return {
-//     type: ADD_NOTE,
-//     payload: note,
-//   };
-// };
 
-// export const addNote = (note: NewNote) => async (dispatch: Dispatch) => {
-//   const response = await csrfProtectedFetch("/api/notes/add", {
-//     method: "POST",
-//     body: JSON.stringify({ note }),
-//   });
-//   if (response?.ok) {
-//     const data = await response.json();
-//     data.comments = [];
-//     dispatch(add(data));
-//     dispatch(selectNote(data));
-//   }
-// };
 const restoreDrawing = () => {
   const selected = localStorage.getItem("selected-canvas");
   const canvases = localStorage.getItem("canvases");
@@ -38,6 +21,7 @@ const restoreDrawing = () => {
         opacity: 1,
         tool: "draw",
         layersActive: false,
+        id: uuidv4(),
       },
     ];
     localStorage.setItem("canvases", JSON.stringify(defaultCanvases));
