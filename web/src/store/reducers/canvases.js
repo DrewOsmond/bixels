@@ -1,6 +1,5 @@
 import { Layer } from "../../components/drawingPage/canvasClass";
 import { v4 as uuidv4 } from "uuid";
-import selectedCanvas from "./selectedCanvas";
 
 const getCanvases = () => {
   let canvases = localStorage.getItem("canvases");
