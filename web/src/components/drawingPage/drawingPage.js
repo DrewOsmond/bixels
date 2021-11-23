@@ -24,6 +24,7 @@ const DrawingPage = () => {
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [showLayers, setShowLayers] = useState(loadedCanvas.layersActive);
+  const [lastDrawn, setLastDrawn] = useState([]);
 
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
@@ -79,11 +80,9 @@ const DrawingPage = () => {
               canvasArray={canvas}
               layer={layer}
               opacity={opacity}
-              setHistory={setHistory}
-              history={history}
-              strokes={strokes}
-              setStrokes={setStrokes}
               update={strokes}
+              lastDrawn={lastDrawn}
+              setLastDrawn={setLastDrawn}
               showColorPicker={showColorPicker}
               setShowColorPicker={setShowColorPicker}
               showLayers={showLayers}
