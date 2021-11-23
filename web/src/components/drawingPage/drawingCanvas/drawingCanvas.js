@@ -179,6 +179,7 @@ const DrawingCanvas = ({
   };
 
   const draw = (e, fromClick) => {
+    console.log(e.nativeEvent);
     if (e.buttons === 0 && !fromClick) return;
     if (opacity === 0) return;
 
