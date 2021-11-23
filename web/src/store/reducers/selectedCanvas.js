@@ -31,7 +31,7 @@ const restoreDrawing = () => {
   } else if (!canvases || !selected) {
     const defaultCanvases = [
       {
-        name: "untitled project",
+        name: "untitled artwork",
         canvas: [new Layer(0)],
         drawingLayer: 0,
         color: "#4b4e51",

@@ -31,6 +31,7 @@ const CanvasLibrary = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
+
   useEffect(() => {
     const updatedCanv = JSON.parse(localStorage.getItem("canvases"));
     dispatch(updateCanvases(updatedCanv));
@@ -85,26 +86,21 @@ const CanvasLibrary = () => {
     <>
       <nav className="navBar-container">
         <div className="leftSide-container">
-          {/* <button onClick={() => navigate("/")}> */}
-          <img className="bixels-icon" src={pixelIcon} alt="home page" />
-          {/* </button> */}
+          <img
+            className="bixels-icon"
+            src={pixelIcon}
+            alt="home page"
+            onClick={() => navigate("/")}
+          />
         </div>
         <div className="rightSide-container">
           <div className="library-text">library</div>
           <img
-            className="library__button"
+            className={`library__button ${showSearchInput ? "searching" : ""}`}
             src={searchIcon}
             alt="search icon"
             onClick={searchButtonHandler}
           />
-          {showSearchInput && (
-            <input
-              id="searchBarInput"
-              placeholder="search"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          )}
           <img
             className="library__button"
             onClick={addNewCanvas}
@@ -114,7 +110,7 @@ const CanvasLibrary = () => {
           {/* {!trash && ( */}
           <img
             // style={{ display: trash ? "none" : "block" }}
-            className={`library__button ${trash ? "trash-options" : ""}`}
+            className={`library__button`}
             src={trashcan}
             onClick={() => setTrash(true)}
             alt="trash can"
@@ -179,6 +175,14 @@ const CanvasLibrary = () => {
           </div>
         )}
       </div>
+      {showSearchInput && (
+        <input
+          id="searchBarInput"
+          placeholder="search"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      )}
     </>
   );
 };

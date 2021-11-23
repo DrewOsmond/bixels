@@ -1,4 +1,5 @@
 import { Layer } from "../../components/drawingPage/canvasClass";
+import selectedCanvas from "./selectedCanvas";
 
 const getCanvases = () => {
   let canvases = localStorage.getItem("canvases");
@@ -15,7 +16,7 @@ export const getState = () => {
 
   const defaultCanvases = [
     {
-      name: "untitled project",
+      name: "untitled artwork",
       canvas: [new Layer(0)],
       drawingLayer: 0,
       color: "#4b4e51",
@@ -59,7 +60,7 @@ const updateCanv = (canvases) => {
 };
 
 export const getUniqueName = (canvases) => {
-  let prefix = "untitled project";
+  let prefix = "untitled artwork";
   let i = 1;
 
   const names = [];
@@ -80,30 +81,40 @@ export const updateCanvasName = (canvas, newName) => (dispatch) => {
   for (let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
     if (canvas.name === nameToChange) {
-      canvas.name = newName.length > 0 ? newName : getUniqueName(canvases);
+      canvas.name = newName.length > 0 ? newName : "untitled artwork";
       localStorage.setItem("canvases", JSON.stringify(canvases));
       return dispatch(updateCanv(canvases));
-    } else if (canvas.name.includes("untitled project")) {
+    } else if (canvas.name.includes("untitled artwork")) {
       unamed.push(unamed.length + 1);
     }
   }
 };
 
-export const deleteCanvases = (names, canvases) => (dispatch) => {
+export const deleteCanvases = (indexes, canvases) => (dispatch) => {
   let selectedCanv = localStorage.getItem("selected-canvas");
   selectedCanv = selectedCanv ? JSON.parse(selectedCanv) : null;
-
-  for (let name of names) {
-    for (let i = 0; i < canvases.length; i++) {
-      const canvasName = canvases[i].name;
-      if (name === canvasName) {
-        canvases.splice(i, 1);
-        if (canvasName === selectedCanv.name) {
-          localStorage.removeItem("selected-canvas");
-        }
-      }
+  console.log(canvases);
+  for (let idx of indexes) {
+    if (
+      canvases[idx].name &&
+      selectedCanv &&
+      selectedCanv.name === canvases[idx].name
+    ) {
+      localStorage.removeItem("selected-canvas");
     }
+    canvases.splice(idx, 1);
   }
+  // for (let name of names) {
+  //   for (let i = 0; i < canvases.length; i++) {
+  //     const canvasName = canvases[i].name;
+  //     if (name === canvasName) {
+  //       canvases.splice(i, 1);
+  //       if (canvasName === selectedCanv.name) {
+  //         localStorage.removeItem("selected-canvas");
+  //       }
+  //     }
+  //   }
+  // }
   dispatch(updateCanv(canvases));
 };
 

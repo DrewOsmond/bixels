@@ -19,7 +19,7 @@ const DisplayCanvas = ({
   const navigate = useNavigate();
   const [name, setName] = useState(canvas.name);
   const [editName, setEditName] = useState(false);
-  const [unique, setUnique] = useState(true);
+  // const [unique, setUnique] = useState(true);
 
   useEffect(() => {
     const canv = document.getElementById(canvas.name);
@@ -46,19 +46,21 @@ const DisplayCanvas = ({
   };
 
   const saveName = (e) => {
-    for (let canvas of canvases) {
-      if (canvas.name === name) {
-        setUnique(false);
-        return;
-      }
-    }
+    // for (let i = 0; i < canvases.length; i++) {
+    //   const checkedCanvas = canvases[i];
+    //   if (i === idx) continue;
+    //   if (checkedCanvas.name === name) {
+    //     setUnique(false);
+    //     return;
+    //   }
+    // }
 
     if (e.keyCode === 13) {
       window.removeEventListener("keydown", saveName);
       window.removeEventListener("click", saveName);
 
       if (name.length === 0) {
-        const name = getUniqueName(canvases);
+        const name = "untitled artwork";
         setName(name);
       }
       dispatch(updateCanvasName(canvas, name));
@@ -67,9 +69,9 @@ const DisplayCanvas = ({
       window.removeEventListener("keydown", saveName);
       window.removeEventListener("click", saveName);
       if (name.length === 0) {
-        const name = getUniqueName(canvases);
+        const name = "untitled artwork";
         setName(name);
-        dispatch(updateCanvasName(canvas, `untitled project ${idx + 1}`));
+        dispatch(updateCanvasName(canvas, "untitled artwork"));
         setEditName(false);
       } else {
         dispatch(updateCanvasName(canvas, name));
@@ -79,24 +81,17 @@ const DisplayCanvas = ({
   };
 
   const handleTrash = () => {
-    const idx = selectedTrash.indexOf(canvas.name);
-    if (idx >= 0) {
+    const i = selectedTrash.indexOf(idx);
+    if (i >= 0) {
       selectedTrash.splice(idx, 1);
       setSelectedTrash([...selectedTrash]);
     } else {
-      setSelectedTrash((prev) => [...prev, canvas.name]);
+      setSelectedTrash((prev) => [...prev, idx]);
     }
   };
 
   const handleNameChange = (e) => {
-    let unique = true;
-    for (let canvas of canvases) {
-      if (canvas.name === e.target.value) {
-        unique = false;
-      }
-      setUnique(unique);
-      setName(e.target.value);
-    }
+    setName(e.target.value);
   };
 
   return (
@@ -108,7 +103,7 @@ const DisplayCanvas = ({
       {/* > */}
       <canvas
         className={`library-canvas ${
-          selectedTrash.includes(canvas.name) && trash ? "delete-select" : ""
+          selectedTrash.includes(idx) && trash ? "delete-select" : ""
         }`}
         id={canvas.name}
         width="128"
@@ -118,9 +113,7 @@ const DisplayCanvas = ({
       {/* </div> */}
       {editName ? (
         <div>
-          {!unique && <div>name must be unique</div>}
           <input
-            className={setUnique ? "" : "not-unique"}
             id="name-change"
             value={name}
             onChange={handleNameChange}
