@@ -64,6 +64,9 @@ const DisplayCanvas = ({
       if (name.length === 0) {
         const basicName = "untitled artwork";
         setName(basicName);
+        dispatch(updateCanvasName(canvas, basicName));
+        setEditName(false);
+        return;
       }
       dispatch(updateCanvasName(canvas, newName));
       setEditName(false);
@@ -75,10 +78,12 @@ const DisplayCanvas = ({
         setName(name);
         dispatch(updateCanvasName(canvas, "untitled artwork"));
         setEditName(false);
-      } else {
-        dispatch(updateCanvasName(canvas, newName));
-        setEditName(false);
       }
+      // } else {
+      //   console.log("???");
+      //   dispatch(updateCanvasName(canvas, newName));
+      //   setEditName(false);
+      // }
     }
   };
 

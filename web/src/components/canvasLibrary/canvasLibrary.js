@@ -38,6 +38,8 @@ const CanvasLibrary = () => {
     dispatch(updateCanvases(updatedCanv));
   }, []);
 
+  useEffect(() => {}, [trash]);
+
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
     const canvas = {
@@ -161,10 +163,10 @@ const CanvasLibrary = () => {
 
       <div className="display__all__canvases">
         <div className="canvas-container">
-          {search.length > 0 && canvases.length > 0 ? (
+          {search.length > 0 || canvases.length > 0 ? (
             search.map((canvas, i) => (
               <DisplayCanvas
-                key={canvas.id}
+                key={`${canvas.id}-${i}-${canvas.name}-${canvas.canvas.length}`}
                 canvas={canvas}
                 idx={i}
                 trash={trash}
