@@ -1,5 +1,4 @@
 import { HexColorPicker } from "react-colorful";
-import { Layer } from "../canvasClass";
 import { Canvas } from "../canvasClass";
 import { useNavigate } from "react-router-dom";
 import OpacitySlider from "../opacitySlider/opacitySlider";
