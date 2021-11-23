@@ -55,16 +55,17 @@ const DisplayCanvas = ({
     //     return;
     //   }
     // }
+    const newName = document.getElementById("name-change").value;
 
     if (e.keyCode === 13) {
       window.removeEventListener("keydown", saveName);
       window.removeEventListener("click", saveName);
 
       if (name.length === 0) {
-        const name = "untitled artwork";
-        setName(name);
+        const basicName = "untitled artwork";
+        setName(basicName);
       }
-      dispatch(updateCanvasName(canvas, name));
+      dispatch(updateCanvasName(canvas, newName));
       setEditName(false);
     } else if (e.type === "click" && e.target.value !== name) {
       window.removeEventListener("keydown", saveName);
@@ -75,7 +76,7 @@ const DisplayCanvas = ({
         dispatch(updateCanvasName(canvas, "untitled artwork"));
         setEditName(false);
       } else {
-        dispatch(updateCanvasName(canvas, name));
+        dispatch(updateCanvasName(canvas, newName));
         setEditName(false);
       }
     }
@@ -118,7 +119,7 @@ const DisplayCanvas = ({
             id="name-change"
             value={name}
             onChange={handleNameChange}
-            onKeyDown={saveName}
+            // onKeyDown={saveName}
           />
         </div>
       ) : (

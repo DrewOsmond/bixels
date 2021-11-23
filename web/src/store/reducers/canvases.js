@@ -53,7 +53,6 @@ const initialState = getState();
 const UPDATE = "canvases/update";
 
 const updateCanv = (canvases) => {
-  console.log("???");
   localStorage.setItem("canvases", JSON.stringify(canvases));
   return {
     type: UPDATE,
@@ -85,12 +84,10 @@ export const deleteCanvases = (indexes, canvases) => (dispatch) => {
   let selectedCanv = localStorage.getItem("selected-canvas");
   selectedCanv = selectedCanv ? JSON.parse(selectedCanv) : null;
   const newCanvases = [];
-  console.log(selectedCanv);
   for (let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
     if (indexes.indexOf(canvas.id) === -1) {
       newCanvases.push(canvas);
-      console.log("???? why");
     } else {
       if (selectedCanv) {
         if (canvas.id === selectedCanv.id) {

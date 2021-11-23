@@ -58,7 +58,6 @@ const LayersSection = ({
   };
 
   const deleteLayer = (e) => {
-    console.log(e.target.getAttribute("name"));
     const layer = Number(e.target.getAttribute("name"));
     canvas.canvas.splice(layer, 1);
     if (canvas.canvas.length === 0) {
