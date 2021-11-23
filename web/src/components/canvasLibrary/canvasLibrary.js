@@ -3,11 +3,7 @@ import "./canvasLibrary.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import {
-  deleteCanvases,
-  getUniqueName,
-  updateCanvases,
-} from "../../store/reducers/canvases";
+import { deleteCanvases, updateCanvases } from "../../store/reducers/canvases";
 import { Layer } from "../drawingPage/canvasClass";
 import { useNavigate } from "react-router";
 import { selectCanvas } from "../../store/reducers/selectedCanvas";
@@ -36,7 +32,7 @@ const CanvasLibrary = () => {
   useEffect(() => {
     const updatedCanv = JSON.parse(localStorage.getItem("canvases"));
     dispatch(updateCanvases(updatedCanv));
-  }, []);
+  }, [dispatch]);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);

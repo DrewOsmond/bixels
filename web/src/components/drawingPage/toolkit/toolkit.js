@@ -37,18 +37,6 @@ const ToolKit = ({
     Canvas.saveDrawing(canvas);
   };
 
-  const handleAddLayer = () => {
-    canvas.canvas.push(new Layer(canvas.canvas.length));
-    setLayer(canvas.canvas.length - 1);
-    canvas.drawingLayer = canvas.canvas.length - 1;
-    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
-    setCanvas((prev) => {
-      return { ...prev };
-    });
-
-    Canvas.saveDrawing(canvas);
-  };
-
   return (
     <>
       <div className="tool__kit__container">
