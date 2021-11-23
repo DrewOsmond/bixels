@@ -8,13 +8,11 @@ const DrawingCanvas = ({
   canvasArray,
   layer,
   opacity,
-  setHistory,
+  lastDrawn,
+  setLastDrawn,
   setShowColorPicker,
   showColorPicker,
-  strokes,
-  setStrokes,
   showLayers,
-  history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   // let strokes = [];
@@ -170,7 +168,6 @@ const DrawingCanvas = ({
       colorToChange,
       color,
       opacity,
-      strokes,
       layer
     );
     clearCanvas();
@@ -178,9 +175,36 @@ const DrawingCanvas = ({
     Canvas.saveDrawing(canvasArray);
   };
 
+  const erase = (cell) => {
+    const newLayerOpacity =
+      cell.opacity - opacity > 0 ? cell.opacity - opacity : 0;
+      cell.opacity = newLayerOpacity;
+      cell.color = null;
+  }
+
+  const plotLine = (x0, x1, y0, y1, drawOpacity) => {
+    const dx = x1 - x0
+    const dy = y1 - y0
+    let D = 2 * dy - dx
+    let drawY = y0
+
+        for (let drawX = x0; drawX <= x1; drawX++){
+          selectedLayer[drawY][drawX].color = color;
+          selectedLayer[drawY][drawX].opacity = drawOpacity;
+          if (D > 0){
+              drawY++;
+              D = D - 2 * dx
+          }
+          D = D + 2*dy
+        }
+  }
+
   const draw = (e, fromClick) => {
-    console.log(e.nativeEvent);
-    if (e.buttons === 0 && !fromClick) return;
+    
+    if (e.buttons === 0 && !fromClick){
+      setLastDrawn([]);
+      return;
+    }
     if (opacity === 0) return;
 
     if (showColorPicker) {
@@ -188,94 +212,36 @@ const DrawingCanvas = ({
     }
 
     const canvas = document.getElementById("draw-canvas");
-    const ctx = canvas.getContext("2d");
     const coordinates = getMousePos(canvas, e);
     const coorY = Math.floor(coordinates.y / 16);
     const coorX = Math.floor(coordinates.x / 16);
     const selectedCell = selectedLayer[coorY][coorX];
-    const { x, y, h, w } = selectedCell;
-    const lastStroke = strokes[strokes.length - 1];
-    let shouldPush = true;
-
-    if (
-      strokes.length &&
-      lastStroke[1] * 16 === y &&
-      lastStroke[2] * 16 === x
-    ) {
-      return;
-    }
-
-    if (selectedCell.opacity !== opacity) {
-      // strokes.push([
-      //   layer,
-      //   coorY,
-      //   coorX,
-      //   selectedCell.color,
-      //   selectedCell.opacity,
-      // ]);
-      setStrokes((prev) => [
-        ...prev,
-        [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
-      ]);
-      shouldPush = false;
-    } else if (selectedCell.color !== color && shouldPush) {
-      // strokes.push([
-      //   layer,
-      //   coorY,
-      //   coorX,
-      //   selectedCell.color,
-      //   selectedCell.opacity,
-      // ]);
-      setStrokes((prev) => [
-        ...prev,
-        [layer, coorY, coorX, selectedCell.color, selectedCell.opacity],
-      ]);
-    }
-
+    
     if (tool === "draw") {
+      let drawOpacity = 0;
       if (selectedCell.opacity <= 1) {
-        const layerOpacity = selectedCell.opacity + opacity;
-
-        selectedCell.opacity = layerOpacity < 1 ? layerOpacity : 1;
+        drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
       } else {
-        selectedCell.opacity = opacity;
+        drawOpacity = opacity;
       }
-      selectedCell.color = color;
+      console.log(lastDrawn);
+      if (lastDrawn.length){
+        plotLine(lastDrawn[0], coorX, lastDrawn[1], coorY, drawOpacity);
+      } else {
+        selectedLayer[coorY][coorX].color = color;
+        selectedLayer[coorY][coorX].opacity = drawOpacity;
+      }
     } else if (tool === "erase") {
-      const newLayerOpacity =
-        selectedCell.opacity - opacity > 0 ? selectedCell.opacity - opacity : 0;
-      selectedCell.opacity = newLayerOpacity;
-      selectedCell.color = null;
+      erase(selectedCell);
     } else if (tool === "fill") {
       floodFill(e);
     }
-    // if (tool === "draw") {
-    ctx.clearRect(x, y, h, w);
-
-    // for (let layers of canvasArray.canvas) {
-    for (let i = 0; i < canvasArray.canvas.length; i++) {
-      const layers = canvasArray.canvas[i];
-      if (!layers.active) continue;
-      const pixel =
-        layers.layer[Math.floor(coordinates.y / 16)][
-          Math.floor(coordinates.x / 16)
-        ];
-
-      if (pixel.color) {
-        ctx.save();
-        ctx.fillStyle = pixel.color;
-        ctx.globalAlpha = pixel.opacity;
-        ctx.fillRect(x, y, h, w);
-        // ctx.moveTo(x, y);
-
-        ctx.stroke();
-        // ctx.lineTo(x, y);
-        ctx.restore();
-      }
-    }
+    render();
     canvasArray.color = color;
     canvasArray.opacity = opacity;
     canvasArray.layersActive = showLayers;
+    setLastDrawn([coorX, coorY]);
+    
   };
 
   return (
