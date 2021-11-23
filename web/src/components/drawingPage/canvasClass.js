@@ -1,7 +1,6 @@
 export class Layer {
   constructor(layerId, layer) {
     this.layer = layer ? Layer.reloadCells(layer.layer) : Layer.addLayer();
-    this.name = layer ? layer.name : `layer ${layerId + 1}`;
     this.active = layer ? layer.active : true;
   }
   static reloadCells(layer) {

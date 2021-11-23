@@ -54,6 +54,7 @@ const initialState = getState();
 const UPDATE = "canvases/update";
 
 const updateCanv = (canvases) => {
+  console.log("???");
   localStorage.setItem("canvases", JSON.stringify(canvases));
   return {
     type: UPDATE,

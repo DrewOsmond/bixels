@@ -166,14 +166,14 @@ const ToolKit = ({
                 border: "1px solid #fcfbf9",
               }}
             />
-            {showColorPicker && (
-              <>
-                <HexColorPicker color={color} onChange={setColor} />
-              </>
-            )}
           </div>
         </nav>
       </div>
+      {showColorPicker && (
+        <>
+          <HexColorPicker color={color} onChange={setColor} />
+        </>
+      )}
     </>
   );
 };

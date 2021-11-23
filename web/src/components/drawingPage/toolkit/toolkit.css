@@ -46,7 +46,7 @@
 
 .tool__kit__button:hover {
   cursor: pointer;
-  filter: brightness(80%);
+  filter: brightness(70%);
 }
 
 /* .tool__kit__button:hover {
@@ -64,7 +64,8 @@ button.tool__kit__button {
 }
 
 .tool__kit__button__active {
-  filter: brightness(80%);
+  filter: brightness(70%);
+  /* background-color: #d9d9d9; */
 }
 
 .color__picker__display__box:hover {
@@ -72,7 +73,7 @@ button.tool__kit__button {
 }
 
 .layers__displayed {
-  filter: brightness(80%);
+  filter: brightness(70%);
 }
 
 /* .tool__kit__buton__active:hover {

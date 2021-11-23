@@ -57,6 +57,7 @@ export const selectCanvas = (canvas) => (dispatch) => {
 };
 
 const update = (canvas) => {
+  localStorage.setItem("selected-canvas", JSON.stringify(canvas));
   return {
     type: UPDATE,
     payload: canvas,
@@ -64,6 +65,8 @@ const update = (canvas) => {
 };
 
 export const updateCanvas = (canvas) => (dispatch) => {
+  console.log(canvas);
+  console.log("?here?");
   const canvases = JSON.parse(localStorage.getItem("canvases"));
   localStorage.setItem("selected-canvas", JSON.stringify(canvas));
   localStorage.setItem("canvases", JSON.stringify(canvases));

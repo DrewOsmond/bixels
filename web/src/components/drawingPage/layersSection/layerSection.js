@@ -43,6 +43,7 @@ const LayersSection = ({
   };
 
   const deleteLayer = (e) => {
+    console.log(e.target.getAttribute("name"));
     const layer = Number(e.target.getAttribute("name"));
     canvas.canvas.splice(layer, 1);
     if (canvas.canvas.length === 0) {
@@ -54,6 +55,7 @@ const LayersSection = ({
     localStorage.setItem("selected-canvas", JSON.stringify(canvas));
     setLoaded(true);
   };
+
   return (
     <>
       {/* <button onClick={() => setShow((prev) => !prev)}>display layers</button> */}
@@ -64,7 +66,7 @@ const LayersSection = ({
             <Layers
               ele={ele}
               i={i}
-              key={`${ele.name}-layer-${i}`}
+              key={i}
               setCanvas={setCanvas}
               canvas={canvas}
               handleSwitchLayers={handleSwitchLayers}

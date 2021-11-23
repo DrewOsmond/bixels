@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { updateCanvas } from "../../../../store/reducers/selectedCanvas";
 
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import notVisableLayerSVG from "../../../../assets/layer-not-visible.svg";
-import visableLayerSVG from "../../../../assets/layer-visible.svg";
-import trashSVG from "../../../../assets/trash.svg";
+import notVisableLayerSVG from "../../../../assets/smaller-layer-not-visible.svg";
+import visableLayerSVG from "../../../../assets/smaller-layer-visible.svg";
+import trashSVG from "../../../../assets/smallertrash.svg";
 
 const Layer = ({
   ele,
@@ -17,22 +17,22 @@ const Layer = ({
   layer,
   deleteLayer,
 }) => {
-  const dispatch = useDispatch();
-  const [name, setName] = useState(ele.name);
-  const [change, setChange] = useState(false);
+  // const dispatch = useDispatch();
+  // const [name, setName] = useState(ele.name);
+  // const [change, setChange] = useState(false);
 
   useEffect(() => {
-    const canv = document.getElementById(`${ele.name}-${i}`);
+    const canv = document.getElementById(`layer-${i}`);
     const ctx = canv.getContext("2d");
     Canvas.clearCanvas(canv, ctx);
     Canvas.paintLayer(ele.layer, ctx, 8);
   }, [ele.layer, ele.name, i]);
 
-  useEffect(() => {
-    if (change) {
-      document.getElementById("name-change").focus();
-    }
-  }, [change]);
+  // useEffect(() => {
+  //   if (change) {
+  //     document.getElementById("name-change").focus();
+  //   }
+  // }, [change]);
 
   // const handleChangeName = (e) => {
   //   const layerNameToChange = Number(e.target.getAttribute("name"));
@@ -44,30 +44,33 @@ const Layer = ({
   //   setChange(false);
   // };
 
-  const handleDoubleClick = (e) => {
-    setChange(true);
-    window.addEventListener("keydown", saveName);
-    window.addEventListener("click", saveName);
-  };
+  // const handleDoubleClick = (e) => {
+  //   setChange(true);
+  //   window.addEventListener("keydown", saveName);
+  //   window.addEventListener("click", saveName);
+  // };
 
-  const saveName = (e) => {
-    if (e.keyCode === 13) {
-      ele.name = name.length > 0 ? name : `layer ${i + 1}`;
-      dispatch(updateCanvas(canvas));
-      window.removeEventListener("keydown", saveName);
-      window.removeEventListener("click", saveName);
-      setChange(false);
-    } else if (e.type === "click" && e.target.value !== name) {
-      ele.name = name.length > 0 ? name : `layer ${i + 1}`;
-      dispatch(updateCanvas(canvas));
-      setChange(false);
-      window.removeEventListener("keydown", saveName);
-      window.removeEventListener("click", saveName);
-    }
-  };
+  // const saveName = (e) => {
+  //   if (e.keyCode === 13) {
+  //     ele.name = name.length > 0 ? name : `layer ${i + 1}`;
+  //     dispatch(updateCanvas(canvas));
+  //     window.removeEventListener("keydown", saveName);
+  //     window.removeEventListener("click", saveName);
+  //     setChange(false);
+  //   } else if (e.type === "click" && e.target.value !== name) {
+  //     ele.name = name.length > 0 ? name : `layer ${i + 1}`;
+  //     dispatch(updateCanvas(canvas));
+  //     setChange(false);
+  //     window.removeEventListener("keydown", saveName);
+  //     window.removeEventListener("click", saveName);
+  //   }
+  // };
+
   return (
     // <Droppable droppableId="layers" type="LAYER" className="layer">
     <div
+      name={i}
+      onClick={handleDrawOnLayer}
       className={`layer ${
         Number(i) === layer && canvas.canvas[layer].active
           ? "drawing__layer"
@@ -94,59 +97,60 @@ const Layer = ({
         }
       >
         <canvas
-          className={`layer-canvas ${
-            canvas.canvas[i].active ? "" : "not-active-canvas"
-          }`}
+          className="layer-canvas"
           name={i}
           width="64"
           height="64"
-          id={`${ele.name}-${i}`}
+          id={`layer-${i}`}
           onClick={handleDrawOnLayer}
           // onClick={handleSwitchLayers}
         />
       </div>
       {(() => {
-        const canv = document.getElementById(`${ele.name}-${i}`);
+        const canv = document.getElementById(`layer-${i}`);
         if (!canv) return;
         const ctx = canv.getContext("2d");
         Canvas.clearCanvas(canv, ctx);
         Canvas.paintLayer(ele.layer, ctx, 8);
       })()}
 
-      {change ? (
+      {/* {change ? (
         <input
           name={i}
           value={name}
           onChange={(e) => setName(e.target.value)}
           id="name-change"
         />
-      ) : (
-        <div
-          className={`layer__button layer__displayed`}
+      ) : ( */}
+      <div
+        className={`layer__button layer__text`}
+        name={i}
+        // onClick={handleSwitchLayers}
+        // onDoubleClick={handleDoubleClick}
+      >
+        {`layer ${i + 1}`}
+      </div>
+      {/* )} */}
+      <div className="layer-settings">
+        <img
           name={i}
-          // onClick={handleSwitchLayers}
-          onDoubleClick={handleDoubleClick}
-        >
-          {name}
-        </div>
-      )}
-
-      <img
-        name={i}
-        src={
-          canvas.canvas[Number(i)].active ? visableLayerSVG : notVisableLayerSVG
-        }
-        className="toggle-layer"
-        alt="visibility"
-        onClick={handleSwitchLayers}
-      />
-      <img
-        className="layer__button"
-        name={i}
-        src={trashSVG}
-        alt="trash layer"
-        onClick={deleteLayer}
-      />
+          src={
+            canvas.canvas[Number(i)].active
+              ? visableLayerSVG
+              : notVisableLayerSVG
+          }
+          className="toggle-layer"
+          alt="visibility"
+          onClick={handleSwitchLayers}
+        />
+        <img
+          className="layer__button"
+          name={i}
+          src={trashSVG}
+          alt="trash layer"
+          onClick={deleteLayer}
+        />
+      </div>
       {/* </Droppable> */}
     </div>
   );
