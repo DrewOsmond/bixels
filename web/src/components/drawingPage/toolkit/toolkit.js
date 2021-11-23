@@ -15,8 +15,6 @@ const ToolKit = ({
   tool,
   setTool,
   canvas,
-  setCanvas,
-  setLayer,
   color,
   setColor,
   showColorPicker,
