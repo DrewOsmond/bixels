@@ -7,14 +7,14 @@ const Home = () => {
   const canvases = useSelector((state) => state.canvases);
 
   return (
-    <div class="home-div">
+    <div className="home-div">
       <div>
-        <p class="title">bixels</p>
-        <p class="title-description">simply create.</p>
+        <p className="title">bixels</p>
+        <p className="title-description">simply create.</p>
       </div>
-      <div class="title-button-div">
+      <div className="title-button-div">
         <button
-          class="title-button"
+          className="title-button"
           onClick={() => navigate(canvases.length > 1 ? "/library" : "/draw")}
         >
           let's get started!

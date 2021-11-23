@@ -87,6 +87,7 @@ const DrawingPage = () => {
               showColorPicker={showColorPicker}
               setShowColorPicker={setShowColorPicker}
               showLayers={showLayers}
+              setLayer={setLayer}
             />
 
             <LayersSection

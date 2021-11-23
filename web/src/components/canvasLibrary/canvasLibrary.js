@@ -32,18 +32,25 @@ const CanvasLibrary = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
+  const [totalCanvaes, setTotalCanvaes] = useState(canvases.length);
+
+  if (totalCanvaes > canvases.length) {
+    setTotalCanvaes(canvases.length);
+  }
 
   useEffect(() => {
     const updatedCanv = JSON.parse(localStorage.getItem("canvases"));
     dispatch(updateCanvases(updatedCanv));
   }, []);
 
-  useEffect(() => {}, [trash]);
+  useEffect(() => {
+    console.log(canvases);
+  }, [trash, totalCanvaes]);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
     const canvas = {
-      name: getUniqueName(canvases),
+      name: "untitled project",
       canvas: [basicLayer],
       drawingLayer: 0,
       color: "#4b4e51",
@@ -62,7 +69,7 @@ const CanvasLibrary = () => {
 
   const confirmDelete = () => {
     dispatch(deleteCanvases(selectedTrash, canvases));
-    dispatch(updateFilter(searchTerm, canvases));
+    dispatch(updateFilter("", canvases));
     setShowDeleteModal(false);
     setTrash(false);
     setSelectedTrash([]);
@@ -163,8 +170,8 @@ const CanvasLibrary = () => {
 
       <div className="display__all__canvases">
         <div className="canvas-container">
-          {search.length > 0 || canvases.length > 0 ? (
-            search.map((canvas, i) => (
+          {search.length > 0 && canvases.length > 0 ? (
+            canvases.map((canvas, i) => (
               <DisplayCanvas
                 key={`${canvas.id}-${i}-${canvas.name}-${canvas.canvas.length}`}
                 canvas={canvas}

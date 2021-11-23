@@ -74,7 +74,7 @@ const Layer = ({
       name={i}
       onClick={handleDrawOnLayer}
       className={`layer ${
-        Number(i) === layer && canvas.canvas[layer].active
+        Number(i) === layer && canvas.canvas[layer]?.active
           ? "drawing__layer"
           : ""
       }`}
@@ -95,7 +95,7 @@ const Layer = ({
       }} */}
       <div
         className={
-          canvas.canvas[layer].active ? "" : "not-active-canvas-container"
+          canvas.canvas[layer]?.active ? "" : "not-active-canvas-container"
         }
       >
         <canvas

@@ -60,14 +60,19 @@ const LayersSection = ({
   const deleteLayer = (e) => {
     const layer = Number(e.target.getAttribute("name"));
     canvas.canvas.splice(layer, 1);
+    console.log(canvas.canvas);
     if (canvas.canvas.length === 0) {
       canvas.canvas.push(new Layer(0));
       localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+      console.log("wtf???");
+      setLoaded(true);
+      setCanvas({ ...canvas });
+      setLayer(0);
+    } else {
+      setLayer((prev) => prev - 1);
+      setCanvas({ ...canvas });
+      localStorage.setItem("selected-canvas", JSON.stringify(canvas));
     }
-    setLayer((prev) => (prev !== 0 ? prev - 1 : 0));
-    setCanvas({ ...canvas });
-    localStorage.setItem("selected-canvas", JSON.stringify(canvas));
-    setLoaded(true);
   };
 
   return (
@@ -87,21 +92,24 @@ const LayersSection = ({
               alt="add-item"
             />
           </div>
-          {canvas.canvas?.map((ele, i) => (
-            <Layers
-              ele={ele}
-              i={i}
-              key={i}
-              setCanvas={setCanvas}
-              canvas={canvas}
-              handleSwitchLayers={handleSwitchLayers}
-              handleDrawOnLayer={handleDrawOnLayer}
-              layer={layer}
-              deleteLayer={deleteLayer}
-              setLoaded={setLoaded}
-              activeLayer={activeLayer}
-            />
-          ))}
+          <div className="layer-reverse">
+            {canvas.canvas.map((ele, i) => (
+              <Layers
+                ele={ele}
+                i={i}
+                key={i}
+                setCanvas={setCanvas}
+                canvas={canvas}
+                handleSwitchLayers={handleSwitchLayers}
+                handleDrawOnLayer={handleDrawOnLayer}
+                layer={layer}
+                deleteLayer={deleteLayer}
+                setLoaded={setLoaded}
+                activeLayer={activeLayer}
+              />
+            ))}
+          </div>
+
           {/* </DragDropContext> */}
         </div>
       )}

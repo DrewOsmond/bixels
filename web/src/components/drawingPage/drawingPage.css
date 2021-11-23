@@ -169,3 +169,8 @@ div.layer__text:hover {
 .max-layers {
   filter: brightness(90%);
 }
+
+.layer-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}

@@ -18,16 +18,19 @@ const DrawingCanvas = ({
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   // let strokes = [];
-  const selectedLayer = canvasArray.canvas[layer]?.layer;
   opacity = opacity / 10;
-
+  if (layer > canvasArray.canvas.length - 1) {
+    layer = canvasArray.canvas.length - 1;
+    // setLayer(canvasArray.canvas.length - 1);
+  }
+  const selectedLayer = canvasArray.canvas[layer]?.layer;
   const render = () => {
     clearCanvas();
-    for (let i = canvasArray.canvas.length - 1; i >= 0; i--) {
-      const canvasLayer = canvasArray.canvas[i];
-
-      if (canvasLayer.active) {
-        reDraw(canvasLayer.layer);
+    // for (let i = canvasArray.canvas.length - 1; i >= 0; i--) {
+    //   const canvasLayer = canvasArray.canvas[i];
+    for (let layers of canvasArray.canvas) {
+      if (layers.active) {
+        reDraw(layers.layer);
       }
     }
     // for (let canvasLayer of canvasArray.canvas) {
@@ -248,7 +251,7 @@ const DrawingCanvas = ({
     // if (tool === "draw") {
     ctx.clearRect(x, y, h, w);
     // for (let layers of canvasArray.canvas) {
-    for (let i = canvasArray.canvas.length - 1; i >= 0; i--) {
+    for (let i = 0; i < canvasArray.canvas.length; i++) {
       const layers = canvasArray.canvas[i];
       if (!layers.active) continue;
       const pixel =
