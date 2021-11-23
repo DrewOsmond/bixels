@@ -32,20 +32,11 @@ const CanvasLibrary = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
-  const [totalCanvaes, setTotalCanvaes] = useState(canvases.length);
-
-  if (totalCanvaes > canvases.length) {
-    setTotalCanvaes(canvases.length);
-  }
 
   useEffect(() => {
     const updatedCanv = JSON.parse(localStorage.getItem("canvases"));
     dispatch(updateCanvases(updatedCanv));
   }, []);
-
-  useEffect(() => {
-    console.log(canvases);
-  }, [trash, totalCanvaes]);
 
   const addNewCanvas = () => {
     const basicLayer = new Layer(0);
@@ -69,7 +60,7 @@ const CanvasLibrary = () => {
 
   const confirmDelete = () => {
     dispatch(deleteCanvases(selectedTrash, canvases));
-    dispatch(updateFilter("", canvases));
+    dispatch(updateFilter(searchTerm, canvases));
     setShowDeleteModal(false);
     setTrash(false);
     setSelectedTrash([]);
@@ -92,6 +83,8 @@ const CanvasLibrary = () => {
     }
     setShowSearchInput((prev) => !prev);
   };
+
+  let canvasesToMap = showSearchInput ? search : canvases;
 
   return (
     <>
@@ -170,8 +163,8 @@ const CanvasLibrary = () => {
 
       <div className="display__all__canvases">
         <div className="canvas-container">
-          {search.length > 0 && canvases.length > 0 ? (
-            canvases.map((canvas, i) => (
+          {canvasesToMap.length > 0 ? (
+            canvasesToMap.map((canvas, i) => (
               <DisplayCanvas
                 key={`${canvas.id}-${i}-${canvas.name}-${canvas.canvas.length}`}
                 canvas={canvas}
@@ -185,11 +178,11 @@ const CanvasLibrary = () => {
           ) : (
             <div className="no-canvases">
               <div>
-                {!search
+                {!showSearchInput
                   ? `nothing here. create a new canvas by pressing`
                   : "oops! no results found..."}{" "}
               </div>
-              {!search && (
+              {!showSearchInput && (
                 <img
                   className="no-canvases-plus-icon"
                   src={add}
