@@ -86,7 +86,7 @@ const LayersSection = ({
           )} */}
           <div className="add-layer-section">
             <img
-              disabled={canvas.canvas.length >= 15}
+              disabled={canvas.canvas.length >= 10}
               className={
                 canvas.canvas.length >= 10 ? "max-layers" : "add-layers"
               }

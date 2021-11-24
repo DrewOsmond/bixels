@@ -84,6 +84,7 @@ const CanvasLibrary = () => {
 
   let canvasesToMap = showSearchInput ? search : canvases;
 
+  console.log(canvases);
   return (
     <>
       <nav className="navBar-container">
@@ -105,7 +106,7 @@ const CanvasLibrary = () => {
           />
           <img
             className={`${
-              canvases.length >= 0 ? "disabled" : "library__button"
+              canvases.length >= 6 ? "disabled" : "library__button"
             }`}
             onClick={addNewCanvas}
             src={add}
