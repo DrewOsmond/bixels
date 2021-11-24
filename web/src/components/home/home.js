@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router";
+// import { useSelector } from "react-redux";
 import "./home.css";
 
 // import familiarToolsSVG from "../../assets/familiarTools.svg";
@@ -12,8 +12,8 @@ import homePageSVG from "../../assets/feature-list.svg";
 import landingpageSVG from "../../assets/landingpage-text-version2.svg";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const canvases = useSelector((state) => state.canvases);
+  // const navigate = useNavigate();
+  // const canvases = useSelector((state) => state.canvases);
 
   return (
     <div className="home-div">
