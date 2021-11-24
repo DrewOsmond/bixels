@@ -107,6 +107,7 @@ export class Canvas {
     colorToChange,
     color,
     opacity,
+    strokes,
     layerId
   ) {
     if (x < 0 || y < 0 || x > 31 || y > 31) return;
@@ -123,6 +124,7 @@ export class Canvas {
         colorToChange,
         color,
         opacity,
+        strokes,
         layerId
       );
       Canvas.floodFill(
@@ -132,6 +134,7 @@ export class Canvas {
         colorToChange,
         color,
         opacity,
+        strokes,
         layerId
       );
       Canvas.floodFill(
@@ -141,6 +144,7 @@ export class Canvas {
         colorToChange,
         color,
         opacity,
+        strokes,
         layerId
       );
       Canvas.floodFill(
@@ -150,6 +154,7 @@ export class Canvas {
         colorToChange,
         color,
         opacity,
+        strokes,
         layerId
       );
     } else {
@@ -158,3 +163,33 @@ export class Canvas {
   }
 }
 
+export class History {
+  constructor(strokes) {
+    this.strokes = strokes;
+    this.next = null;
+    this.prev = null;
+  }
+
+  addStrokes(state) {
+    const strokes = new Strokes(state);
+    if (!this.head) {
+      this.head = strokes;
+    } else if (!this.tail) {
+      this.head.next = strokes;
+      this.tail = strokes;
+      this.tail.prev = this.head;
+    } else {
+      this.tail.next = strokes;
+      strokes.prev = this.tail;
+      this.tail = strokes;
+    }
+  }
+}
+
+class Strokes {
+  constructor(value) {
+    this.strokes = value;
+    this.next = null;
+    this.prev = null;
+  }
+}

@@ -25,6 +25,7 @@ const CanvasLibrary = () => {
   const navigate = useNavigate();
   const [selectedTrash, setSelectedTrash] = useState([]);
   const [trash, setTrash] = useState(false);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
