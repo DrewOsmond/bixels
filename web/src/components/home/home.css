@@ -4,15 +4,16 @@
   position: absolute;
   width: 100vw;
   overflow: none;
+  overflow-x: none;
   /* position: absolute; */
 }
 
 .title {
-  position: absolute;
+  /* position: absolute;
   width: 817px;
   height: 211px;
   left: 100px;
-  top: 112px;
+  top: 112px; */
 
   font-family: Chakra Petch;
   font-style: normal;
@@ -33,12 +34,12 @@
   color: #6f64bb;
   font-size: 96px;
   font-weight: 400;
-  padding: 0;
+  /* padding: 0;
   margin: 0;
-  position: absolute;
+  position: absolute; */
   text-shadow: 0px 4px 4px rgba(109, 102, 102, 0.25);
   width: 746px;
-  height: 220px;
+  /* height: 220px; */
   left: 267px;
   top: 340px;
 }
@@ -48,24 +49,24 @@
   color: #6f64bb;
   font-size: 96px;
   font-weight: 400;
-  padding: 0;
-  margin: 0;
-  position: absolute;
+  /* padding: 0;
+  margin: 0; */
+  /* position: absolute; */
   text-shadow: 0px 4px 4px rgba(109, 102, 102, 0.25);
   width: 746px;
   height: 220px;
-  left: 370px;
-  top: 450px;
+  /* left: 370px;
+  top: 450px; */
 }
 
-.title-button-div {
+/* .title-button-div {
   position: absolute;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   top: 600px;
-}
+} */
 
 .title-button {
   background-color: #fcfbf9;
@@ -87,9 +88,38 @@
   cursor: pointer;
 }
 
+@media only screen and (min-width: 660px) {
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 160px;
+    padding-top: 125px;
+    margin-left: 20px;
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 659px) {
+  .logo-container {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    /* padding-right: 160px; */
+    padding-top: 125px;
+    /* margin-left: 20px; */
+    /* width: 100vw; */
+  }
+}
+
 @media only screen and (min-width: 1001px) {
   .smaller-screen-home {
     position: relative;
+    top: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .familiar-tools-home {
     position: absolute;
@@ -135,6 +165,18 @@
     justify-content: center;
   }
 
+  /* .logo-container {
+    position: absolute;
+    display: flex;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding-right: 160px;
+    padding-top: 125px;
+    margin-left: 20px;
+    max-width: 70%;
+  } */
+
   .smaller-screen-home {
     position: absolute;
     width: 70%;
@@ -145,7 +187,7 @@
     justify-content: center;
   }
 
-  .familiar-tools-home {
+  /* .familiar-tools-home {
     display: block;
   }
 
@@ -163,5 +205,5 @@
 
   .download-home {
     display: block;
-  }
+  } */
 }
