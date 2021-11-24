@@ -1,20 +1,27 @@
 .confirm-delete {
   width: 350px;
-  height: 100px;
+  height: 120px;
   border-radius: 11px;
   display: flex;
   flex-direction: column;
+  /* justify-content: flex-send; */
+  /* align-items: flex-end; */
 }
 
 .confirm-delete-text {
   margin-top: 16px;
+  margin-bottom: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Cabin;
+  color: #8c8c8c;
 }
 
 .modal-button-container {
+  /* align-self: flex-end; */
+  /* justify-self: flex-end; */
   display: flex;
-  margin: 8px 8px 8px 8px;
+  margin: 8px 8px;
   justify-content: space-between;
 }

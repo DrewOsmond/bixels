@@ -180,7 +180,7 @@ img.no-delete-available:hover {
   font-size: 25px;
   line-height: 44px;
   /* identical to box height */
-
+  color: #8c8c8c;
   letter-spacing: -0.015em;
 }
 

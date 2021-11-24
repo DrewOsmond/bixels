@@ -90,15 +90,6 @@ const ToolKit = ({
               onClick={handleToolChange}
             />
             {/* </button> */}
-            <img
-              src={eraseSVG}
-              alt="eraser"
-              id="erase"
-              className={`tool__kit__button ${
-                tool === "erase" ? "tool__kit__button__active" : ""
-              }`}
-              onClick={handleToolChange}
-            />
 
             <img
               src={fillSVG}
@@ -106,6 +97,15 @@ const ToolKit = ({
               id="fill"
               className={`tool__kit__button ${
                 tool === "fill" ? "tool__kit__button__active" : ""
+              }`}
+              onClick={handleToolChange}
+            />
+            <img
+              src={eraseSVG}
+              alt="eraser"
+              id="erase"
+              className={`tool__kit__button ${
+                tool === "erase" ? "tool__kit__button__active" : ""
               }`}
               onClick={handleToolChange}
             />
