@@ -18,8 +18,23 @@ A simple and user friendly pixel art application that allows users to save and d
 
 ## Development
 
+### what you'll need on your machine:
+
+  * node
+  * npm
+
+1. `git clone` this repo
+2. `cd` into the web directory
+3. `npm isntall` to install dependencies
+4. `npm run` to start the app
+
+1. git clone this repo
 
 ## Challenges
+### creating layers on the canvas that would persist overtime
+### locally persisting all changes to the canvases, drawing, name changing, adding layers, canvas strokes, etc.
+### making the canvas produce smooth and consice strokes 
+ 
 
 
 
