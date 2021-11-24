@@ -145,3 +145,71 @@
   box-shadow: 0px 2px 4px rgba(000, 000, 000, 0.25);
   border-radius: 11px;
 }
+
+.lets-get-started:hover {
+  filter: brightness(90%);
+  cursor: pointer;
+}
+
+.creator-details {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.creator-names {
+  margin: 8px 0px 4px 0px;
+  font-size: 16px;
+  font-family: Cabin;
+  color: #6f64bb;
+  font-weight: bold;
+}
+
+.creator-titles {
+  font-size: 14px;
+  font-family: Cabin;
+  color: #8c8c8c;
+}
+
+.link-icons {
+  margin: 8px 4px 0px 4px;
+}
+@media only screen and (min-width: 930px) {
+  .intro-text {
+    margin-top: 90px;
+    margin-left: -75px;
+    font-size: 24px;
+    font-family: Cabin;
+    color: #6f64bb;
+    font-weight: bold;
+  }
+
+  .meet-the-team {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 929px) {
+  .intro-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-family: Cabin;
+    color: #6f64bb;
+    font-weight: bold;
+    margin-top: 90px;
+  }
+
+  .meet-the-team {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
