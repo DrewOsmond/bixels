@@ -36,6 +36,7 @@ const CanvasLibrary = () => {
   }, [dispatch]);
 
   const addNewCanvas = () => {
+    if (canvases.length >= 6) return;
     const basicLayer = new Layer(0);
     const canvas = {
       name: "untitled project",
@@ -103,7 +104,9 @@ const CanvasLibrary = () => {
             onClick={searchButtonHandler}
           />
           <img
-            className="library__button"
+            className={`${
+              canvases.length >= 0 ? "disabled" : "library__button"
+            }`}
             onClick={addNewCanvas}
             src={add}
             alt="new canvas"

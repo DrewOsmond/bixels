@@ -170,95 +170,99 @@ const DrawingCanvas = ({
   const erase = (cell) => {
     const newLayerOpacity =
       cell.opacity - opacity > 0 ? cell.opacity - opacity : 0;
-      cell.opacity = newLayerOpacity;
-      cell.color = cell.opacity > 0 ? cell.color: null;
-  }
+    cell.opacity = newLayerOpacity;
+    cell.color = cell.opacity > 0 ? cell.color : null;
+  };
   const plotLineLow = (x0, y0, x1, y1) => {
     let dx = x1 - x0;
     let dy = y1 - y0;
     let yi = 1;
-    if (dy < 0){
-        yi = -1;
-        dy = -dy;
+    if (dy < 0) {
+      yi = -1;
+      dy = -dy;
     }
     let D = 2 * dy - dx;
     let drawY = y0;
 
-        for (let drawX = x0; drawX <= x1; drawX++){
-          if (!strokes[[drawX, drawY]]){
-            let selectedCell = selectedLayer[drawY][drawX];
-            let drawOpacity = 0;
-            if (selectedCell.opacity <= 1) {
-              drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
-            } else {
-              drawOpacity = opacity;
-            }
-            strokes[[drawX, drawY]] = true;
-            selectedCell.color = color;
-            selectedCell.opacity = drawOpacity;
-          }
-          if (D > 0){
-              drawY += yi;
-              D = D + (2 * (dy - dx));
-          } else {
-              D = D + 2*dy;
-          }
+    for (let drawX = x0; drawX <= x1; drawX++) {
+      if (!strokes[[drawX, drawY]]) {
+        let selectedCell = selectedLayer[drawY][drawX];
+        let drawOpacity = 0;
+        if (selectedCell.opacity <= 1) {
+          drawOpacity =
+            selectedCell.opacity + opacity < 1
+              ? selectedCell.opacity + opacity
+              : 1;
+        } else {
+          drawOpacity = opacity;
         }
-  }
+        strokes[[drawX, drawY]] = true;
+        selectedCell.color = color;
+        selectedCell.opacity = drawOpacity;
+      }
+      if (D > 0) {
+        drawY += yi;
+        D = D + 2 * (dy - dx);
+      } else {
+        D = D + 2 * dy;
+      }
+    }
+  };
 
   const plotLineHigh = (x0, y0, x1, y1, drawOpacity) => {
     let dx = x1 - x0;
     let dy = y1 - y0;
     let xi = 1;
-    if (dx < 0){
-        xi = -1;
-        dx = -dx;
+    if (dx < 0) {
+      xi = -1;
+      dx = -dx;
     }
     let D = 2 * dx - dy;
     let drawX = x0;
 
-        for (let drawY = y0; drawY <= y1; drawY++){
-          if (!strokes[[drawX, drawY]]){
-            let selectedCell = selectedLayer[drawY][drawX];
-            let drawOpacity = 0;
-            if (selectedCell.opacity <= 1) {
-              drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
-            } else {
-              drawOpacity = opacity;
-            }
-            strokes[[drawX, drawY]] = true;
-            selectedCell.color = color;
-            selectedCell.opacity = drawOpacity;
-            console.log(strokes);
-          }
-          if (D > 0){
-              drawX += xi;
-              D = D + (2 * (dx - dy));
-          } else {
-              D = D + 2*dx;
-          }
+    for (let drawY = y0; drawY <= y1; drawY++) {
+      if (!strokes[[drawX, drawY]]) {
+        let selectedCell = selectedLayer[drawY][drawX];
+        let drawOpacity = 0;
+        if (selectedCell.opacity <= 1) {
+          drawOpacity =
+            selectedCell.opacity + opacity < 1
+              ? selectedCell.opacity + opacity
+              : 1;
+        } else {
+          drawOpacity = opacity;
         }
-  }
+        strokes[[drawX, drawY]] = true;
+        selectedCell.color = color;
+        selectedCell.opacity = drawOpacity;
+      }
+      if (D > 0) {
+        drawX += xi;
+        D = D + 2 * (dx - dy);
+      } else {
+        D = D + 2 * dx;
+      }
+    }
+  };
 
   const plotLine = (x0, y0, x1, y1, drawOpacity) => {
-    if (Math.abs(y1 - y0) < Math.abs(x1 - x0)){
-      if (x0 > x1){
+    if (Math.abs(y1 - y0) < Math.abs(x1 - x0)) {
+      if (x0 > x1) {
         plotLineLow(x1, y1, x0, y0, drawOpacity);
       } else {
-        plotLineLow(x0, y0, x1, y1, drawOpacity)
+        plotLineLow(x0, y0, x1, y1, drawOpacity);
       }
     } else {
-      if (y0 > y1){
+      if (y0 > y1) {
         plotLineHigh(x1, y1, x0, y0, drawOpacity);
       } else {
         plotLineHigh(x0, y0, x1, y1, drawOpacity);
       }
     }
-  }
+  };
 
   const draw = (e, fromClick) => {
-    
-    if (e.buttons === 0 && !fromClick){
+    if (e.buttons === 0 && !fromClick) {
       setLastDrawn([]);
       setStrokes({});
       return;
@@ -274,19 +278,21 @@ const DrawingCanvas = ({
     const coorY = Math.floor(coordinates.y / 16);
     const coorX = Math.floor(coordinates.x / 16);
     const selectedCell = selectedLayer[coorY][coorX];
-    
+
     if (tool === "draw") {
-      
-      if (lastDrawn.length){
+      if (lastDrawn.length) {
         plotLine(lastDrawn[0], lastDrawn[1], coorX, coorY);
       } else {
         let drawOpacity = 0;
-      if (selectedCell.opacity <= 1) {
-        drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
-      } else {
-        drawOpacity = opacity;
-      }
-        if (!strokes[[coorX, coorY]]){
+        if (selectedCell.opacity <= 1) {
+          drawOpacity =
+            selectedCell.opacity + opacity < 1
+              ? selectedCell.opacity + opacity
+              : 1;
+        } else {
+          drawOpacity = opacity;
+        }
+        if (!strokes[[coorX, coorY]]) {
           strokes[[coorX, coorY]] = true;
           selectedLayer[coorY][coorX].color = color;
           selectedLayer[coorY][coorX].opacity = drawOpacity;
@@ -302,9 +308,8 @@ const DrawingCanvas = ({
     canvasArray.opacity = opacity;
     canvasArray.layersActive = showLayers;
     setLastDrawn([coorX, coorY]);
-    
   };
-  
+
   return (
     <>
       {/* <button onClick={clearCanvas}>clear canvas</button> */}

@@ -162,7 +162,7 @@ div.layer__text:hover {
   filter: brightness(90%);
 }
 
-.max-layers {
+.max-layers:hover {
   cursor: not-allowed;
 }
 
@@ -184,4 +184,12 @@ div.layer__text:hover {
   /* text-shadow: ; */
   /* width: 250px; */
   text-shadow: 0px 0.5px rgba(109, 102, 102, 0.4);
+}
+
+.disabled {
+  filter: brightness(90%);
+}
+
+.disabled:hover {
+  cursor: not-allowed;
 }

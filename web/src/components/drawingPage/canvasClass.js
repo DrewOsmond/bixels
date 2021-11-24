@@ -92,7 +92,7 @@ export class Canvas {
 
     for (let i = 0; i < canvases.length; i++) {
       const canvas = canvases[i];
-      if (canvas.name === selectedCanvas.name) {
+      if (canvas.id === selectedCanvas.id) {
         canvases[i] = selectedCanvas;
         localStorage.setItem("canvases", JSON.stringify(canvases));
         localStorage.setItem("selected-canvas", JSON.stringify(selectedCanvas));

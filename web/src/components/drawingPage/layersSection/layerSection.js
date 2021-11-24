@@ -30,7 +30,7 @@ const LayersSection = ({
   // });
 
   const handleAddLayer = () => {
-    if (canvas.canvas.length >= 15) return;
+    if (canvas.canvas.length >= 10) return;
     canvas.canvas.push(new Layer(canvas.canvas.length));
     setLayer(canvas.canvas.length - 1);
     canvas.drawingLayer = canvas.canvas.length - 1;
@@ -60,7 +60,6 @@ const LayersSection = ({
   const deleteLayer = (e) => {
     const layer = Number(e.target.getAttribute("name"));
     canvas.canvas.splice(layer, 1);
-    console.log(canvas.canvas);
     if (canvas.canvas.length === 0) {
       canvas.canvas.push(new Layer(0));
       localStorage.setItem("selected-canvas", JSON.stringify(canvas));
@@ -82,14 +81,14 @@ const LayersSection = ({
       {show && (
         // <DragDropContext onDragEnd={onDragEnd} className="layer__section">
         <div className="layer__section">
-          {canvas.canvas.length >= 15 && (
+          {/* {canvas.canvas.length >= 10 && (
             <div className="maximum-layers">max layers reaached</div>
-          )}
+          )} */}
           <div className="add-layer-section">
             <img
               disabled={canvas.canvas.length >= 15}
               className={
-                canvas.canvas.length >= 15 ? "max-layers" : "add-layers"
+                canvas.canvas.length >= 10 ? "max-layers" : "add-layers"
               }
               src={addSVG}
               onClick={handleAddLayer}
