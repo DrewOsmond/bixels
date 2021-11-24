@@ -28,12 +28,19 @@ A simple and user friendly pixel art application that allows users to save and d
 3. `npm isntall` to install dependencies
 4. `npm run` to start the app
 
-1. git clone this repo
+## development
+
+### we used netlify to host the react app
+
+1. go to netlify and connect your github
+2. connect this repo to your netlify account
+3. add build commands on netlify and specificy the correct folder to deploy
 
 ## Challenges
-### creating layers on the canvas that would persist overtime
+### creating layers on the canvas that persit refreshes
 ### locally persisting all changes to the canvases, drawing, name changing, adding layers, canvas strokes, etc.
 ### making the canvas produce smooth and consice strokes 
+
  
 
 
