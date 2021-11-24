@@ -64,14 +64,15 @@ const LayersSection = ({
     if (canvas.canvas.length === 0) {
       canvas.canvas.push(new Layer(0));
       localStorage.setItem("selected-canvas", JSON.stringify(canvas));
-      console.log("wtf???");
       setLoaded(true);
       setCanvas({ ...canvas });
       setLayer(0);
+      dispatch(updateCanvases(canvases));
     } else {
       setLayer((prev) => prev - 1);
       setCanvas({ ...canvas });
       localStorage.setItem("selected-canvas", JSON.stringify(canvas));
+      dispatch(updateCanvases(canvases));
     }
   };
 

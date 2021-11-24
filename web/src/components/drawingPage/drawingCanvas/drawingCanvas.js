@@ -1,18 +1,21 @@
 import { useEffect } from "react";
 // import "./canvas.css";
 import { Canvas } from "../canvasClass";
-
 const DrawingCanvas = ({
   color,
   tool,
   canvasArray,
   layer,
   opacity,
+  setHistory,
   lastDrawn,
   setLastDrawn,
   setShowColorPicker,
   showColorPicker,
+  strokes,
+  setStrokes,
   showLayers,
+  history,
 }) => {
   // const [currentCell, setCurrentCell] = useState(null);
   // let strokes = [];
@@ -36,7 +39,6 @@ const DrawingCanvas = ({
     //   }
     // }
   };
-
   // const renderCell = (x, y) => {
   //   const canvas = document.getElementById("draw-canvas");
   //   const ctx = canvas.getContext("2d");
@@ -52,20 +54,16 @@ const DrawingCanvas = ({
   //     }
   //   }
   // };
-
   useEffect(render, [canvasArray]);
-
   function getMousePos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
     const x = evt.clientX - rect.left;
     const y = evt.clientY - rect.top;
-
     return {
       x: x > 0 ? x : 0,
       y: y > 0 ? y : 0,
     };
   }
-
   // const drawing = (e) => {
   //   // setShowColorPicker(false);
   //   console.log(layer);
@@ -73,7 +71,6 @@ const DrawingCanvas = ({
   //   window.currentCell = null;
   //   e.target.addEventListener("mousemove", draw);
   // };
-
   // const stopDrawing = (e) => {
   //   if (window.currentCell) {
   //     const storedCellY = Math.floor(window.currentCell.y / 16);
@@ -85,7 +82,6 @@ const DrawingCanvas = ({
   //   setHistory(strokes);
   //   Canvas.saveDrawing(canvasArray);
   // };
-
   // const hoverPreview = (e) => {
   //   const canvas = document.getElementById("draw-canvas");
   //   const coordinates = getMousePos(canvas, e);
@@ -103,10 +99,8 @@ const DrawingCanvas = ({
   //     );
   //     return;
   //   }
-
   //   const storedCellY = Math.floor(window.currentCell.y / 16);
   //   const storedCellX = Math.floor(window.currentCell.x / 16);
-
   //   if (storedCellX !== mouseCellX || storedCellY !== mouseCellY) {
   //     selectedLayer[storedCellY][storedCellX] = window.currentCell;
   //     window.currentCell = new Cell(
@@ -127,7 +121,6 @@ const DrawingCanvas = ({
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
-
   const reDraw = (canvasLayer) => {
     for (let y = 0; y < canvasLayer.length; y++) {
       const inner = canvasLayer[y];
@@ -144,7 +137,6 @@ const DrawingCanvas = ({
       }
     }
   };
-
   const drawPixel = (e) => {
     if (!canvasArray.canvas[layer].active || opacity === 0) return;
     if (showColorPicker) {
@@ -153,7 +145,6 @@ const DrawingCanvas = ({
     draw(e, "clicked");
     Canvas.saveDrawing(canvasArray);
   };
-
   const floodFill = (e) => {
     if (opacity === 0) return;
     const canvas = document.getElementById("draw-canvas");
@@ -168,6 +159,7 @@ const DrawingCanvas = ({
       colorToChange,
       color,
       opacity,
+      strokes,
       layer
     );
     clearCanvas();
@@ -179,7 +171,7 @@ const DrawingCanvas = ({
     const newLayerOpacity =
       cell.opacity - opacity > 0 ? cell.opacity - opacity : 0;
       cell.opacity = newLayerOpacity;
-      cell.color = null;
+      cell.color = cell.opacity > 0 ? cell.color: null;
   }
   const plotLineLow = (x0, y0, x1, y1) => {
     let dx = x1 - x0;
@@ -193,15 +185,18 @@ const DrawingCanvas = ({
     let drawY = y0;
 
         for (let drawX = x0; drawX <= x1; drawX++){
-          let selectedCell = selectedLayer[drawY][drawX];
-          let drawOpacity = 0;
-          if (selectedCell.opacity <= 1) {
-            drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
-          } else {
-            drawOpacity = opacity;
-      }
-          selectedCell.color = color;
-          selectedCell.opacity = drawOpacity;
+          if (!strokes[[drawX, drawY]]){
+            let selectedCell = selectedLayer[drawY][drawX];
+            let drawOpacity = 0;
+            if (selectedCell.opacity <= 1) {
+              drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
+            } else {
+              drawOpacity = opacity;
+            }
+            strokes[[drawX, drawY]] = true;
+            selectedCell.color = color;
+            selectedCell.opacity = drawOpacity;
+          }
           if (D > 0){
               drawY += yi;
               D = D + (2 * (dy - dx));
@@ -223,15 +218,19 @@ const DrawingCanvas = ({
     let drawX = x0;
 
         for (let drawY = y0; drawY <= y1; drawY++){
-          let selectedCell = selectedLayer[drawY][drawX];
-          let drawOpacity = 0;
-          if (selectedCell.opacity <= 1) {
-            drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
-          } else {
-            drawOpacity = opacity;
-      }
-          selectedCell.color = color;
-          selectedCell.opacity = drawOpacity;
+          if (!strokes[[drawX, drawY]]){
+            let selectedCell = selectedLayer[drawY][drawX];
+            let drawOpacity = 0;
+            if (selectedCell.opacity <= 1) {
+              drawOpacity = selectedCell.opacity + opacity < 1 ? selectedCell.opacity + opacity : 1;
+            } else {
+              drawOpacity = opacity;
+            }
+            strokes[[drawX, drawY]] = true;
+            selectedCell.color = color;
+            selectedCell.opacity = drawOpacity;
+            console.log(strokes);
+          }
           if (D > 0){
               drawX += xi;
               D = D + (2 * (dx - dy));
@@ -261,6 +260,7 @@ const DrawingCanvas = ({
     
     if (e.buttons === 0 && !fromClick){
       setLastDrawn([]);
+      setStrokes({});
       return;
     }
     if (opacity === 0) return;
@@ -277,7 +277,6 @@ const DrawingCanvas = ({
     
     if (tool === "draw") {
       
-      console.log(lastDrawn);
       if (lastDrawn.length){
         plotLine(lastDrawn[0], lastDrawn[1], coorX, coorY);
       } else {
@@ -287,8 +286,11 @@ const DrawingCanvas = ({
       } else {
         drawOpacity = opacity;
       }
-        selectedLayer[coorY][coorX].color = color;
-        selectedLayer[coorY][coorX].opacity = drawOpacity;
+        if (!strokes[[coorX, coorY]]){
+          strokes[[coorX, coorY]] = true;
+          selectedLayer[coorY][coorX].color = color;
+          selectedLayer[coorY][coorX].opacity = drawOpacity;
+        }
       }
     } else if (tool === "erase") {
       erase(selectedCell);
@@ -302,7 +304,7 @@ const DrawingCanvas = ({
     setLastDrawn([coorX, coorY]);
     
   };
-
+  
   return (
     <>
       {/* <button onClick={clearCanvas}>clear canvas</button> */}
@@ -320,10 +322,8 @@ const DrawingCanvas = ({
           // onMouseOut={tool !== "fill" ? tools.onMouseUp[tool] : null}
         />
       </div>
-
       {/* <input type="color" /> */}
     </>
   );
 };
-
 export default DrawingCanvas;

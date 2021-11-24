@@ -2,11 +2,9 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Canvas } from "./canvasClass";
 import "./drawingPage.css";
-
 import DrawingCanvas from "./drawingCanvas/drawingCanvas";
 import LayersSection from "./layersSection/layerSection";
 import ToolKit from "./toolkit/toolkit";
-
 const DrawingPage = () => {
   const loadedCanvas = useSelector((state) => state.selectedCanvas);
   const [color, setColor] = useState(loadedCanvas.color);
@@ -19,13 +17,12 @@ const DrawingPage = () => {
   const [canvas, setCanvas] = useState(loadedCanvas);
   const [opacity, setOpacity] = useState(loadedCanvas.opacity * 10);
   const [history, setHistory] = useState([]);
+  const [lastDrawn, setLastDrawn] = useState([]);
   const [selectedHistory, setSelectedHistory] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [strokes, setStrokes] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [showLayers, setShowLayers] = useState(loadedCanvas.layersActive);
-  const [lastDrawn, setLastDrawn] = useState([]);
-
   const saveImg = async () => {
     const canvas = document.getElementById("draw-canvas");
     const img = document.createElement("a");
@@ -33,7 +30,6 @@ const DrawingPage = () => {
     img.href = canvas.toDataURL();
     img.click();
   };
-
   const updateHistory = (e) => {
     if (strokes.length >= 1) {
       if (history.length === 20) {
@@ -46,7 +42,6 @@ const DrawingPage = () => {
       Canvas.saveDrawing(loadedCanvas);
     }
   };
-
   if (!canvas || !loadedCanvas.canvas) {
     return null;
   } else
@@ -72,7 +67,6 @@ const DrawingPage = () => {
             showLayers={showLayers}
             setShowLayers={setShowLayers}
           />
-
           <div className="canvas-layer-container">
             <DrawingCanvas
               color={color}
@@ -80,9 +74,13 @@ const DrawingPage = () => {
               canvasArray={canvas}
               layer={layer}
               opacity={opacity}
-              update={strokes}
+              setHistory={setHistory}
+              history={history}
               lastDrawn={lastDrawn}
               setLastDrawn={setLastDrawn}
+              strokes={strokes}
+              setStrokes={setStrokes}
+              update={strokes}
               showColorPicker={showColorPicker}
               setShowColorPicker={setShowColorPicker}
               showLayers={showLayers}
@@ -100,7 +98,6 @@ const DrawingPage = () => {
               show={showLayers}
             />
           </div>
-
           {/* <OpacitySlider
           setOpacity={setOpacity}
           opacity={opacity}
@@ -111,5 +108,4 @@ const DrawingPage = () => {
       </>
     );
 };
-
 export default DrawingPage;
