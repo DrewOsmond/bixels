@@ -68,13 +68,4 @@ A simple and user friendly pixel art application that allows users to save and d
 <a href="https://www.linkedin.com/in/itzflowa/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="florateng" height="30" width="40" /></a> <a href="https://github.com/itzflowa" target="blank"><img align="center" src="https://i.imgur.com/brWzMWU.png" alt="florateng" height="30" width="30" /></a>
 </p>
 
-### Chris McKelvy
-
-- Backend Developer
-
-<p align="left">
-<a href="https://twitter.com/mckelvy_chris" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="chrismckelvy" height="30" width="40" /></a>
-<a href="https://www.linkedin.com/in/cmckelvy/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="chrismckelvy" height="30" width="40" /></a> <a href="https://github.com/cmckelvy42" target="blank"><img align="center" src="https://i.imgur.com/brWzMWU.png" alt="chrismckelvy" height="30" width="30" /></a>
-</p>
-
 
