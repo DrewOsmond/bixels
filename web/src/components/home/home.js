@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-// import { useSelector } from "react-redux";
 import "./home.css";
 
 import homePageSVG from "../../assets/feature-list.svg";
@@ -9,12 +8,10 @@ import goToLibrary from "../../assets/go-to-library.svg";
 import getStarted from "../../assets/get-started.svg";
 import drew from "../../assets/drew.svg";
 import flora from "../../assets/flora.svg";
-import chris from "../../assets/chris.svg";
 import CreatorProfile from "./creatorProfile/creatoreProfile";
 
 const Home = () => {
   const navigate = useNavigate();
-  // const canvases = useSelector((state) => state.canvases);
 
   return (
     <div className="home-div">
@@ -65,16 +62,6 @@ const Home = () => {
                 "https://github.com/itzflowa",
                 "https://twitter.com/itzflowa",
                 "https://www.linkedin.com/in/itzflowa/",
-              ]}
-            />
-            <CreatorProfile
-              person={chris}
-              name={"chris mckelvy"}
-              title={"backend developer"}
-              links={[
-                "https://github.com/cmckelvy42",
-                "https://twitter.com/mckelvy_chris",
-                "https://www.linkedin.com/in/cmckelvy/",
               ]}
             />
           </div>
